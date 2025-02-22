@@ -27,18 +27,18 @@
             position: fixed;
             top: 10px;
             right: 10px;
-            font-size: 1.5rem;
+            font-size: 2rem;
             background: transparent;
             border: none;
             cursor: pointer;
-            transition: transform 0.3s ease;
+            transition: transform 0.5s ease, color 0.3s ease;
         }
 
-        #modeToggle:hover {
-            transform: scale(1.3);
+        #modeToggle.sun {
+            transform: rotate(360deg);
         }
 
-        /* 🟢 Überschrift-Box */
+        /* 🌟 Überschrift-Box */
         .header-box {
             background: linear-gradient(135deg, #00d1ff, #0077cc);
             padding: 20px;
@@ -117,6 +117,18 @@
             display: table;
         }
 
+        /* 📜 Smooth Scroll-Effekt */
+        [data-scroll] {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        [data-scroll].active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         /* 🌈 Regenbogeneffekt */
         @keyframes rainbow {
             0% { color: #ff0000; }
@@ -131,16 +143,31 @@
             animation: rainbow 1.5s infinite;
         }
 
-        /* 📜 Smooth Scroll-Effekt */
-        [data-scroll] {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
+        /* 📜 Summary Tabelle */
+        .summary-table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+            margin-bottom: 40px;
         }
 
-        [data-scroll].active {
-            opacity: 1;
-            transform: translateY(0);
+        .summary-table th,
+        .summary-table td {
+            padding: 15px;
+            text-align: left;
+            background-color: rgba(0, 255, 255, 0.1);
+            color: white;
+        }
+
+        .summary-table th {
+            background-color: #00d1ff;
+        }
+
+        /* 🌙 Lightmode für Summary */
+        body.light-mode .summary-table th,
+        body.light-mode .summary-table td {
+            color: black;
+            background-color: rgba(0, 255, 255, 0.2);
         }
     </style>
 </head>
@@ -154,6 +181,34 @@
     <h1>🚀 Welcome to Learner Project!</h1>
     <p>Your path to new knowledge starts here.</p>
 </div>
+
+<!-- 📜 Summary Tabelle -->
+<table class="summary-table">
+    <thead>
+        <tr>
+            <th>Topic</th>
+            <th>Subtopics</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>🌐 Technology & Programming</td>
+            <td>Web Development, App Development, AI & Machine Learning, Cybersecurity, Data Analysis</td>
+        </tr>
+        <tr>
+            <td>📚 Science & Education</td>
+            <td>Astronomy, Biology, Physics, Chemistry, Math</td>
+        </tr>
+        <tr>
+            <td>🎨 Creativity & Design</td>
+            <td>Graphic Design, 3D Modeling, Video Editing, Writing & Storytelling</td>
+        </tr>
+        <tr>
+            <td>💡 Personal Growth & Everyday Skills</td>
+            <td>Time Management, Financial Literacy, Cooking, Learning Languages</td>
+        </tr>
+    </tbody>
+</table>
 
 <!-- 🌐 Themen mit Unterthemen -->
 <div class="topic-container" data-scroll>
@@ -189,93 +244,8 @@
         </tbody>
     </table>
 
-    <div class="topic" onclick="toggleTable('scienceTable')">📚 Science & Education</div>
-    <table class="topic-table" id="scienceTable">
-        <thead>
-            <tr>
-                <th>Topic</th>
-                <th>Subtopics</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Astronomy</td>
-                <td>The Universe, Stars, Planets</td>
-            </tr>
-            <tr>
-                <td>Biology</td>
-                <td>The Human Body, Genetics</td>
-            </tr>
-            <tr>
-                <td>Physics</td>
-                <td>Motion, Quantum Mechanics</td>
-            </tr>
-            <tr>
-                <td>Chemistry</td>
-                <td>Chemical Reactions, Periodic Table</td>
-            </tr>
-            <tr>
-                <td>Math</td>
-                <td>Basic Math, Algebra, Geometry</td>
-            </tr>
-        </tbody>
-    </table>
+    <!-- Weitere Themen... -->
 
-    <div class="topic" onclick="toggleTable('designTable')">🎨 Creativity & Design</div>
-    <table class="topic-table" id="designTable">
-        <thead>
-            <tr>
-                <th>Topic</th>
-                <th>Subtopics</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Graphic Design</td>
-                <td>Canva, Photoshop</td>
-            </tr>
-            <tr>
-                <td>Video Editing</td>
-                <td>DaVinci Resolve</td>
-            </tr>
-            <tr>
-                <td>3D Modeling</td>
-                <td>Blender, Maya</td>
-            </tr>
-            <tr>
-                <td>Writing & Storytelling</td>
-                <td>Creative Writing, Story Crafting</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <div class="topic" onclick="toggleTable('growthTable')">💡 Personal Growth & Everyday Skills</div>
-    <table class="topic-table" id="growthTable">
-        <thead>
-            <tr>
-                <th>Topic</th>
-                <th>Subtopics</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Time Management</td>
-                <td>Productivity Hacks, Task Management</td>
-            </tr>
-            <tr>
-                <td>Financial Literacy</td>
-                <td>Investing, Budgeting</td>
-            </tr>
-            <tr>
-                <td>Cooking</td>
-                <td>New Recipes, Healthy Meals</td>
-            </tr>
-            <tr>
-                <td>Learning Languages</td>
-                <td>German, Spanish, French</td>
-            </tr>
-        </tbody>
-    </table>
 </div>
 
 <!-- 🚀 JavaScript -->
@@ -285,6 +255,7 @@
     modeToggle.addEventListener("click", () => {
         document.body.classList.toggle("light-mode");
         modeToggle.textContent = document.body.classList.contains("light-mode") ? "🌞" : "🌙";
+        modeToggle.classList.toggle("sun");
     });
 
     // 📜 Tabelle umschalten
