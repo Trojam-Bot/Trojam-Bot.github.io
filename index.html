@@ -73,7 +73,7 @@
             margin-top: 80px;
             display: grid;
             grid-template-columns: repeat(7, 1fr); /* 7 Boxen pro Zeile */
-            gap: 10px;
+            gap: 5px; /* Lücken zwischen den Boxen verringert */
             padding: 20px;
             transition: transform 0.3s ease;
         }
@@ -106,7 +106,8 @@
         }
         @keyframes slimeScroll {
             0% { transform: translateY(0); }
-            100% { transform: translateY(5px); }
+            50% { transform: translateY(5px); }
+            100% { transform: translateY(0); }
         }
     </style>
 </head>
@@ -157,10 +158,10 @@
             }
         }
 
-        // Scroll-Animationen wie bei macOS
+        // Scroll-Animationen wie bei macOS (mit sanfter Bewegung)
         window.addEventListener('scroll', () => {
             const container = document.querySelector('.container');
-            container.style.transform = `translateY(${window.scrollY * 0.2}px)`;
+            container.style.transform = `translateY(${window.scrollY * 0.1}px)`;  /* Weiche Bewegung */
         });
     </script>
 </body>
