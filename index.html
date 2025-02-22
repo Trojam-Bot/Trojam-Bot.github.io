@@ -112,6 +112,25 @@
             width: 100%;
         }
 
+        /* Button */
+        .mode-toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #1DB954;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .mode-toggle-btn:hover {
+            background-color: #155a33;
+        }
+
         /* Animation */
         @keyframes slideIn {
             0% {
@@ -212,9 +231,40 @@
         </div>
     </div>
 
+    <button class="mode-toggle-btn" onclick="toggleMode()">Toggle Dark/Light Mode</button>
+
     <footer>
-        <p>Created with ❤️ by Trojam</p>
+        <!-- Footer is removed as requested -->
     </footer>
+
+    <script>
+        function toggleMode() {
+            const body = document.body;
+            const header = document.querySelector('header');
+            const button = document.querySelector('.mode-toggle-btn');
+            const table = document.querySelector('table');
+            const summary = document.querySelector('.summary');
+
+            body.classList.toggle('light-mode');
+            header.classList.toggle('light-mode');
+            table.classList.toggle('light-mode');
+            summary.classList.toggle('light-mode');
+
+            if (body.classList.contains('light-mode')) {
+                body.style.backgroundColor = "#fff";
+                body.style.color = "#000";
+                header.style.backgroundColor = "#f4f4f4";
+                button.style.backgroundColor = "#555";
+                button.style.color = "#fff";
+            } else {
+                body.style.backgroundColor = "#121212";
+                body.style.color = "#fff";
+                header.style.backgroundColor = "#333";
+                button.style.backgroundColor = "#1DB954";
+                button.style.color = "#fff";
+            }
+        }
+    </script>
 
 </body>
 </html>
