@@ -22,7 +22,23 @@
             color: black;
         }
 
-        /* 🟢 Überschriften-Box */
+        /* 🌙 Dark-/Lightmode-Toggle */
+        #modeToggle {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        #modeToggle:hover {
+            transform: scale(1.3);
+        }
+
+        /* 🟢 Überschrift-Box */
         .header-box {
             background: linear-gradient(135deg, #00d1ff, #0077cc);
             padding: 20px;
@@ -46,40 +62,59 @@
             box-shadow: 0 0 50px rgba(0, 255, 255, 0.8);
         }
 
-        /* 🌙 Dark-/Lightmode-Toggle */
-        #modeToggle {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            font-size: 1.5rem;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            transition: transform 0.3s ease;
+        /* 🌐 Themen-Boxen */
+        .topic-container {
+            margin: 20px auto;
+            max-width: 800px;
         }
 
-        #modeToggle:hover {
-            transform: scale(1.3);
-        }
-
-        /* 📜 Themen-Links */
         .topic {
-            display: inline-block;
-            margin: 10px;
-            padding: 10px 20px;
             background-color: transparent;
             color: #00ff7f;
             text-decoration: underline;
+            font-size: 1.2rem;
             cursor: pointer;
-            border-radius: 20px;
+            border: none;
+            background: none;
+            padding: 10px;
+            display: block;
+            margin: 10px 0;
             transition: all 0.3s ease;
         }
 
         .topic:hover {
-            transform: scale(1.1);
+            color: #00ffff;
             background: linear-gradient(90deg, #ff00ff, #00ffff, #00ff7f);
             -webkit-background-clip: text;
             color: transparent;
+        }
+
+        /* Tabelle (Hidden by default) */
+        .topic-table {
+            display: none;
+            width: 100%;
+            margin-top: 15px;
+            border-collapse: collapse;
+        }
+
+        .topic-table td,
+        .topic-table th {
+            padding: 10px;
+            text-align: left;
+            color: white;
+        }
+
+        .topic-table th {
+            background-color: #00d1ff;
+        }
+
+        .topic-table td {
+            background-color: rgba(0, 255, 255, 0.1);
+        }
+
+        /* Toggle sichtbar */
+        .active-table {
+            display: table;
         }
 
         /* 🌈 Regenbogeneffekt */
@@ -94,71 +129,6 @@
 
         .topic:hover span {
             animation: rainbow 1.5s infinite;
-        }
-
-        /* 📊 Tabelle */
-        .table-container {
-            margin: 30px auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Glow-Tabelle */
-        .glow-table {
-            width: 90%;
-            max-width: 1000px;
-            border-collapse: collapse;
-            border-radius: 20px;
-            overflow: hidden;
-            background-color: rgba(10, 10, 10, 0.9);
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-        }
-
-        /* Hover-Effekt */
-        .glow-table:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 0 50px rgba(0, 191, 255, 0.8);
-        }
-
-        /* Tabellenkopf */
-        .glow-table th {
-            background: linear-gradient(135deg, #00d1ff, #0077cc);
-            color: #fff;
-            padding: 15px;
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            border: none;
-        }
-
-        /* Tabellenzellen */
-        .glow-table td {
-            padding: 12px 15px;
-            text-align: left;
-            color: white;
-            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
-        }
-
-        /* Hover auf Zellen */
-        .glow-table tr:hover td {
-            background-color: rgba(0, 255, 255, 0.1);
-        }
-
-        /* Lightmode für Tabelle */
-        body.light-mode .glow-table {
-            background-color: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 0 20px rgba(0, 191, 255, 0.3);
-        }
-
-        body.light-mode .glow-table th {
-            background: linear-gradient(135deg, #0077cc, #00d1ff);
-            color: black;
-        }
-
-        body.light-mode .glow-table td {
-            color: #333;
         }
 
         /* 📜 Smooth Scroll-Effekt */
@@ -185,40 +155,124 @@
     <p>Your path to new knowledge starts here.</p>
 </div>
 
-<!-- 🌐 Themen -->
-<div style="text-align: center;" data-scroll>
-    <h2>Themen, die du lernen kannst:</h2>
-    <div class="topic"><span>🌐 Web Development</span></div>
-    <div class="topic"><span>🤖 Machine Learning</span></div>
-    <div class="topic"><span>⚡ Cybersecurity</span></div>
-    <div class="topic"><span>🎨 Graphic Design</span></div>
-</div>
-
-<!-- 📊 Tabelle -->
-<div class="table-container" data-scroll>
-    <table class="glow-table">
+<!-- 🌐 Themen mit Unterthemen -->
+<div class="topic-container" data-scroll>
+    <div class="topic" onclick="toggleTable('techTable')">🌐 Technology & Programming</div>
+    <table class="topic-table" id="techTable">
         <thead>
             <tr>
                 <th>Topic</th>
-                <th>Details</th>
+                <th>Subtopics</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>🌐 Web Development</td>
+                <td>Web Development</td>
                 <td>HTML, CSS, JavaScript</td>
             </tr>
             <tr>
-                <td>🤖 AI & Machine Learning</td>
+                <td>App Development</td>
+                <td>Android, iOS, Flutter</td>
+            </tr>
+            <tr>
+                <td>AI & Machine Learning</td>
                 <td>Python, TensorFlow</td>
             </tr>
             <tr>
-                <td>🎨 Graphic Design</td>
-                <td>Photoshop, Canva</td>
+                <td>Cybersecurity</td>
+                <td>Ethical Hacking, Cryptography</td>
             </tr>
             <tr>
-                <td>💡 Personal Growth</td>
-                <td>Time Management, Productivity</td>
+                <td>Data Analysis</td>
+                <td>Python, Excel</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="topic" onclick="toggleTable('scienceTable')">📚 Science & Education</div>
+    <table class="topic-table" id="scienceTable">
+        <thead>
+            <tr>
+                <th>Topic</th>
+                <th>Subtopics</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Astronomy</td>
+                <td>The Universe, Stars, Planets</td>
+            </tr>
+            <tr>
+                <td>Biology</td>
+                <td>The Human Body, Genetics</td>
+            </tr>
+            <tr>
+                <td>Physics</td>
+                <td>Motion, Quantum Mechanics</td>
+            </tr>
+            <tr>
+                <td>Chemistry</td>
+                <td>Chemical Reactions, Periodic Table</td>
+            </tr>
+            <tr>
+                <td>Math</td>
+                <td>Basic Math, Algebra, Geometry</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="topic" onclick="toggleTable('designTable')">🎨 Creativity & Design</div>
+    <table class="topic-table" id="designTable">
+        <thead>
+            <tr>
+                <th>Topic</th>
+                <th>Subtopics</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Graphic Design</td>
+                <td>Canva, Photoshop</td>
+            </tr>
+            <tr>
+                <td>Video Editing</td>
+                <td>DaVinci Resolve</td>
+            </tr>
+            <tr>
+                <td>3D Modeling</td>
+                <td>Blender, Maya</td>
+            </tr>
+            <tr>
+                <td>Writing & Storytelling</td>
+                <td>Creative Writing, Story Crafting</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="topic" onclick="toggleTable('growthTable')">💡 Personal Growth & Everyday Skills</div>
+    <table class="topic-table" id="growthTable">
+        <thead>
+            <tr>
+                <th>Topic</th>
+                <th>Subtopics</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Time Management</td>
+                <td>Productivity Hacks, Task Management</td>
+            </tr>
+            <tr>
+                <td>Financial Literacy</td>
+                <td>Investing, Budgeting</td>
+            </tr>
+            <tr>
+                <td>Cooking</td>
+                <td>New Recipes, Healthy Meals</td>
+            </tr>
+            <tr>
+                <td>Learning Languages</td>
+                <td>German, Spanish, French</td>
             </tr>
         </tbody>
     </table>
@@ -233,7 +287,13 @@
         modeToggle.textContent = document.body.classList.contains("light-mode") ? "🌞" : "🌙";
     });
 
-    // 📜 Scroll-Effekte
+    // 📜 Tabelle umschalten
+    function toggleTable(tableId) {
+        const table = document.getElementById(tableId);
+        table.classList.toggle("active-table");
+    }
+
+    // 📜 Smooth Scroll-Effekt
     const scrollElements = document.querySelectorAll("[data-scroll]");
 
     const scrollHandler = () => {
