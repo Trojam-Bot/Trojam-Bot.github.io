@@ -5,250 +5,252 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learner Project</title>
     <style>
-        /* Grundstil */
+        /* 🌑 Allgemeine Einstellungen */
         body {
-            background-color: #0a0a0a;
-            color: #d1d1d1;
-            font-family: 'Roboto', sans-serif;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: white;
             margin: 0;
             padding: 0;
-            overflow-x: hidden;
             transition: background-color 0.3s ease, color 0.3s ease;
+            scroll-behavior: smooth;
         }
 
-        h1, h2, h3 {
-            font-weight: 700;
-            margin: 0;
-            transition: transform 0.3s ease, color 0.3s ease;
-        }
-
-        /* Header */
-        header {
-            padding: 50px 20px;
-            background-color: #0a0a0a;
-            color: #fff;
-            text-align: center;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-            border-bottom: 2px solid #444;
-        }
-
-        header h1 {
-            font-size: 3.5rem;
-            letter-spacing: 2px;
-        }
-
-        header p {
-            font-size: 1.2rem;
-            margin-top: 10px;
-        }
-
-        /* Links und Hover-Effekte */
-        h3 {
-            font-size: 1.5rem;
-            margin: 15px 0;
-            color: #ffffff;
-            text-decoration: none;
-            display: inline-block;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        h3:hover {
-            color: #00ff7f;
-            transform: translateX(5px);
-        }
-
-        /* Content */
-        .content {
-            padding: 30px 20px;
-            transition: opacity 1s ease-in;
-        }
-
-        .content p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-        }
-
-        /* Abschnittsüberschriften */
-        h2 {
-            font-size: 2rem;
-            margin-top: 40px;
-            color: #00ff7f;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        li {
-            font-size: 1.2rem;
-            margin: 8px 0;
-            padding-left: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        li:hover {
-            color: #fff;
-            transform: translateX(10px);
-        }
-
-        /* Light Mode / Dark Mode */
+        /* 🌞 Lightmode */
         body.light-mode {
-            background-color: #fff;
-            color: #333;
+            background-color: #f5f5f5;
+            color: black;
         }
 
-        body.light-mode h1, body.light-mode h2, body.light-mode h3 {
-            color: #333;
+        /* 🟢 Überschriften-Box */
+        .header-box {
+            background: linear-gradient(135deg, #00d1ff, #0077cc);
+            padding: 20px;
+            border-radius: 40px;
+            text-align: center;
+            color: white;
+            margin: 20px auto;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 0 30px rgba(0, 209, 255, 0.6);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        body.light-mode li {
-            color: #333;
+        body.light-mode .header-box {
+            background: linear-gradient(135deg, #0077cc, #00d1ff);
+            color: black;
         }
 
-        body.light-mode .mode-toggle-btn {
-            background-color: #0a0a0a;
-            color: #fff;
+        .header-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.8);
         }
 
-        body.light-mode .mode-toggle-btn:hover {
-            background-color: #444;
-        }
-
-        /* Konfetti-Animation */
-        .confetti {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            display: none;
-        }
-
-        .confetti div {
-            width: 10px;
-            height: 10px;
-            background-color: #00ff7f;
-            position: absolute;
-            animation: confettiFall 1.5s infinite;
-        }
-
-        @keyframes confettiFall {
-            0% {
-                transform: translateY(-10px);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh);
-                opacity: 0;
-            }
-        }
-
-        /* Button für Dark/Light Mode */
-        .mode-toggle-btn {
+        /* 🌙 Dark-/Lightmode-Toggle */
+        #modeToggle {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            background-color: #00ff7f;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
+            background: transparent;
             border: none;
-            font-size: 1.2rem;
-            color: #fff;
-            border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-            z-index: 100;
+            transition: transform 0.3s ease;
         }
 
-        .mode-toggle-btn:hover {
-            background-color: #00cc66;
+        #modeToggle:hover {
+            transform: scale(1.3);
         }
 
-        /* Hover-Effekt für den Text */
-        .small-theme:hover {
-            color: #fff;
+        /* 📜 Themen-Links */
+        .topic {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: transparent;
+            color: #00ff7f;
             text-decoration: underline;
-            transform: scale(1.1);
+            cursor: pointer;
+            border-radius: 20px;
+            transition: all 0.3s ease;
         }
 
+        .topic:hover {
+            transform: scale(1.1);
+            background: linear-gradient(90deg, #ff00ff, #00ffff, #00ff7f);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        /* 🌈 Regenbogeneffekt */
+        @keyframes rainbow {
+            0% { color: #ff0000; }
+            20% { color: #ffa500; }
+            40% { color: #ffff00; }
+            60% { color: #008000; }
+            80% { color: #0000ff; }
+            100% { color: #4b0082; }
+        }
+
+        .topic:hover span {
+            animation: rainbow 1.5s infinite;
+        }
+
+        /* 📊 Tabelle */
+        .table-container {
+            margin: 30px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Glow-Tabelle */
+        .glow-table {
+            width: 90%;
+            max-width: 1000px;
+            border-collapse: collapse;
+            border-radius: 20px;
+            overflow: hidden;
+            background-color: rgba(10, 10, 10, 0.9);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        /* Hover-Effekt */
+        .glow-table:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 50px rgba(0, 191, 255, 0.8);
+        }
+
+        /* Tabellenkopf */
+        .glow-table th {
+            background: linear-gradient(135deg, #00d1ff, #0077cc);
+            color: #fff;
+            padding: 15px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            border: none;
+        }
+
+        /* Tabellenzellen */
+        .glow-table td {
+            padding: 12px 15px;
+            text-align: left;
+            color: white;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        /* Hover auf Zellen */
+        .glow-table tr:hover td {
+            background-color: rgba(0, 255, 255, 0.1);
+        }
+
+        /* Lightmode für Tabelle */
+        body.light-mode .glow-table {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 0 20px rgba(0, 191, 255, 0.3);
+        }
+
+        body.light-mode .glow-table th {
+            background: linear-gradient(135deg, #0077cc, #00d1ff);
+            color: black;
+        }
+
+        body.light-mode .glow-table td {
+            color: #333;
+        }
+
+        /* 📜 Smooth Scroll-Effekt */
+        [data-scroll] {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        [data-scroll].active {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>HELLO AND WELCOME TO LEARNER PROJECT :)</h1>
-        <p>Welcome to Learner Project – Your Path to New Knowledge!</p>
-    </header>
+<!-- 🌟 Dark-/Lightmode-Switch -->
+<button id="modeToggle">🌙</button>
 
-    <div class="content">
-        <p>We're glad you're here! This website is your companion for learning new things, expanding your skills, and taking your knowledge to the next level. Whether you want to improve yourself, get creative, or simply satisfy your curiosity – you'll find everything you need right here.</p>
-        <p>You will like those projects!</p>
+<!-- 🟢 Überschrift-Box -->
+<div class="header-box" data-scroll>
+    <h1>🚀 Welcome to Learner Project!</h1>
+    <p>Your path to new knowledge starts here.</p>
+</div>
 
-        <h2>Technology & Programming 🌐</h2>
-        <ul>
-            <li><h3 class="small-theme">Web Development (HTML, CSS, JavaScript)</h3></li>
-            <li><h3 class="small-theme">App Development (Android, iOS, Flutter)</h3></li>
-            <li><h3 class="small-theme">Artificial Intelligence & Machine Learning</h3></li>
-            <li><h3 class="small-theme">Cybersecurity & Ethical Hacking</h3></li>
-            <li><h3 class="small-theme">Data Analysis with Python or Excel</h3></li>
-        </ul>
+<!-- 🌐 Themen -->
+<div style="text-align: center;" data-scroll>
+    <h2>Themen, die du lernen kannst:</h2>
+    <div class="topic"><span>🌐 Web Development</span></div>
+    <div class="topic"><span>🤖 Machine Learning</span></div>
+    <div class="topic"><span>⚡ Cybersecurity</span></div>
+    <div class="topic"><span>🎨 Graphic Design</span></div>
+</div>
 
-        <h2>Science & Education 📚</h2>
-        <ul>
-            <li><h3 class="small-theme">Astronomy and the Universe</h3></li>
-            <li><h3 class="small-theme">Biology: How the Human Body Works</h3></li>
-            <li><h3 class="small-theme">Physics: From Motion to Quantum Mechanics</h3></li>
-            <li><h3 class="small-theme">Chemistry: Understanding Reactions</h3></li>
-            <li><h3 class="small-theme">Math: From Basics to Algebra</h3></li>
-        </ul>
+<!-- 📊 Tabelle -->
+<div class="table-container" data-scroll>
+    <table class="glow-table">
+        <thead>
+            <tr>
+                <th>Topic</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>🌐 Web Development</td>
+                <td>HTML, CSS, JavaScript</td>
+            </tr>
+            <tr>
+                <td>🤖 AI & Machine Learning</td>
+                <td>Python, TensorFlow</td>
+            </tr>
+            <tr>
+                <td>🎨 Graphic Design</td>
+                <td>Photoshop, Canva</td>
+            </tr>
+            <tr>
+                <td>💡 Personal Growth</td>
+                <td>Time Management, Productivity</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
-        <h2>Creativity & Design 🎨</h2>
-        <ul>
-            <li><h3 class="small-theme">Graphic Design with Canva or Photoshop</h3></li>
-            <li><h3 class="small-theme">Video Editing (like with DaVinci Resolve 😉)</h3></li>
-            <li><h3 class="small-theme">3D Modeling and Animation</h3></li>
-            <li><h3 class="small-theme">Writing and Storytelling</h3></li>
-        </ul>
+<!-- 🚀 JavaScript -->
+<script>
+    // 🌙 Light-/Darkmode
+    const modeToggle = document.getElementById("modeToggle");
+    modeToggle.addEventListener("click", () => {
+        document.body.classList.toggle("light-mode");
+        modeToggle.textContent = document.body.classList.contains("light-mode") ? "🌞" : "🌙";
+    });
 
-        <h2>Personal Growth & Everyday Skills 💡</h2>
-        <ul>
-            <li><h3 class="small-theme">Time Management & Productivity</h3></li>
-            <li><h3 class="small-theme">Financial Literacy & Investing</h3></li>
-            <li><h3 class="small-theme">Cooking & New Recipes</h3></li>
-            <li><h3 class="small-theme">Learning Languages (like the ones you’re already working on 😉)</h3></li>
-        </ul>
+    // 📜 Scroll-Effekte
+    const scrollElements = document.querySelectorAll("[data-scroll]");
 
-        <button class="mode-toggle-btn" onclick="toggleMode()">Toggle Dark/Light Mode</button>
-
-        <div class="confetti" id="confetti"></div>
-    </div>
-
-    <script>
-        function toggleMode() {
-            const body = document.body;
-            body.classList.toggle('light-mode');
-            triggerConfetti();
-        }
-
-        function triggerConfetti() {
-            const confettiContainer = document.getElementById('confetti');
-            confettiContainer.style.display = 'block';
-            for (let i = 0; i < 100; i++) {
-                let confettiPiece = document.createElement('div');
-                confettiPiece.style.left = `${Math.random() * 100}%`;
-                confettiPiece.style.animationDuration = `${Math.random() * 2 + 1}s`;
-                confettiPiece.style.animationDelay = `${Math.random() * 2}s`;
-                confettiContainer.appendChild(confettiPiece);
+    const scrollHandler = () => {
+        scrollElements.forEach((el) => {
+            const rect = el.getBoundingClientRect().top;
+            const isVisible = rect < window.innerHeight - 50;
+            if (isVisible) {
+                el.classList.add("active");
+            } else {
+                el.classList.remove("active");
             }
+        });
+    };
 
-            setTimeout(() => {
-                confettiContainer.style.display = 'none';
-                confettiContainer.innerHTML = '';
-            }, 5000);
-        }
-    </script>
+    window.addEventListener("scroll", scrollHandler);
+    scrollHandler();
+</script>
+
 </body>
 </html>
