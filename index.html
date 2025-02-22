@@ -51,16 +51,17 @@
             align-items: center;
             justify-content: center;
             color: white;
-            transition: transform 0.3s ease, background 0.5s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, background 0.5s ease, box-shadow 0.3s ease, filter 0.3s ease;
             cursor: pointer;
             margin-bottom: 20px;
             position: relative;
+            will-change: transform; /* Optimiert für Performance */
         }
         .topic:hover {
-            transform: scale(1.05);
+            transform: scale(1.1) translateY(-10px); /* Box kommt nach vorne */
             background: linear-gradient(135deg, #ff6ec4, #7873f5);
-            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
-            filter: brightness(1.2);
+            box-shadow: 0 10px 30px rgba(255, 0, 255, 0.5); /* Glühender Schatten */
+            filter: brightness(1.2); /* Helligkeit erhöhen */
         }
         .topic::after {
             content: '';
