@@ -16,6 +16,8 @@
             color: white;
             transition: background-color 0.5s, color 0.5s;
             overflow-x: hidden;
+            overflow-y: scroll;
+            height: 100%;
         }
         .header {
             position: fixed;
@@ -53,18 +55,23 @@
         .container {
             margin-top: 80px;
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
+            justify-content: center;
             align-items: center;
-            max-height: 80vh;
-            overflow-y: auto;
+            gap: 20px;
             padding-bottom: 20px;
+            max-height: 80vh;
         }
         .topic {
+            width: 120px;
+            height: 120px;
             background: linear-gradient(135deg, #6a11cb, #2575fc);
-            padding: 15px 30px;
-            margin: 10px 0;
-            border-radius: 30px;
-            font-size: 20px;
+            border-radius: 20px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
             transition: transform 0.2s, background 0.5s, box-shadow 0.3s;
             cursor: pointer;
             position: relative;
@@ -90,37 +97,22 @@
         .topic:hover::after {
             opacity: 0.2;
         }
-        @keyframes scrollEffect {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
+        @keyframes slimeUpDown {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
         }
         .topic {
-            animation: scrollEffect 0.8s ease-out;
-        }
-        @keyframes confettiAnimation {
-            0% { transform: translateY(0) rotate(0); opacity: 1; }
-            100% { transform: translateY(300px) rotate(360deg); opacity: 0; }
-        }
-        .confetti-piece {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #ff6ec4;
-            animation: confettiAnimation 2s ease-out infinite;
-        }
-        .confetti-piece:nth-child(odd) {
-            background-color: #7873f5;
+            animation: slimeUpDown 1s ease-in-out infinite;
         }
     </style>
 </head>
 <body>
     <div class="header" onclick="location.reload()">Learning-Project</div>
-    <div class="mode-toggle" onclick="generateConfetti()">🌙</div>
+    <div class="mode-toggle" onclick="toggleMode()">🌙</div>
     <div class="container" id="topics">
         <!-- 40 Themen generieren -->
     </div>
-
-    <div class="confetti" id="confetti"></div>
 
     <script>
         function toggleMode() {
@@ -137,18 +129,6 @@
             }
         }
 
-        function generateConfetti() {
-            const confettiContainer = document.getElementById('confetti');
-            confettiContainer.innerHTML = '';
-            for (let i = 0; i < 30; i++) {
-                const confettiPiece = document.createElement('div');
-                confettiPiece.classList.add('confetti-piece');
-                confettiPiece.style.left = `${Math.random() * 100}vw`;
-                confettiPiece.style.animationDelay = `${Math.random() * 0.5}s`;
-                confettiContainer.appendChild(confettiPiece);
-            }
-        }
-
         let topicsContainer = document.getElementById('topics');
         for (let i = 1; i <= 40; i++) {
             let topic = document.createElement('div');
@@ -157,10 +137,18 @@
             topicsContainer.appendChild(topic);
         }
 
-        document.querySelector('.mode-toggle').addEventListener('click', function () {
-            generateConfetti();
+        // Mond/Sonne-Transformation
+        let modeToggle = document.querySelector('.mode-toggle');
+        modeToggle.addEventListener('click', function () {
+            modeToggle.style.transition = "transform 0.3s ease-in-out";
+            if (modeToggle.textContent === "🌙") {
+                modeToggle.textContent = "☀️";
+                modeToggle.style.transform = "rotate(360deg)";
+            } else {
+                modeToggle.textContent = "🌙";
+                modeToggle.style.transform = "rotate(0deg)";
+            }
         });
     </script>
-
 </body>
 </html>
