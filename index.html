@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learning-Project</title>
+    <title>Learning Project</title>
     <style>
         * {
             margin: 0;
@@ -11,238 +11,153 @@
             box-sizing: border-box;
             font-family: Arial, sans-serif;
         }
-
         body {
             background-color: #121212;
             color: white;
-            transition: background-color 0.5s, color 0.5s;
             overflow-x: hidden;
-            padding: 0;
-            margin: 0;
         }
-
         .header {
             position: fixed;
             top: 10px;
-            left: 20px;
-            font-size: 36px;
-            font-weight: bold;
-            color: #00fff9;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            background: rgba(0, 0, 0, 0.3); /* Lighter background with blur */
-            border-radius: 15px;
+            left: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
             padding: 10px 20px;
-            backdrop-filter: blur(15px); /* Blur effect */
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
-            z-index: 999;
+            font-size: 24px;
+            font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: background 0.3s, transform 0.2s;
+            z-index: 1000;
         }
-
         .header:hover {
-            color: #00ffea;
-            transform: translateX(5px);
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
         }
-
         .search-container {
             position: fixed;
-            top: 20px;
+            top: 10px;
             left: 50%;
             transform: translateX(-50%);
-            width: 80%;
-            max-width: 600px;
             display: flex;
             align-items: center;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 25px;
-            padding: 5px 15px;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
-            z-index: 999;
-            transition: transform 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 8px 15px;
+            z-index: 1000;
         }
-
-        .search-input {
-            flex: 1;
+        .search-container input {
             background: transparent;
             border: none;
             color: white;
-            font-size: 18px;
-            padding: 10px;
-            border-radius: 25px;
             outline: none;
-            transition: transform 0.3s ease;
+            font-size: 18px;
+            padding: 5px;
+            width: 250px;
         }
-
-        .search-input::placeholder {
-            color: #aaa;
+        .search-container input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
         }
-
-        .search-icon {
-            color: #00fff9;
-            font-size: 24px;
+        .search-container .icon {
             margin-left: 10px;
+            font-size: 20px;
             cursor: pointer;
-            transition: transform 0.3s ease;
         }
-
-        .search-icon:hover {
-            transform: scale(1.2);
+        .container {
+            margin-top: 80px;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            justify-items: center;
         }
-
-        .topic-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            margin-top: 100px;
-            padding: 20px;
-        }
-
         .topic {
-            background: #2d2d2d;
-            border-radius: 20px;
             width: 120px;
             height: 120px;
-            margin: 10px;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            border-radius: 20px;
             font-size: 16px;
-            color: #fff;
+            text-align: center;
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 5px rgba(0, 255, 255, 0.2); /* Soft glow */
         }
-
         .topic:hover {
-            background: #4e4e4e;
-            transform: translateY(-5px);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+            transform: scale(1.08);
+            background: linear-gradient(135deg, #ff6ec4, #7873f5);
+            box-shadow: 0px 0px 15px rgba(255, 110, 196, 0.8);
         }
-
-        .clock {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 255, 255, 0.1);
-            padding: 10px 20px;
-            border-radius: 25px;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
-            color: #00fff9;
-            font-size: 18px;
-            font-weight: bold;
-            z-index: 999;
-            transition: transform 0.3s ease;
-        }
-
-        .clock:hover {
-            transform: translateY(-3px);
-        }
-
         @keyframes blink {
-            0% {
-                background-color: #00fff9;
-            }
-            50% {
-                background-color: #2d2d2d;
-            }
-            100% {
-                background-color: #00fff9;
-            }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
         }
-
-        .highlight {
-            animation: blink 0.5s ease-in-out 5; /* Blinking effect */
+        .blink {
+            animation: blink 1s ease-in-out 5;
+        }
+        .not-found {
+            text-align: center;
+            font-size: 24px;
+            margin-top: 50px;
+            display: none;
         }
     </style>
 </head>
 <body>
-    <div class="header" onclick="location.reload();">Learning-Project</div>
-
+    <div class="header" onclick="location.reload()">Learning Project</div>
     <div class="search-container">
-        <input type="text" id="search-input" class="search-input" placeholder="Suche nach Themen...">
-        <span class="search-icon" id="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Search topics...">
+        <span class="icon">🔍</span>
     </div>
-
-    <div class="topic-container" id="topics">
-        <!-- Dynamically generated topics go here -->
-    </div>
-
-    <div class="clock" id="clock"></div>
+    <div class="container" id="topics"></div>
+    <div class="not-found" id="notFound">Topic not found</div>
 
     <script>
-        // Dynamically populate topics
-        const topicsContainer = document.getElementById('topics');
-        for (let i = 1; i <= 70; i++) {
-            let topic = document.createElement('div');
-            topic.classList.add('topic');
-            topic.textContent = "Thema " + i;
-            topic.addEventListener('click', () => {
-                alert('Du hast ' + topic.textContent + ' ausgewählt.');
-            });
-            topicsContainer.appendChild(topic);
-        }
+        const topicsList = [
+            "Programming", "Web Development", "Artificial Intelligence", "Machine Learning", "Cybersecurity", "Databases", "Cloud Computing",
+            "Software Development", "Computer Hardware", "Networking", "Operating Systems", "Automation", "Open-Source Software", "IT Support", "Game Development",
+            "Physics", "Chemistry", "Biology", "Astronomy", "Mathematics", "Geology", "Environmental Science", "Medicine", "Psychology", "Robotics",
+            "Genetics", "Neuroscience", "Space Exploration", "Graphic Design", "Animation", "Photography", "Video Editing", "3D Modeling", "Music Production",
+            "Architecture", "UX/UI Design", "Fashion Design", "Street Art", "Typography", "Indie Games", "Game Engines", "Esports", "Speedrunning",
+            "Retro Gaming", "Storytelling in Games", "Level Design", "VR & AR", "Open-World Games", "Horror Games", "Sandbox Games",
+            "History of the Internet", "Ancient Civilizations", "World Wars", "Medieval Times", "Politics", "Economy", "Philosophy", "Learning Languages",
+            "World Cultures", "Mythology", "Fitness", "Nutrition", "Martial Arts", "Parkour", "Football", "Basketball", "Chess", "E-Sports & Gaming Fitness",
+            "Mental Health", "Self-Defense", "DIY Projects", "Minimalism"
+        ];
 
-        // Display current time in the clock
-        function updateTime() {
-            const clockElement = document.getElementById('clock');
-            const now = new Date();
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            const seconds = now.getSeconds().toString().padStart(2, '0');
-            clockElement.textContent = `${hours}:${minutes}:${seconds}`;
-        }
-        setInterval(updateTime, 1000);
+        let topicsContainer = document.getElementById("topics");
+        let notFoundMessage = document.getElementById("notFound");
 
-        // Search functionality
-        const searchInput = document.getElementById('search-input');
-        const searchIcon = document.getElementById('search-icon');
-
-        searchIcon.addEventListener('click', () => {
-            searchAndHighlight(searchInput.value);
+        topicsList.forEach((topic, index) => {
+            let topicDiv = document.createElement("div");
+            topicDiv.classList.add("topic");
+            topicDiv.textContent = topic;
+            topicDiv.setAttribute("data-index", index + 1);
+            topicsContainer.appendChild(topicDiv);
         });
 
-        searchInput.addEventListener('keypress', (event) => {
-            if (event.key === 'Enter') {
-                searchAndHighlight(searchInput.value);
-            }
-        });
-
-        function searchAndHighlight(query) {
-            const topics = document.querySelectorAll('.topic');
+        function searchTopic() {
+            let input = document.getElementById("searchInput").value.toLowerCase();
             let found = false;
-            topics.forEach(topic => {
-                // Exact match check, case insensitive
-                if (topic.textContent.trim().toLowerCase() === query.trim().toLowerCase()) {
-                    topic.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    topic.classList.add('highlight');
-                    setTimeout(() => topic.classList.remove('highlight'), 2000);
+
+            document.querySelectorAll(".topic").forEach(topic => {
+                if (topic.textContent.toLowerCase() === input) {
                     found = true;
+                    topic.scrollIntoView({ behavior: "smooth", block: "center" });
+                    topic.classList.add("blink");
+                    setTimeout(() => topic.classList.remove("blink"), 5000);
                 }
             });
 
-            if (!found) {
-                alert('Kein Thema gefunden!');
-            }
+            notFoundMessage.style.display = found ? "none" : "block";
         }
 
-        // Add some hover effects and animations
-        const topics = document.querySelectorAll('.topic');
-        topics.forEach(topic => {
-            topic.addEventListener('mouseover', () => {
-                topic.style.backgroundColor = '#4e4e4e';
-                topic.style.transform = 'scale(1.05)';
-                topic.style.boxShadow = '0 0 15px rgba(0, 255, 255, 0.5)';
-            });
-            topic.addEventListener('mouseout', () => {
-                topic.style.backgroundColor = '#2d2d2d';
-                topic.style.transform = 'scale(1)';
-                topic.style.boxShadow = '0 0 5px rgba(0, 255, 255, 0.2)';
-            });
+        document.querySelector(".icon").addEventListener("click", searchTopic);
+        document.getElementById("searchInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                searchTopic();
+            }
         });
     </script>
 </body>
