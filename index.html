@@ -101,20 +101,40 @@
             display: none;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             z-index: 9999;
             animation: fadeIn 0.5s ease-in-out;
         }
         .fullscreen .topic {
-            width: 80%;
-            height: 80%;
-            font-size: 30px;
+            width: 90%;
+            height: 70%;
+            font-size: 40px;
             text-align: center;
             background: linear-gradient(135deg, #2575fc, #6a11cb);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
         }
         .fullscreen .topic h1 {
-            font-size: 40px;
+            font-size: 50px;
             margin-bottom: 20px;
+        }
+        .fullscreen .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 10px 15px;
+            font-size: 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+        .fullscreen .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
         }
         .fullscreen.show {
             display: flex;
@@ -148,6 +168,7 @@
     <div class="container" id="topics"></div>
     <div class="not-found" id="notFound">Topic not found</div>
     <div class="fullscreen" id="fullscreen">
+        <button class="back-button" onclick="closeFullscreen()">Back</button>
         <div class="topic">
             <h1 id="fullscreenTitle"></h1>
             <p id="fullscreenContent"></p>
@@ -201,30 +222,25 @@
                     found = true;
                     topic.scrollIntoView({ behavior: "smooth", block: "center" });
                     topic.classList.add("blink");
-                    setTimeout(() => topic.classList.remove("blink"), 5000);
+                    setTimeout(() => topic.classList.remove("blink"), 2000);
+                } else {
+                    topic.style.display = "none";
                 }
             });
 
-            notFoundMessage.style.display = found ? "none" : "block";
-        }
-
-        function updateClock() {
-            let now = new Date();
-            let hours = String(now.getHours()).padStart(2, '0');
-            let minutes = String(now.getMinutes()).padStart(2, '0');
-            let seconds = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById("clock").textContent = `${hours}:${minutes}:${seconds}`;
-        }
-
-        setInterval(updateClock, 1000);
-        updateClock();
-
-        document.querySelector(".icon").addEventListener("click", searchTopic);
-        document.getElementById("searchInput").addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                searchTopic();
+            if (!found) {
+                notFoundMessage.style.display = "block";
+            } else {
+                notFoundMessage.style.display = "none";
             }
-        });
+        }
+
+        document.getElementById("searchInput").addEventListener("input", searchTopic);
+
+        setInterval(function () {
+            const date = new Date();
+            document.getElementById("clock").textContent = date.toLocaleTimeString();
+        }, 1000);
     </script>
 </body>
 </html>
