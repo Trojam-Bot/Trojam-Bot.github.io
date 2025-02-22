@@ -194,7 +194,16 @@
             border-radius: 10px;
             padding: 15px;
             max-width: 200px;
+            max-height: 70vh;
+            overflow-y: auto;
             z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .table-of-contents.visible {
+            opacity: 1;
+            visibility: visible;
         }
         .table-of-contents ul {
             list-style: none;
@@ -340,11 +349,19 @@
                 li.appendChild(a);
                 tocList.appendChild(li);
             });
+
+            // Show Table of Contents
+            const tableOfContents = document.getElementById('tableOfContents');
+            tableOfContents.classList.add('visible');
         }
 
         function closeModal() {
             const modal = document.getElementById('modal');
             modal.classList.remove('open');
+
+            // Hide Table of Contents
+            const tableOfContents = document.getElementById('tableOfContents');
+            tableOfContents.classList.remove('visible');
         }
 
         function updateClock() {
