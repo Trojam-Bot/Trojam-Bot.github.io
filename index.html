@@ -28,7 +28,6 @@
             font-weight: bold;
             cursor: pointer;
             z-index: 1000;
-            transition: all 0.3s ease;
         }
         .header { left: 10px; }
         .clock { right: 10px; }
@@ -44,7 +43,6 @@
             border-radius: 30px;
             padding: 8px 15px;
             z-index: 1000;
-            transition: all 0.3s ease;
         }
         .search-container input {
             background: transparent;
@@ -54,7 +52,6 @@
             font-size: 18px;
             padding: 5px;
             width: 250px;
-            transition: all 0.3s ease;
         }
         .search-container input::placeholder {
             color: rgba(255, 255, 255, 0.7);
@@ -78,15 +75,7 @@
             text-align: center;
             position: relative;
             overflow: hidden;
-            transition: transform 0.3s, background 0.3s, box-shadow 0.3s, filter 0.3s ease;
             cursor: pointer;
-            perspective: 1000px;
-        }
-        .topic:hover {
-            background: linear-gradient(135deg, #2575fc, #6a11cb);
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-            filter: brightness(1.5);
         }
         .topic .topic-content {
             display: flex;
@@ -94,7 +83,6 @@
             justify-content: center;
             height: 100%;
             width: 100%;
-            transition: transform 0.3s ease;
         }
         .topic .emoji {
             position: absolute;
@@ -103,11 +91,6 @@
             transform: translate(-50%, -50%);
             font-size: 40px;
             opacity: 0.1;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-        .topic:hover .emoji {
-            opacity: 0.3;
-            transform: translate(-50%, -50%) scale(1.1);
         }
         .fullscreen {
             position: fixed;
@@ -122,15 +105,16 @@
             justify-content: flex-start;
             z-index: 9999;
             pointer-events: none;
-            transition: all 0.3s ease;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
         }
         .fullscreen.show {
             display: flex;
             pointer-events: auto;
-            animation: fadeIn 0.5s ease-out;
+            opacity: 1;
         }
         .fullscreen .topic {
-            width: 90%;
+            width: 100%;
             height: auto;
             font-size: 50px;
             text-align: center;
@@ -139,7 +123,6 @@
             align-items: center;
             justify-content: center;
             border-radius: 20px;
-            transition: none;
             margin-top: 30px;
         }
         .fullscreen .back-button {
@@ -152,31 +135,11 @@
             font-size: 30px;
             border-radius: 0;
             cursor: pointer;
-            transition: background 0.3s, transform 0.2s ease;
-        }
-        .fullscreen .back-button:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-        .fullscreen .back-button:active {
-            transform: scale(1.0);
         }
         .fullscreen .topic h1 {
             font-size: 60px;
             margin-bottom: 20px;
             color: white;
-        }
-        .fullscreen .topic .images {
-            margin-top: 20px;
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-            width: 80%;
-        }
-        .fullscreen .topic img {
-            max-width: 200px;
-            max-height: 150px;
-            object-fit: cover;
-            border-radius: 10px;
         }
         .fullscreen .info {
             margin-top: 40px;
@@ -193,21 +156,6 @@
             margin-top: 50px;
             display: none;
         }
-        .search-container input:hover {
-            background: none;
-        }
-        .header:hover, .clock:hover, .topic:hover, .back-button:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: scale(1.05);
-            filter: brightness(1.2);
-        }
-        .topic:hover {
-            transform: scale(1.05) rotateY(5deg) rotateX(5deg);
-        }
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
     </style>
 </head>
 <body>
@@ -223,7 +171,6 @@
         <button class="back-button" onclick="closeFullscreen()">←</button>
         <div class="topic">
             <h1 id="fullscreenTitle"></h1>
-            <div class="images" id="fullscreenImages"></div>
             <div class="info" id="fullscreenInfo"></div>
         </div>
     </div>
@@ -233,25 +180,22 @@
             { 
                 name: "Programming", 
                 emoji: "💻", 
-                description: "Programming is the process of creating software using programming languages. It involves various methods and techniques to write code that can be executed by a computer. This can range from simple scripts to complex applications that power everything from websites to mobile apps and AI systems.", 
-                images: ["https://via.placeholder.com/200", "https://via.placeholder.com/200", "https://via.placeholder.com/200", "https://via.placeholder.com/200"],
-                longInfo: "Programming is essential for building the technology we use every day. It allows us to create websites, applications, and even video games. It started with simple languages like Assembly and evolved into high-level languages like Python, Java, and C++. Today, the field of programming is broad and diverse, encompassing software engineering, web development, data science, and more." 
+                description: "Programming is the process of creating software using programming languages. It involves various methods and techniques to write code that can be executed by a computer.", 
+                longInfo: "Programming is essential for building the technology we use every day. It started with simple languages like Assembly and evolved into high-level languages like Python, Java, and C++. Today, the field of programming is broad and diverse, encompassing software engineering, web development, data science, and more." 
             },
             { 
                 name: "Web Development", 
                 emoji: "🌐", 
                 description: "Web development involves creating websites and web applications for the internet. It includes everything from designing the user interface to coding the backend.", 
-                images: ["https://via.placeholder.com/200", "https://via.placeholder.com/200", "https://via.placeholder.com/200", "https://via.placeholder.com/200"],
-                longInfo: "Web development is a fast-paced field that combines creativity with technical skills. Frontend developers focus on what users see and interact with, while backend developers work on server-side logic and databases. Full-stack developers are proficient in both. Modern tools like React, Angular, and Node.js have revolutionized web development, enabling faster and more responsive websites."
+                longInfo: "Web development is a fast-paced field that combines creativity with technical skills. Frontend developers focus on what users see and interact with, while backend developers work on server-side logic and databases. Full-stack developers are proficient in both. Modern tools like React, Angular, and Node.js have revolutionized web development."
             },
             { 
                 name: "Artificial Intelligence", 
                 emoji: "🤖", 
                 description: "AI is the simulation of human intelligence by machines, such as learning, reasoning, and problem-solving.", 
-                images: ["https://via.placeholder.com/200", "https://via.placeholder.com/200", "https://via.placeholder.com/200", "https://via.placeholder.com/200"],
-                longInfo: "AI has applications across various industries, from healthcare to autonomous vehicles. Machine learning, a subset of AI, allows computers to learn from data and improve over time. Deep learning, a more advanced form of machine learning, powers technologies like facial recognition and natural language processing. The future of AI holds immense potential, with breakthroughs in robotics, ethics, and AI-powered creativity."
+                longInfo: "AI has applications across various industries, from healthcare to autonomous vehicles. Machine learning allows computers to learn from data and improve over time. The future of AI holds immense potential, with breakthroughs in robotics, ethics, and AI-powered creativity."
             },
-            // Weitere 69 Themen hinzufügbar...
+            // Weitere 69 Themen können hier hinzugefügt werden...
         ];
 
         function displayTopics() {
@@ -279,22 +223,15 @@
         }
 
         function openFullscreen(topic) {
-            document.getElementById('fullscreen').classList.add('show');
+            const fullscreen = document.getElementById('fullscreen');
             document.getElementById('fullscreenTitle').textContent = topic.name;
-            
-            const imagesContainer = document.getElementById('fullscreenImages');
-            imagesContainer.innerHTML = '';
-            topic.images.forEach(imgUrl => {
-                const img = document.createElement('img');
-                img.src = imgUrl;
-                imagesContainer.appendChild(img);
-            });
-
             document.getElementById('fullscreenInfo').textContent = topic.longInfo;
+            fullscreen.classList.add('show');
         }
 
         function closeFullscreen() {
-            document.getElementById('fullscreen').classList.remove('show');
+            const fullscreen = document.getElementById('fullscreen');
+            fullscreen.classList.remove('show');
         }
 
         function updateClock() {
