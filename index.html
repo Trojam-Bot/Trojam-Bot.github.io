@@ -31,12 +31,12 @@
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            transition: color 0.3s ease, transform 0.3s ease;
             background: rgba(0, 0, 0, 0.5); /* Blur background */
             border-radius: 15px;
             padding: 10px 20px;
             backdrop-filter: blur(10px); /* Blur effect */
             box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+            z-index: 999;
             cursor: pointer;
         }
 
@@ -113,23 +113,13 @@
             color: #fff;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 5px rgba(0, 255, 255, 0.3); /* Reduced light effect */
         }
 
         .topic:hover {
             background: #4e4e4e;
             transform: translateY(-5px);
-            box-shadow: 0 0 25px rgba(0, 255, 255, 0.7);
-            animation: glow 1.5s infinite alternate;
-        }
-
-        @keyframes glow {
-            0% {
-                box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
-            }
-            100% {
-                box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
-            }
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
         }
 
         .clock {
@@ -152,12 +142,12 @@
             transform: translateY(-3px);
         }
 
-        @keyframes blink {
-            0%, 100% {
-                background-color: transparent;
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
             }
-            50% {
-                background-color: rgba(0, 255, 255, 0.5);
+            100% {
+                box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
             }
         }
     </style>
@@ -237,12 +227,12 @@
             topic.addEventListener('mouseover', () => {
                 topic.style.backgroundColor = '#4e4e4e';
                 topic.style.transform = 'scale(1.05)';
-                topic.style.boxShadow = '0 0 20px rgba(0, 255, 255, 0.7)';
+                topic.style.boxShadow = '0 0 15px rgba(0, 255, 255, 0.5)';
             });
             topic.addEventListener('mouseout', () => {
                 topic.style.backgroundColor = '#2d2d2d';
                 topic.style.transform = 'scale(1)';
-                topic.style.boxShadow = '0 0 10px rgba(0, 255, 255, 0.3)';
+                topic.style.boxShadow = '0 0 5px rgba(0, 255, 255, 0.3)';
             });
         });
     </script>
