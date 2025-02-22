@@ -5,34 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learner Project</title>
     <style>
-        /* Allgemeine Styles */
+        /* Grundstil */
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #121212;
-            color: #fff;
+            background-color: #0a0a0a;
+            color: #d1d1d1;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
             overflow-x: hidden;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
-        
+
         h1, h2, h3 {
-            font-family: 'Segoe UI', sans-serif;
-            transition: transform 0.3s ease;
+            font-weight: 700;
+            margin: 0;
+            transition: transform 0.3s ease, color 0.3s ease;
         }
 
         /* Header */
         header {
-            background-color: #333;
+            padding: 50px 20px;
+            background-color: #0a0a0a;
             color: #fff;
             text-align: center;
-            padding: 40px;
-            box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.5);
-            animation: slideIn 1s ease-out;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            border-bottom: 2px solid #444;
         }
 
         header h1 {
-            font-size: 2.8rem;
+            font-size: 3.5rem;
+            letter-spacing: 2px;
         }
 
         header p {
@@ -40,156 +42,79 @@
             margin-top: 10px;
         }
 
-        /* Hover-Effekt für Links */
+        /* Links und Hover-Effekte */
+        h3 {
+            font-size: 1.5rem;
+            margin: 15px 0;
+            color: #ffffff;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
         h3:hover {
-            color: #1DB954;
-            transform: scale(1.05);
+            color: #00ff7f;
+            transform: translateX(5px);
         }
 
         /* Content */
         .content {
-            padding: 20px;
-            animation: fadeIn 1s ease-in;
+            padding: 30px 20px;
+            transition: opacity 1s ease-in;
         }
 
-        /* Sections */
+        .content p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Abschnittsüberschriften */
         h2 {
             font-size: 2rem;
-            color: #1DB954;
             margin-top: 40px;
+            color: #00ff7f;
         }
 
         ul {
             list-style-type: none;
             padding: 0;
-            margin-top: 10px;
         }
 
         li {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             margin: 8px 0;
-            padding-left: 10px;
-            transition: color 0.3s ease, transform 0.3s ease;
-        }
-
-        li.small-theme {
-            color: inherit; /* Farbe folgt dem Modus */
+            padding-left: 15px;
             cursor: pointer;
-            display: inline-block; /* Textgröße als Hitbox */
+            transition: all 0.3s ease;
         }
 
-        li.small-theme:hover {
-            transform: scale(1.05);
-        }
-
-        li.small-theme:hover {
+        li:hover {
             color: #fff;
+            transform: translateX(10px);
         }
 
-        /* Summary Table */
-        .summary {
-            background-color: #222;
-            border-radius: 8px;
-            padding: 10px;
-            margin-top: 20px;
-            box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.5);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-
-        th, td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #444;
-        }
-
-        th {
-            background-color: #1DB954;
-            color: white;
-        }
-
-        td {
-            background-color: #333;
-        }
-
-        /* Button */
-        .mode-toggle-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: #1DB954;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .mode-toggle-btn:hover {
-            background-color: #155a33;
-        }
-
-        /* Animation */
-        @keyframes slideIn {
-            0% {
-                transform: translateY(-100%);
-            }
-            100% {
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-
-        /* Light Mode */
+        /* Light Mode / Dark Mode */
         body.light-mode {
             background-color: #fff;
-            color: #000;
+            color: #333;
         }
 
-        body.light-mode h1, 
-        body.light-mode h2, 
-        body.light-mode h3 {
-            color: #1DB954;
+        body.light-mode h1, body.light-mode h2, body.light-mode h3 {
+            color: #333;
         }
 
         body.light-mode li {
-            color: #000;
-        }
-
-        body.light-mode .summary {
-            background-color: #f4f4f4;
-            color: #000;
-        }
-
-        body.light-mode table {
-            background-color: #f4f4f4;
-        }
-
-        body.light-mode th {
-            background-color: #1DB954;
-        }
-
-        body.light-mode td {
-            background-color: #fff;
-            color: #000;
+            color: #333;
         }
 
         body.light-mode .mode-toggle-btn {
-            background-color: #555;
+            background-color: #0a0a0a;
+            color: #fff;
+        }
+
+        body.light-mode .mode-toggle-btn:hover {
+            background-color: #444;
         }
 
         /* Konfetti-Animation */
@@ -206,7 +131,7 @@
         .confetti div {
             width: 10px;
             height: 10px;
-            background-color: #1DB954;
+            background-color: #00ff7f;
             position: absolute;
             animation: confettiFall 1.5s infinite;
         }
@@ -222,16 +147,31 @@
             }
         }
 
-        /* Rainbow hover effect */
-        .rainbow-text:hover {
-            background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
-            background-clip: text;
-            color: transparent;
+        /* Button für Dark/Light Mode */
+        .mode-toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #00ff7f;
+            border: none;
+            font-size: 1.2rem;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            z-index: 100;
         }
 
-        /* Maus-Zeiger beim Hover auf Text */
-        .small-theme {
-            display: inline-block;
+        .mode-toggle-btn:hover {
+            background-color: #00cc66;
+        }
+
+        /* Hover-Effekt für den Text */
+        .small-theme:hover {
+            color: #fff;
+            text-decoration: underline;
+            transform: scale(1.1);
         }
 
     </style>
@@ -249,77 +189,42 @@
 
         <h2>Technology & Programming 🌐</h2>
         <ul>
-            <li><h3 class="small-theme rainbow-text">Web Development (HTML, CSS, JavaScript)</h3></li>
-            <li><h3 class="small-theme rainbow-text">App Development (Android, iOS, Flutter)</h3></li>
-            <li><h3 class="small-theme rainbow-text">Artificial Intelligence & Machine Learning</h3></li>
-            <li><h3 class="small-theme rainbow-text">Cybersecurity & Ethical Hacking</h3></li>
-            <li><h3 class="small-theme rainbow-text">Data Analysis with Python or Excel</h3></li>
+            <li><h3 class="small-theme">Web Development (HTML, CSS, JavaScript)</h3></li>
+            <li><h3 class="small-theme">App Development (Android, iOS, Flutter)</h3></li>
+            <li><h3 class="small-theme">Artificial Intelligence & Machine Learning</h3></li>
+            <li><h3 class="small-theme">Cybersecurity & Ethical Hacking</h3></li>
+            <li><h3 class="small-theme">Data Analysis with Python or Excel</h3></li>
         </ul>
 
         <h2>Science & Education 📚</h2>
         <ul>
-            <li><h3 class="small-theme rainbow-text">Astronomy and the Universe</h3></li>
-            <li><h3 class="small-theme rainbow-text">Biology: How the Human Body Works</h3></li>
-            <li><h3 class="small-theme rainbow-text">Physics: From Motion to Quantum Mechanics</h3></li>
-            <li><h3 class="small-theme rainbow-text">Chemistry: Understanding Reactions</h3></li>
-            <li><h3 class="small-theme rainbow-text">Math: From Basics to Algebra</h3></li>
+            <li><h3 class="small-theme">Astronomy and the Universe</h3></li>
+            <li><h3 class="small-theme">Biology: How the Human Body Works</h3></li>
+            <li><h3 class="small-theme">Physics: From Motion to Quantum Mechanics</h3></li>
+            <li><h3 class="small-theme">Chemistry: Understanding Reactions</h3></li>
+            <li><h3 class="small-theme">Math: From Basics to Algebra</h3></li>
         </ul>
 
         <h2>Creativity & Design 🎨</h2>
         <ul>
-            <li><h3 class="small-theme rainbow-text">Graphic Design with Canva or Photoshop</h3></li>
-            <li><h3 class="small-theme rainbow-text">Video Editing (like with DaVinci Resolve 😉)</h3></li>
-            <li><h3 class="small-theme rainbow-text">3D Modeling and Animation</h3></li>
-            <li><h3 class="small-theme rainbow-text">Writing and Storytelling</h3></li>
+            <li><h3 class="small-theme">Graphic Design with Canva or Photoshop</h3></li>
+            <li><h3 class="small-theme">Video Editing (like with DaVinci Resolve 😉)</h3></li>
+            <li><h3 class="small-theme">3D Modeling and Animation</h3></li>
+            <li><h3 class="small-theme">Writing and Storytelling</h3></li>
         </ul>
 
         <h2>Personal Growth & Everyday Skills 💡</h2>
         <ul>
-            <li><h3 class="small-theme rainbow-text">Time Management & Productivity</h3></li>
-            <li><h3 class="small-theme rainbow-text">Financial Literacy & Investing</h3></li>
-            <li><h3 class="small-theme rainbow-text">Cooking & New Recipes</h3></li>
-            <li><h3 class="small-theme rainbow-text">Learning Languages (like the ones you’re already working on 😉)</h3></li>
+            <li><h3 class="small-theme">Time Management & Productivity</h3></li>
+            <li><h3 class="small-theme">Financial Literacy & Investing</h3></li>
+            <li><h3 class="small-theme">Cooking & New Recipes</h3></li>
+            <li><h3 class="small-theme">Learning Languages (like the ones you’re already working on 😉)</h3></li>
         </ul>
 
-        <h2>Summary 📝</h2>
-        <div class="summary">
-            <table>
-                <tr>
-                    <th>Topic</th>
-                    <th>Subtopics</th>
-                </tr>
-                <tr>
-                    <td><strong>Technology & Programming</strong></td>
-                    <td>Web Development, App Development, Artificial Intelligence, Cybersecurity</td>
-                </tr>
-                <tr>
-                    <td><strong>Science</strong></td>
-                    <td>Astronomy, Biology, Physics, Chemistry</td>
-                </tr>
-                <tr>
-                    <td><strong>Mathematics</strong></td>
-                    <td>Algebra, Geometry, Statistics, Calculus</td>
-                </tr>
-                <tr>
-                    <td><strong>Creativity & Design</strong></td>
-                    <td>Graphic Design, 3D Modeling, Photography</td>
-                </tr>
-                <tr>
-                    <td><strong>Personal Development</strong></td>
-                    <td>Time Management, Communication, Financial Planning</td>
-                </tr>
-                <tr>
-                    <td><strong>Languages</strong></td>
-                    <td>English, Spanish, German, French...</td>
-                </tr>
-            </table>
-        </div>
+        <button class="mode-toggle-btn" onclick="toggleMode()">Toggle Dark/Light Mode</button>
+
+        <div class="confetti" id="confetti"></div>
     </div>
-
-    <button class="mode-toggle-btn" onclick="toggleMode()">Toggle Dark/Light Mode</button>
-
-    <!-- Konfetti-Container -->
-    <div class="confetti" id="confetti"></div>
 
     <script>
         function toggleMode() {
@@ -345,6 +250,5 @@
             }, 5000);
         }
     </script>
-
 </body>
 </html>
