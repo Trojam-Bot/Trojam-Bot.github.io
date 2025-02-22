@@ -28,6 +28,7 @@
             font-weight: bold;
             cursor: pointer;
             z-index: 1000;
+            transition: all 0.3s ease;
         }
         .header { left: 10px; }
         .clock { right: 10px; }
@@ -43,6 +44,7 @@
             border-radius: 30px;
             padding: 8px 15px;
             z-index: 1000;
+            transition: all 0.3s ease;
         }
         .search-container input {
             background: transparent;
@@ -52,6 +54,7 @@
             font-size: 18px;
             padding: 5px;
             width: 250px;
+            transition: all 0.3s ease;
         }
         .search-container input::placeholder {
             color: rgba(255, 255, 255, 0.7);
@@ -78,8 +81,14 @@
             border-radius: 20px;
             font-size: 14px;
             text-align: center;
-            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s, filter 0.3s ease;
             cursor: pointer;
+        }
+        .topic:hover {
+            background: linear-gradient(135deg, #2575fc, #6a11cb);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            filter: brightness(1.2);
         }
         .fullscreen {
             position: fixed;
@@ -94,14 +103,16 @@
             justify-content: center;
             z-index: 9999;
             pointer-events: none;
+            transition: all 0.3s ease;
         }
         .fullscreen.show {
             display: flex;
             pointer-events: auto;
+            animation: fadeIn 0.5s ease-out;
         }
         .fullscreen .topic {
-            width: 100%;
-            height: 100%;
+            width: 90%;
+            height: 90%;
             font-size: 50px;
             text-align: center;
             background: linear-gradient(135deg, #2575fc, #6a11cb);
@@ -119,9 +130,9 @@
             backdrop-filter: blur(10px);
             padding: 10px 15px;
             font-size: 30px;
-            border-radius: 0; /* Kein Kreis mehr */
+            border-radius: 0;
             cursor: pointer;
-            transition: background 0.3s, transform 0.2s;
+            transition: background 0.3s, transform 0.2s ease;
         }
         .fullscreen .back-button:hover {
             background: rgba(255, 255, 255, 0.2);
@@ -205,28 +216,35 @@
 
         function closeFullscreen() {
             fullscreenContainer.classList.remove("show");
-            document.body.style.pointerEvents = "auto"; // Re-enable background interaction
+            document.body.style.pointerEvents = "auto"; // Enable interaction with background
         }
 
-        function searchTopic() {
-            let input = document.getElementById("searchInput").value.toLowerCase();
+        // Search functionality
+        const searchInput = document.getElementById("searchInput");
+
+        searchInput.addEventListener("input", () => {
+            let searchText = searchInput.value.toLowerCase();
+            let topicItems = document.querySelectorAll(".topic");
             let found = false;
-            document.querySelectorAll(".topic").forEach(topicDiv => {
-                let topicName = topicDiv.textContent.toLowerCase();
-                if (topicName.includes(input)) {
-                    topicDiv.style.display = "flex";
+            topicItems.forEach(item => {
+                if (item.textContent.toLowerCase().includes(searchText)) {
+                    item.style.display = "block";
                     found = true;
                 } else {
-                    topicDiv.style.display = "none";
+                    item.style.display = "none";
                 }
             });
-            notFoundMessage.style.display = found ? "none" : "block";
-        }
 
-        document.getElementById("searchInput").addEventListener("input", searchTopic);
+            if (!found && searchText !== "") {
+                notFoundMessage.style.display = "block";
+            } else {
+                notFoundMessage.style.display = "none";
+            }
+        });
 
-        setInterval(function () {
-            const date = new Date();
+        // Clock update
+        setInterval(() => {
+            let date = new Date();
             document.getElementById("clock").textContent = date.toLocaleTimeString();
         }, 1000);
     </script>
