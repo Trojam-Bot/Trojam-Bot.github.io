@@ -19,3 +19,80 @@ footer {
     background-color: #333;
     color: white;
 }
+/* Container für Tabelle */
+.table-container {
+    margin: 30px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Glow-Tabelle */
+.glow-table {
+    width: 90%;
+    max-width: 1000px;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: rgba(10, 10, 10, 0.9);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+/* Hover-Effekt: Lichtstrahlen aus den Ecken */
+.glow-table:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 
+        0 0 30px rgba(0, 191, 255, 0.8),
+        0 0 60px rgba(0, 255, 255, 0.6),
+        0 0 90px rgba(0, 255, 255, 0.4);
+}
+
+/* Tabellenkopf */
+.glow-table th {
+    background: linear-gradient(135deg, rgba(0, 255, 255, 0.5), rgba(0, 191, 255, 0.8));
+    color: #fff;
+    padding: 15px;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    border: none;
+}
+
+/* Tabellenzellen */
+.glow-table td {
+    padding: 12px 15px;
+    text-align: left;
+    color: white;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+/* Hover auf Zellen */
+.glow-table tr:hover td {
+    background-color: rgba(0, 255, 255, 0.1);
+}
+
+/* Letzte Zeile ohne Rand */
+.glow-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Dark-/Lightmode-Anpassung */
+body.light-mode .glow-table {
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 0 20px rgba(0, 191, 255, 0.3);
+}
+
+body.light-mode .glow-table th {
+    background: linear-gradient(135deg, rgba(0, 191, 255, 0.6), rgba(0, 128, 255, 0.9));
+    color: #000;
+}
+
+body.light-mode .glow-table td {
+    color: #333;
+}
+
+body.light-mode .glow-table tr:hover td {
+    background-color: rgba(0, 191, 255, 0.1);
+}
