@@ -145,18 +145,18 @@
 
         @keyframes blink {
             0% {
-                background-color: #00fff9;
+                background-color: rgba(0, 255, 255, 0.3); /* Softer, more transparent color */
             }
             50% {
-                background-color: #2d2d2d;
+                background-color: rgba(0, 255, 255, 0.1);
             }
             100% {
-                background-color: #00fff9;
+                background-color: rgba(0, 255, 255, 0.3);
             }
         }
 
         .highlight {
-            animation: blink 0.5s ease-in-out 5; /* Blinking effect */
+            animation: blink 0.5s ease-in-out 5; /* Blinking effect with a softer color */
         }
     </style>
 </head>
@@ -238,11 +238,4 @@
                 topic.style.boxShadow = '0 0 15px rgba(0, 255, 255, 0.5)';
             });
             topic.addEventListener('mouseout', () => {
-                topic.style.backgroundColor = '#2d2d2d';
-                topic.style.transform = 'scale(1)';
-                topic.style.boxShadow = '0 0 5px rgba(0, 255, 255, 0.2)';
-            });
-        });
-    </script>
-</body>
-</html>
+                topic.style.backgrou
