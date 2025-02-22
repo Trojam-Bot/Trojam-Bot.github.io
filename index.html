@@ -114,82 +114,68 @@
             opacity: 0.3;
             transform: translate(-50%, -50%) scale(1.1);
         }
-        .fullscreen {
+        .modal {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             background: rgba(0, 0, 0, 0.9);
-            display: none;
-            flex-direction: column;
+            display: flex;
             align-items: center;
             justify-content: center;
             z-index: 9999;
-            pointer-events: none;
-            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
         }
-        .fullscreen.show {
-            display: flex;
-            pointer-events: auto;
-            animation: fadeIn 0.5s ease-out;
+        .modal.open {
+            opacity: 1;
+            visibility: visible;
         }
-        .fullscreen .topic {
-            width: 90%;
-            height: 90%;
-            font-size: 50px;
-            text-align: center;
-            background: linear-gradient(135deg, #2575fc, #6a11cb);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .modal-content {
+            background: #1e1e1e;
+            padding: 30px;
             border-radius: 20px;
-            transition: none;
+            max-width: 600px;
+            width: 90%;
+            transform: scale(0.8);
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.5s ease;
         }
-        .fullscreen .back-button {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 10px 15px;
-            font-size: 30px;
-            border-radius: 0;
-            cursor: pointer;
-            transition: background 0.3s, transform 0.2s ease;
+        .modal.open .modal-content {
+            transform: scale(1);
+            opacity: 1;
         }
-        .fullscreen .back-button:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-        .fullscreen .back-button:active {
-            transform: scale(1.0);
-        }
-        .fullscreen .topic h1 {
-            font-size: 60px;
+        .modal-content h1 {
+            font-size: 36px;
             margin-bottom: 20px;
             color: white;
         }
-        .fullscreen .topic h2 {
-            font-size: 30px;
+        .modal-content p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #ccc;
+        }
+        .modal-content button {
+            background: #2575fc;
+            border: none;
             color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
             margin-top: 20px;
+            transition: background 0.3s ease;
+        }
+        .modal-content button:hover {
+            background: #6a11cb;
         }
         .not-found {
             text-align: center;
             font-size: 24px;
             margin-top: 50px;
             display: none;
-        }
-        .search-container input:hover {
-            background: none;
-        }
-        .header:hover, .clock:hover, .topic:hover, .back-button:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: scale(1.05);
-            filter: brightness(1.2);
-        }
-        .topic:hover {
-            transform: scale(1.05) rotateY(5deg) rotateX(5deg);
         }
         @keyframes fadeIn {
             0% { opacity: 0; }
@@ -206,96 +192,22 @@
     <div class="clock" id="clock">00:00:00</div>
     <div class="container" id="topics"></div>
     <div class="not-found" id="notFound">Topic not found</div>
-    <div class="fullscreen" id="fullscreen">
-        <button class="back-button" onclick="closeFullscreen()">←</button>
-        <div class="topic">
-            <h1 id="fullscreenTitle"></h1>
-            <h2 id="fullscreenContent"></h2>
+
+    <!-- Modal for Topic Details -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h1 id="modalTitle"></h1>
+            <p id="modalDescription"></p>
+            <button onclick="closeModal()">Close</button>
         </div>
     </div>
 
     <script>
         const topicsList = [
-            { name: "Programming", emoji: "💻" },
-            { name: "Web Development", emoji: "🌐" },
-            { name: "Artificial Intelligence", emoji: "🤖" },
-            { name: "Machine Learning", emoji: "📊" },
-            { name: "Cybersecurity", emoji: "🔒" },
-            { name: "Databases", emoji: "💾" },
-            { name: "Cloud Computing", emoji: "☁️" },
-            { name: "Software Development", emoji: "🖥️" },
-            { name: "Computer Hardware", emoji: "🔧" },
-            { name: "Networking", emoji: "🌐" },
-            { name: "Operating Systems", emoji: "💻" },
-            { name: "Automation", emoji: "🤖" },
-            { name: "Open-Source Software", emoji: "🔓" },
-            { name: "IT Support", emoji: "🛠️" },
-            { name: "Data Science", emoji: "📊" },
-            { name: "Game Development", emoji: "🎮" },
-            { name: "Mobile Development", emoji: "📱" },
-            { name: "Cloud Architecture", emoji: "🗺️" },
-            { name: "Blockchain", emoji: "🔗" },
-            { name: "Digital Marketing", emoji: "📢" },
-            { name: "UI/UX Design", emoji: "🎨" },
-            { name: "Data Analysis", emoji: "📈" },
-            { name: "Project Management", emoji: "📅" },
-            { name: "Agile Methodology", emoji: "🏃‍♂️" },
-            { name: "DevOps", emoji: "⚙️" },
-            { name: "Game Design", emoji: "🎮" },
-            { name: "Machine Vision", emoji: "👁️" },
-            { name: "Big Data", emoji: "📊" },
-            { name: "Quantum Computing", emoji: "⚛️" },
-            { name: "Digital Twins", emoji: "🛸" },
-            { name: "Robotics", emoji: "🤖" },
-            { name: "Embedded Systems", emoji: "🔌" },
-            { name: "Cloud Security", emoji: "🔐" },
-            { name: "Data Encryption", emoji: "🔑" },
-            { name: "AI Ethics", emoji: "⚖️" },
-            { name: "VR/AR", emoji: "🕶️" },
-            { name: "E-commerce", emoji: "🛒" },
-            { name: "SEO", emoji: "🔍" },
-            { name: "IT Infrastructure", emoji: "🏗️" },
-            { name: "Privacy", emoji: "🔒" },
-            { name: "System Administration", emoji: "🖥️" },
-            { name: "Digital Transformation", emoji: "🔄" },
-            { name: "Chatbots", emoji: "💬" },
-            { name: "Data Visualization", emoji: "📊" },
-            { name: "Machine Learning Algorithms", emoji: "🔢" },
-            { name: "Web Scraping", emoji: "🕷️" },
-            { name: "IoT", emoji: "🌐" },
-            { name: "Natural Language Processing", emoji: "🗣️" },
-            { name: "API Development", emoji: "🖧" },
-            { name: "Video Editing", emoji: "🎬" },
-            { name: "Animation", emoji: "🎨" },
-            { name: "3D Modeling", emoji: "🖼️" },
-            { name: "Computer Vision", emoji: "🖥️" },
-            { name: "Smart Homes", emoji: "🏠" },
-            { name: "Smart Cities", emoji: "🏙️" },
-            { name: "Networking Protocols", emoji: "🌍" },
-            { name: "Cryptocurrency", emoji: "💰" },
-            { name: "Tech Support", emoji: "🛠️" },
-            { name: "Privacy Laws", emoji: "📜" },
-            { name: "Technology Trends", emoji: "🔮" },
-            { name: "Tech Entrepreneurship", emoji: "🚀" },
-            { name: "Data Mining", emoji: "⛏️" },
-            { name: "Smart Devices", emoji: "📱" },
-            { name: "Technology and Society", emoji: "🌍" },
-            { name: "Remote Work", emoji: "💻" },
-            { name: "Telemedicine", emoji: "💉" },
-            { name: "Gaming Hardware", emoji: "🖱️" },
-            { name: "Digital Art", emoji: "🎨" },
-            { name: "Tech Careers", emoji: "💼" },
-            { name: "Tech Innovation", emoji: "💡" },
-            { name: "Wearable Technology", emoji: "⌚" },
-            { name: "Holography", emoji: "🖼️" },
-            { name: "Sustainable Tech", emoji: "🌱" },
-            { name: "Artificial General Intelligence", emoji: "🤖" },
-            { name: "Edge Computing", emoji: "🖥️" },
-            { name: "Tech Startups", emoji: "🚀" },
-            { name: "Digital Content Creation", emoji: "📸" },
-            { name: "Game Streaming", emoji: "🎮" },
-            { name: "Augmented Reality", emoji: "🕶️" },
-            { name: "Biotechnology", emoji: "🧬" }
+            { name: "Programming", emoji: "💻", description: "Programming is the process of writing instructions for computers to execute. It involves problem-solving, logic, and creativity." },
+            { name: "Web Development", emoji: "🌐", description: "Web development involves building and maintaining websites. It includes front-end (client-side) and back-end (server-side) development." },
+            { name: "Artificial Intelligence", emoji: "🤖", description: "AI is the simulation of human intelligence in machines. It includes machine learning, natural language processing, and robotics." },
+            // Add more topics with descriptions here
         ];
 
         function displayTopics() {
@@ -316,20 +228,24 @@
                             <div class="emoji">${topic.emoji}</div>
                             ${topic.name}
                         </div>`;
-                    topicElement.addEventListener('click', () => openFullscreen(topic));
+                    topicElement.addEventListener('click', () => openModal(topic));
                     topicsContainer.appendChild(topicElement);
                 });
             }
         }
 
-        function openFullscreen(topic) {
-            document.getElementById('fullscreen').classList.add('show');
-            document.getElementById('fullscreenTitle').textContent = topic.name;
-            document.getElementById('fullscreenContent').textContent = "Detailed information about " + topic.name;
+        function openModal(topic) {
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDescription = document.getElementById('modalDescription');
+            modalTitle.textContent = topic.name;
+            modalDescription.textContent = topic.description;
+            modal.classList.add('open');
         }
 
-        function closeFullscreen() {
-            document.getElementById('fullscreen').classList.remove('show');
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.remove('open');
         }
 
         function updateClock() {
