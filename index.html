@@ -156,6 +156,12 @@
             margin-top: 50px;
             display: none;
         }
+        /* Hover Effects for All */
+        .header:hover, .clock:hover, .topic:hover, .back-button:hover, .search-container input:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+            filter: brightness(1.2);
+        }
         @keyframes fadeIn {
             0% { opacity: 0; }
             100% { opacity: 1; }
@@ -207,11 +213,11 @@
             topicsContainer.appendChild(topicDiv);
         });
 
-        function openFullscreen(topicName) {
+        function openFullscreen(topic) {
             fullscreenContainer.classList.add("show");
-            fullscreenTitle.textContent = topicName;
-            fullscreenContent.textContent = "Details about " + topicName; // Placeholder content
             document.body.style.pointerEvents = "none"; // Disable interaction with background
+            fullscreenTitle.textContent = topic;
+            fullscreenContent.textContent = "Details about " + topic + " go here...";
         }
 
         function closeFullscreen() {
@@ -219,7 +225,6 @@
             document.body.style.pointerEvents = "auto"; // Enable interaction with background
         }
 
-        // Search functionality
         const searchInput = document.getElementById("searchInput");
 
         searchInput.addEventListener("input", () => {
@@ -242,7 +247,6 @@
             }
         });
 
-        // Clock update
         setInterval(() => {
             let date = new Date();
             document.getElementById("clock").textContent = date.toLocaleTimeString();
