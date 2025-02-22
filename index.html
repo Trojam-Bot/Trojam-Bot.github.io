@@ -34,9 +34,10 @@
             transform: scale(1.05);
             background: rgba(255, 255, 255, 0.2);
         }
+        /* Fixierte Suchleiste */
         .search-container {
             position: fixed;
-            top: 20px;
+            top: 10px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 1000;
@@ -44,6 +45,10 @@
             align-items: center;
             gap: 10px;
             width: 60%;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
         }
         .search-bar {
             background-color: rgba(255, 255, 255, 0.1);
@@ -54,7 +59,6 @@
             width: 100%;
             border: none;
             height: 40px;
-            transition: width 0.3s ease;
         }
         .search-bar::placeholder {
             color: #bbb;
@@ -65,13 +69,12 @@
             padding: 10px;
             border-radius: 50%;
             background-color: rgba(255, 255, 255, 0.2);
-            transition: transform 0.3s ease;
         }
         .search-container .search-icon:hover {
             transform: scale(1.1);
         }
         .container {
-            margin-top: 80px;
+            margin-top: 100px;
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 15px;
@@ -102,6 +105,12 @@
             transform: translateY(2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
+        .no-results {
+            text-align: center;
+            font-size: 24px;
+            color: white;
+            margin-top: 50px;
+        }
         @keyframes blink {
             0% { opacity: 1; }
             50% { opacity: 0; }
@@ -112,7 +121,7 @@
 <body>
     <div class="header" onclick="window.location.reload()">Learning-Project</div>
     <div class="search-container">
-        <input class="search-bar" id="search-input" type="text" placeholder="Suche ein Thema..." onkeyup="searchTopics(event)">
+        <input class="search-bar" id="search-input" type="text" placeholder="Suche ein Thema..." oninput="searchTopics(event)">
         <div class="search-icon">
             🔍
         </div>
@@ -120,6 +129,10 @@
     <div class="container" id="topics">
         <!-- 70 Themen generieren -->
     </div>
+    <div id="no-results" class="no-results" style="display: none;">
+        Kein Thema gefunden!
+    </div>
+
     <script>
         // Themen erstellen
         const topicsContainer = document.getElementById('topics');
@@ -131,15 +144,27 @@
             topicsContainer.appendChild(topic);
         }
 
-        // Suchfunktion und Scrollen zum Thema
+        // Suchfunktion
         function searchTopics(event) {
             const query = event.target.value.toLowerCase();
             const topic = document.querySelector(`#topic-${query}`);
-            if (topic) {
-                // Zum Thema scrollen und es blinkt 5 mal
-                topic.scrollIntoView({ behavior: 'smooth' });
-                topic.classList.add('blink');
-                setTimeout(() => topic.classList.remove('blink'), 5000);
+            const noResults = document.getElementById('no-results');
+
+            // Alle Themen zurücksetzen
+            document.querySelectorAll('.topic').forEach(item => item.style.display = 'block');
+            noResults.style.display = 'none';
+
+            if (query) {
+                // Suche nach Thema
+                if (topic) {
+                    topic.scrollIntoView({ behavior: 'smooth' });
+                    topic.classList.add('blink');
+                    setTimeout(() => topic.classList.remove('blink'), 5000);
+                } else {
+                    // Kein Ergebnis gefunden
+                    document.querySelectorAll('.topic').forEach(item => item.style.display = 'none');
+                    noResults.style.display = 'block';
+                }
             }
         }
     </script>
