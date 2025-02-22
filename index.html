@@ -1,234 +1,101 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learning Project</title>
+    <title>Learning-Project</title>
     <style>
-        /* 🌑 Grundstil */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #121212;
-            color: white;
             margin: 0;
-            padding: 0;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            overflow-x: hidden;
-        }
-
-        /* 🌞 Hellmodus */
-        body.light-mode {
-            background-color: #f5f5f5;
-            color: black;
-        }
-
-        /* 🟦 Header Box */
-        .header-box {
-            background: #00d1ff;
-            padding: 20px;
-            text-align: center;
+            font-family: Arial, sans-serif;
+            background: #0f0f0f;
             color: white;
-            font-size: 2rem;
-            font-weight: bold;
-            border-radius: 20px;
-            margin: 20px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
+            overflow: hidden;
         }
-
-        /* 🌙 Dark/Light Mode Umschalter */
-        #modeToggle {
+        .header {
             position: fixed;
-            top: 20px;
-            left: 20px;
-            font-size: 2rem;
-            background: transparent;
-            border: none;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .theme-toggle {
+            font-size: 24px;
             cursor: pointer;
+            transition: transform 0.3s;
         }
-
-        /* ✨ Hover-Effekt für Header */
-        .header-box:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(0, 209, 255, 0.7);
+        .theme-toggle:hover {
+            transform: rotate(20deg);
         }
-
-        /* 🌐 Themen Boxen nebeneinander */
-        .topics-container {
+        .content {
             display: flex;
             justify-content: center;
+            align-items: center;
+            height: 100vh;
             gap: 20px;
-            margin-top: 30px;
         }
-
         .topic {
-            background: linear-gradient(45deg, #ff66cc, #9933ff, #3399ff);
-            color: white;
-            padding: 20px;
-            text-align: center;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, blue, purple, pink);
             border-radius: 15px;
-            font-size: 1.5rem;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            width: 200px;
-            height: 200px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-
-        /* 🌈 Slime Hover-Effekt */
         .topic:hover {
-            animation: slimeEffect 0.8s ease-in-out;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
         }
-
-        @keyframes slimeEffect {
-            0% {
-                transform: scale(1);
-                box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
-            }
-            50% {
-                transform: scale(1.1);
-                box-shadow: 0 0 40px rgba(255, 255, 255, 0.6);
-            }
-            100% {
-                transform: scale(1);
-                box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
-            }
-        }
-
-        /* 🖱️ Thema Klick - Fullscreen Animation */
         .fullscreen {
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #ff66cc, #9933ff, #3399ff);
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 9999;
-            border-radius: 0;
-            transform: scale(1);
-            transition: all 0.5s ease;
+            font-size: 32px;
+            font-weight: bold;
+            display: none;
+            z-index: 999;
         }
-
-        .fullscreen .topic-content {
-            font-size: 2rem;
-            color: white;
-        }
-
-        /* 🏠 Button für Refresh (Learning Project) */
-        .header-box {
-            cursor: pointer;
-        }
-
-        /* 🌞 Sonnen-Mond Modus */
-        #modeToggle {
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        #modeToggle.sun {
-            transform: rotate(360deg);
-        }
-
     </style>
 </head>
 <body>
-
-    <!-- 🌙 Mode Umschalten Button -->
-    <button id="modeToggle">🌙</button>
-
-    <!-- 🟦 Header Box -->
-    <div class="header-box" onclick="window.location.reload()">
-        Learning Project
+    <div class="header">
+        <div class="title">Learning-Project</div>
+        <div class="theme-toggle">🌙</div>
     </div>
-
-    <!-- 🌐 Themen Boxen -->
-    <div class="topics-container">
-        <div class="topic" onclick="openTopic('tech')">
-            <span>🌐 Technology & Programming</span>
-        </div>
-        <div class="topic" onclick="openTopic('science')">
-            <span>📚 Science & Education</span>
-        </div>
-        <div class="topic" onclick="openTopic('design')">
-            <span>🎨 Creativity & Design</span>
-        </div>
-        <div class="topic" onclick="openTopic('growth')">
-            <span>💡 Personal Growth & Everyday Skills</span>
-        </div>
+    <div class="content">
+        <div class="topic" onclick="openFullscreen(this)">Thema 1</div>
+        <div class="topic" onclick="openFullscreen(this)">Thema 2</div>
+        <div class="topic" onclick="openFullscreen(this)">Thema 3</div>
     </div>
-
-    <!-- 🖱️ Thema Fullscreen -->
-    <div id="fullscreen" class="fullscreen" style="display:none;">
-        <div class="topic-content" id="topicContent">
-            <!-- Sub-Themen erscheinen hier -->
-        </div>
-    </div>
-
+    <div class="fullscreen" id="fullscreen" onclick="closeFullscreen()">Fullscreen Thema</div>
     <script>
-        // 🌙/🌞 Dark/Light Mode Umschalter
-        const modeToggle = document.getElementById("modeToggle");
-        modeToggle.addEventListener("click", () => {
-            document.body.classList.toggle("light-mode");
-            modeToggle.textContent = document.body.classList.contains("light-mode") ? "🌞" : "🌙";
-            modeToggle.classList.toggle("sun");
-        });
-
-        // 🖱️ Fullscreen und Thema Inhalt
-        function openTopic(topic) {
-            const fullscreen = document.getElementById('fullscreen');
-            const topicContent = document.getElementById('topicContent');
-
-            let content = '';
-            if (topic === 'tech') {
-                content = `
-                    <h2>Technology & Programming</h2>
-                    <ul>
-                        <li>Web Development (HTML, CSS, JavaScript)</li>
-                        <li>App Development (Android, iOS, Flutter)</li>
-                        <li>AI & Machine Learning</li>
-                        <li>Cybersecurity & Ethical Hacking</li>
-                        <li>Data Analysis with Python or Excel</li>
-                    </ul>`;
-            } else if (topic === 'science') {
-                content = `
-                    <h2>Science & Education</h2>
-                    <ul>
-                        <li>Astronomy and the Universe</li>
-                        <li>Biology: How the Human Body Works</li>
-                        <li>Physics: From Motion to Quantum Mechanics</li>
-                        <li>Chemistry: Understanding Reactions</li>
-                        <li>Math: From Basics to Algebra</li>
-                    </ul>`;
-            } else if (topic === 'design') {
-                content = `
-                    <h2>Creativity & Design</h2>
-                    <ul>
-                        <li>Graphic Design with Canva or Photoshop</li>
-                        <li>Video Editing (like with DaVinci Resolve)</li>
-                        <li>3D Modeling and Animation</li>
-                        <li>Writing and Storytelling</li>
-                    </ul>`;
-            } else if (topic === 'growth') {
-                content = `
-                    <h2>Personal Growth & Everyday Skills</h2>
-                    <ul>
-                        <li>Time Management & Productivity</li>
-                        <li>Financial Literacy & Investing</li>
-                        <li>Cooking & New Recipes</li>
-                        <li>Learning Languages</li>
-                    </ul>`;
-            }
-
-            topicContent.innerHTML = content;
-            fullscreen.style.display = 'flex';
+        function openFullscreen(element) {
+            document.getElementById('fullscreen').innerText = element.innerText;
+            document.getElementById('fullscreen').style.display = 'flex';
+        }
+        function closeFullscreen() {
+            document.getElementById('fullscreen').style.display = 'none';
         }
     </script>
-
 </body>
 </html>
