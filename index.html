@@ -81,6 +81,8 @@
             border-radius: 20px;
             font-size: 14px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
             transition: transform 0.3s, background 0.3s, box-shadow 0.3s, filter 0.3s ease;
             cursor: pointer;
             perspective: 1000px;
@@ -91,9 +93,6 @@
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
             filter: brightness(1.5);
         }
-        .topic:hover .topic-content {
-            transform: rotateY(15deg) rotateX(15deg);
-        }
         .topic .topic-content {
             display: flex;
             align-items: center;
@@ -101,6 +100,19 @@
             height: 100%;
             width: 100%;
             transition: transform 0.3s ease;
+        }
+        .topic .emoji {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            opacity: 0.1;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .topic:hover .emoji {
+            opacity: 0.3;
+            transform: translate(-50%, -50%) scale(1.1);
         }
         .fullscreen {
             position: fixed;
@@ -203,29 +215,48 @@
 
     <script>
         const topicsList = [
-            "Programming", "Web Development", "Artificial Intelligence", "Machine Learning", "Cybersecurity", "Databases", "Cloud Computing",
-            "Software Development", "Computer Hardware", "Networking", "Operating Systems", "Automation", "Open-Source Software", "IT Support", "Game Development",
-            "Physics", "Chemistry", "Biology", "Astronomy", "Mathematics", "Geology", "Environmental Science", "Medicine", "Psychology", "Robotics",
-            "Genetics", "Neuroscience", "Space Exploration", "Graphic Design", "Animation", "Photography", "Video Editing", "3D Modeling", "Music Production",
-            "Architecture", "UX/UI Design", "Fashion Design", "Street Art", "Typography", "Indie Games", "Game Engines", "Esports", "Speedrunning",
-            "Retro Gaming", "Storytelling in Games", "Level Design", "VR & AR", "Open-World Games", "Horror Games", "Sandbox Games",
-            "History of the Internet", "Ancient Civilizations", "World Wars", "Medieval Times", "Politics", "Economy", "Philosophy", "Learning Languages",
-            "World Cultures", "Mythology", "Fitness", "Nutrition", "Martial Arts", "Parkour", "Football", "Basketball", "Chess", "E-Sports & Gaming Fitness",
-            "Mental Health", "Self-Defense", "DIY Projects", "Minimalism"
+            { name: "Programming", emoji: "💻" },
+            { name: "Web Development", emoji: "🌐" },
+            { name: "Artificial Intelligence", emoji: "🤖" },
+            { name: "Machine Learning", emoji: "📊" },
+            { name: "Cybersecurity", emoji: "🔒" },
+            { name: "Databases", emoji: "💾" },
+            { name: "Cloud Computing", emoji: "☁️" },
+            { name: "Software Development", emoji: "🖥️" },
+            { name: "Computer Hardware", emoji: "🔧" },
+            { name: "Networking", emoji: "🌐" },
+            { name: "Operating Systems", emoji: "💻" },
+            { name: "Automation", emoji: "🤖" },
+            { name: "Open-Source Software", emoji: "🔓" },
+            { name: "IT Support", emoji: "🛠️" },
+            { name: "Data Science", emoji: "📊" },
+            { name: "Game Development", emoji: "🎮" },
+            { name: "Mobile Development", emoji: "📱" },
+            { name: "Cloud Architecture", emoji: "🗺️" },
+            { name: "Blockchain", emoji: "🔗" },
+            { name: "Digital Marketing", emoji: "📢" },
+            { name: "UI/UX Design", emoji: "🎨" },
+            { name: "Project Management", emoji: "📋" },
+            { name: "Data Visualization", emoji: "📊" },
+            { name: "Virtualization", emoji: "💻" },
+            { name: "3D Modeling", emoji: "🖼️" },
+            { name: "Cybersecurity", emoji: "🛡️" },
+            { name: "IoT", emoji: "📡" }
         ];
 
         let topicsContainer = document.getElementById("topics");
-        let notFoundMessage = document.getElementById("notFound");
         let fullscreenContainer = document.getElementById("fullscreen");
         let fullscreenTitle = document.getElementById("fullscreenTitle");
         let fullscreenContent = document.getElementById("fullscreenContent");
 
-        // Create topic boxes
         topicsList.forEach(topic => {
             let topicDiv = document.createElement("div");
             topicDiv.classList.add("topic");
-            topicDiv.textContent = topic;
-            topicDiv.onclick = function() { openFullscreen(topic); };
+            topicDiv.innerHTML = `
+                <span class="emoji">${topic.emoji}</span>
+                <div class="topic-content">${topic.name}</div>
+            `;
+            topicDiv.onclick = function() { openFullscreen(topic.name); };
             topicsContainer.appendChild(topicDiv);
         });
 
@@ -248,7 +279,7 @@
             let topicItems = document.querySelectorAll(".topic");
             let found = false;
             topicItems.forEach(item => {
-                if (item.textContent.toLowerCase() === searchText) {
+                if (item.textContent.toLowerCase().includes(searchText)) {
                     item.style.display = "block";
                     found = true;
                 } else {
@@ -257,9 +288,9 @@
             });
 
             if (!found && searchText !== "") {
-                notFoundMessage.style.display = "block";
+                document.getElementById("notFound").style.display = "block";
             } else {
-                notFoundMessage.style.display = "none";
+                document.getElementById("notFound").style.display = "none";
             }
         });
 
