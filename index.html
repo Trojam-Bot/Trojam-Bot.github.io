@@ -104,10 +104,12 @@
             justify-content: center;
             z-index: 9999;
             pointer-events: none;
+            animation: fadeIn 0.5s ease-out;
         }
         .fullscreen.show {
             display: flex;
             pointer-events: auto;
+            animation: fadeIn 0.5s ease-out;
         }
         .fullscreen .topic {
             width: 80%;
@@ -217,10 +219,10 @@
             let input = document.getElementById("searchInput").value.toLowerCase();
             let topics = document.querySelectorAll(".topic");
             let found = false;
-            topics.forEach((topic) => {
-                let topicName = topic.textContent.toLowerCase();
-                if (topicName.includes(input)) {
-                    topic.style.display = "flex";
+
+            topics.forEach(topic => {
+                if (topic.textContent.toLowerCase().includes(input)) {
+                    topic.style.display = "block";
                     found = true;
                 } else {
                     topic.style.display = "none";
