@@ -101,34 +101,40 @@
             display: none;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: center;
             z-index: 9999;
             animation: fadeIn 0.5s ease-in-out;
+            pointer-events: none;
+        }
+        .fullscreen.show {
+            display: flex;
+            pointer-events: auto;
         }
         .fullscreen .topic {
-            width: 90%;
-            height: 70%;
-            font-size: 40px;
+            width: 80%;
+            height: 90%;
+            font-size: 50px;
             text-align: center;
             background: linear-gradient(135deg, #2575fc, #6a11cb);
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 20px;
+            transition: none;
         }
         .fullscreen .topic h1 {
-            font-size: 50px;
+            font-size: 60px;
             margin-bottom: 20px;
         }
         .fullscreen .back-button {
             position: absolute;
             top: 20px;
-            left: 20px;
+            right: 20px;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             padding: 10px 15px;
-            font-size: 18px;
-            border-radius: 20px;
+            font-size: 30px;
+            border-radius: 50%;
             cursor: pointer;
             transition: background 0.3s, transform 0.2s;
         }
@@ -136,8 +142,14 @@
             background: rgba(255, 255, 255, 0.2);
             transform: scale(1.1);
         }
-        .fullscreen.show {
-            display: flex;
+        .fullscreen .back-button:active {
+            transform: scale(1.0);
+        }
+        .not-found {
+            text-align: center;
+            font-size: 24px;
+            margin-top: 50px;
+            display: none;
         }
         @keyframes fadeIn {
             0% { opacity: 0; }
@@ -149,12 +161,6 @@
         }
         .blink {
             animation: blink 1s ease-in-out 5;
-        }
-        .not-found {
-            text-align: center;
-            font-size: 24px;
-            margin-top: 50px;
-            display: none;
         }
     </style>
 </head>
@@ -168,7 +174,7 @@
     <div class="container" id="topics"></div>
     <div class="not-found" id="notFound">Topic not found</div>
     <div class="fullscreen" id="fullscreen">
-        <button class="back-button" onclick="closeFullscreen()">Back</button>
+        <button class="back-button" onclick="closeFullscreen()">❌</button>
         <div class="topic">
             <h1 id="fullscreenTitle"></h1>
             <p id="fullscreenContent"></p>
@@ -204,25 +210,30 @@
         });
 
         function openFullscreen(topicName) {
-            fullscreenTitle.textContent = topicName;
-            fullscreenContent.textContent = `Content of ${topicName} will go here.`;
             fullscreenContainer.classList.add("show");
+            fullscreenTitle.textContent = topicName;
+            fullscreenContent.textContent = "Details about " + topicName; // Placeholder content
+            document.body.style.pointerEvents = "none"; // Disable interaction with background
         }
 
         function closeFullscreen() {
             fullscreenContainer.classList.remove("show");
+            document.body.style.pointerEvents = "auto"; // Re-enable background interaction
         }
 
         function searchTopic() {
             let input = document.getElementById("searchInput").value.toLowerCase();
+            let topics = document.querySelectorAll(".topic");
             let found = false;
-
-            document.querySelectorAll(".topic").forEach(topic => {
-                if (topic.textContent.toLowerCase() === input) {
+            topics.forEach((topic) => {
+                let topicName = topic.textContent.toLowerCase();
+                if (topicName.includes(input)) {
+                    topic.style.display = "flex";
+                    if (input.length > 0) {
+                        topic.classList.add("blink");
+                        setTimeout(() => topic.classList.remove("blink"), 2000);
+                    }
                     found = true;
-                    topic.scrollIntoView({ behavior: "smooth", block: "center" });
-                    topic.classList.add("blink");
-                    setTimeout(() => topic.classList.remove("blink"), 2000);
                 } else {
                     topic.style.display = "none";
                 }
