@@ -13,7 +13,7 @@
             margin: 0;
             padding: 0;
             overflow-x: hidden;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         
         h1, h2, h3 {
@@ -69,6 +69,26 @@
             font-size: 1.1rem;
             margin: 8px 0;
             padding-left: 10px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        li:hover {
+            color: #1DB954;
+            transform: translateX(10px);
+            cursor: pointer;
+        }
+
+        li.small-theme {
+            color: inherit; /* Farbe folgt dem Modus */
+            cursor: pointer;
+        }
+
+        li.small-theme:hover {
+            transform: scale(1.05);
+        }
+
+        li.small-theme:hover {
+            color: #fff;
         }
 
         /* Summary Table */
@@ -101,16 +121,7 @@
             background-color: #333;
         }
 
-        /* Footer */
-        footer {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 20px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
+        /* Footer entfernt */
 
         /* Button */
         .mode-toggle-btn {
@@ -149,6 +160,45 @@
                 opacity: 1;
             }
         }
+
+        /* Light Mode */
+        body.light-mode {
+            background-color: #fff;
+            color: #000;
+        }
+
+        body.light-mode h1, 
+        body.light-mode h2, 
+        body.light-mode h3 {
+            color: #1DB954;
+        }
+
+        body.light-mode li {
+            color: #000;
+        }
+
+        body.light-mode .summary {
+            background-color: #f4f4f4;
+            color: #000;
+        }
+
+        body.light-mode table {
+            background-color: #f4f4f4;
+        }
+
+        body.light-mode th {
+            background-color: #1DB954;
+        }
+
+        body.light-mode td {
+            background-color: #fff;
+            color: #000;
+        }
+
+        body.light-mode .mode-toggle-btn {
+            background-color: #555;
+        }
+
     </style>
 </head>
 <body>
@@ -164,36 +214,36 @@
 
         <h2>Technology & Programming 🌐</h2>
         <ul>
-            <li><h3>Web Development (HTML, CSS, JavaScript)</h3></li>
-            <li><h3>App Development (Android, iOS, Flutter)</h3></li>
-            <li><h3>Artificial Intelligence & Machine Learning</h3></li>
-            <li><h3>Cybersecurity & Ethical Hacking</h3></li>
-            <li><h3>Data Analysis with Python or Excel</h3></li>
+            <li><h3 class="small-theme">Web Development (HTML, CSS, JavaScript)</h3></li>
+            <li><h3 class="small-theme">App Development (Android, iOS, Flutter)</h3></li>
+            <li><h3 class="small-theme">Artificial Intelligence & Machine Learning</h3></li>
+            <li><h3 class="small-theme">Cybersecurity & Ethical Hacking</h3></li>
+            <li><h3 class="small-theme">Data Analysis with Python or Excel</h3></li>
         </ul>
 
         <h2>Science & Education 📚</h2>
         <ul>
-            <li><h3>Astronomy and the Universe</h3></li>
-            <li><h3>Biology: How the Human Body Works</h3></li>
-            <li><h3>Physics: From Motion to Quantum Mechanics</h3></li>
-            <li><h3>Chemistry: Understanding Reactions</h3></li>
-            <li><h3>Math: From Basics to Algebra</h3></li>
+            <li><h3 class="small-theme">Astronomy and the Universe</h3></li>
+            <li><h3 class="small-theme">Biology: How the Human Body Works</h3></li>
+            <li><h3 class="small-theme">Physics: From Motion to Quantum Mechanics</h3></li>
+            <li><h3 class="small-theme">Chemistry: Understanding Reactions</h3></li>
+            <li><h3 class="small-theme">Math: From Basics to Algebra</h3></li>
         </ul>
 
         <h2>Creativity & Design 🎨</h2>
         <ul>
-            <li><h3>Graphic Design with Canva or Photoshop</h3></li>
-            <li><h3>Video Editing (like with DaVinci Resolve 😉)</h3></li>
-            <li><h3>3D Modeling and Animation</h3></li>
-            <li><h3>Writing and Storytelling</h3></li>
+            <li><h3 class="small-theme">Graphic Design with Canva or Photoshop</h3></li>
+            <li><h3 class="small-theme">Video Editing (like with DaVinci Resolve 😉)</h3></li>
+            <li><h3 class="small-theme">3D Modeling and Animation</h3></li>
+            <li><h3 class="small-theme">Writing and Storytelling</h3></li>
         </ul>
 
         <h2>Personal Growth & Everyday Skills 💡</h2>
         <ul>
-            <li><h3>Time Management & Productivity</h3></li>
-            <li><h3>Financial Literacy & Investing</h3></li>
-            <li><h3>Cooking & New Recipes</h3></li>
-            <li><h3>Learning Languages (like the ones you’re already working on 😉)</h3></li>
+            <li><h3 class="small-theme">Time Management & Productivity</h3></li>
+            <li><h3 class="small-theme">Financial Literacy & Investing</h3></li>
+            <li><h3 class="small-theme">Cooking & New Recipes</h3></li>
+            <li><h3 class="small-theme">Learning Languages (like the ones you’re already working on 😉)</h3></li>
         </ul>
 
         <h2>Summary 📝</h2>
@@ -233,36 +283,10 @@
 
     <button class="mode-toggle-btn" onclick="toggleMode()">Toggle Dark/Light Mode</button>
 
-    <footer>
-        <!-- Footer is removed as requested -->
-    </footer>
-
     <script>
         function toggleMode() {
             const body = document.body;
-            const header = document.querySelector('header');
-            const button = document.querySelector('.mode-toggle-btn');
-            const table = document.querySelector('table');
-            const summary = document.querySelector('.summary');
-
             body.classList.toggle('light-mode');
-            header.classList.toggle('light-mode');
-            table.classList.toggle('light-mode');
-            summary.classList.toggle('light-mode');
-
-            if (body.classList.contains('light-mode')) {
-                body.style.backgroundColor = "#fff";
-                body.style.color = "#000";
-                header.style.backgroundColor = "#f4f4f4";
-                button.style.backgroundColor = "#555";
-                button.style.color = "#fff";
-            } else {
-                body.style.backgroundColor = "#121212";
-                body.style.color = "#fff";
-                header.style.backgroundColor = "#333";
-                button.style.backgroundColor = "#1DB954";
-                button.style.color = "#fff";
-            }
         }
     </script>
 
