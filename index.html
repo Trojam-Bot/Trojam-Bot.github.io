@@ -30,7 +30,7 @@
             background: transparent;
             border: none;
             cursor: pointer;
-            transition: transform 0.3s ease;
+            transition: transform 0.5s ease;
         }
 
         #modeToggle:hover {
@@ -51,6 +51,7 @@
             max-width: 800px;
             box-shadow: 0 0 30px rgba(0, 209, 255, 0.6);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            user-select: none; /* Verhindert das Umschalten des Cursors */
         }
 
         .header-box:hover {
@@ -58,10 +59,12 @@
             box-shadow: 0 0 50px rgba(0, 191, 255, 0.8);
         }
 
-        /* 🌐 Themen-Boxen */
+        /* 🌐 Themen-Boxen nebeneinander */
         .topic-container {
-            text-align: center;
+            display: flex;
+            justify-content: space-around;
             margin-top: 30px;
+            text-align: center;
         }
 
         .topic {
@@ -83,19 +86,7 @@
             background-color: #0088cc;
         }
 
-        /* Klick-Animation für Themen */
-        .topic.clicked {
-            animation: clickAnimation 0.5s ease-out;
-        }
-
-        @keyframes clickAnimation {
-            0% { transform: scale(1); }
-            20% { transform: scale(1.1); }
-            50% { transform: scale(1); }
-            100% { transform: scale(1); }
-        }
-
-        /* Blob-Animation für Subthemen */
+        /* Blob-/Slime-Animation für Subthemen */
         .subtopics {
             display: none;
             text-align: center;
@@ -138,12 +129,27 @@
             animation: shake 0.5s ease;
         }
 
+        /* Animation für Mond-Sonne Wechsel */
+        .mode-switch {
+            transition: transform 0.5s ease, filter 0.5s ease;
+        }
+
+        .mode-switch.sun {
+            transform: rotate(180deg);
+            filter: brightness(1.5);
+        }
+
+        .mode-switch.moon {
+            transform: rotate(0deg);
+            filter: brightness(0.5);
+        }
+
     </style>
 </head>
 <body>
 
 <!-- 🌙 Light-/Darkmode-Switch -->
-<button id="modeToggle">🌙</button>
+<button id="modeToggle" class="mode-switch moon">🌙</button>
 
 <!-- 🟦 Überschrift-Box -->
 <div class="header-box" data-scroll>
@@ -192,11 +198,9 @@
     const modeToggle = document.getElementById("modeToggle");
     modeToggle.addEventListener("click", () => {
         document.body.classList.toggle("light-mode");
+        modeToggle.classList.toggle("sun");
+        modeToggle.classList.toggle("moon");
         modeToggle.textContent = document.body.classList.contains("light-mode") ? "🌞" : "🌙";
-
-        // Rotation für Mond/Sonne
-        modeToggle.style.transition = "transform 0.3s ease";
-        modeToggle.style.transform = document.body.classList.contains("light-mode") ? "rotate(360deg)" : "rotate(-360deg)";
     });
 
     // 📜 Scroll-Effekte
@@ -226,14 +230,6 @@
         // Entfernen der Animation nach dem Klick
         setTimeout(() => topicDiv.classList.remove('clicked'), 500);
     }
-
-    // Wackel-Animation für Scrollen
-    window.addEventListener('scroll', () => {
-        const elements = document.querySelectorAll('.subtopics');
-        elements.forEach((el) => {
-            el.classList.add('shake');
-        });
-    });
 </script>
 
 </body>
