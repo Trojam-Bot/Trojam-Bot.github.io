@@ -15,6 +15,7 @@
             background-color: #121212;
             color: white;
             overflow-x: hidden;
+            position: relative;
         }
         .header, .clock {
             position: fixed;
@@ -68,8 +69,8 @@
         .container {
             margin-top: 80px;
             display: grid;
-            grid-template-columns: repeat(9, 1fr); /* 9 Themen pro Zeile */
-            gap: 10px 5px; /* Abstand: Oben/Unten bleibt, Links/Rechts wird kleiner */
+            grid-template-columns: repeat(9, 1fr);
+            gap: 10px 5px;
             justify-items: center;
         }
         .topic {
@@ -89,6 +90,38 @@
             transform: scale(1.08);
             background: linear-gradient(135deg, #ff6ec4, #7873f5);
             box-shadow: 0px 0px 15px rgba(255, 110, 196, 0.8);
+        }
+        .fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .fullscreen .topic {
+            width: 80%;
+            height: 80%;
+            font-size: 30px;
+            text-align: center;
+            background: linear-gradient(135deg, #2575fc, #6a11cb);
+        }
+        .fullscreen .topic h1 {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+        .fullscreen.show {
+            display: flex;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
         }
         @keyframes blink {
             0%, 100% { opacity: 1; }
@@ -114,6 +147,12 @@
     <div class="clock" id="clock">00:00:00</div>
     <div class="container" id="topics"></div>
     <div class="not-found" id="notFound">Topic not found</div>
+    <div class="fullscreen" id="fullscreen">
+        <div class="topic">
+            <h1 id="fullscreenTitle"></h1>
+            <p id="fullscreenContent"></p>
+        </div>
+    </div>
 
     <script>
         const topicsList = [
@@ -130,14 +169,28 @@
 
         let topicsContainer = document.getElementById("topics");
         let notFoundMessage = document.getElementById("notFound");
+        let fullscreenContainer = document.getElementById("fullscreen");
+        let fullscreenTitle = document.getElementById("fullscreenTitle");
+        let fullscreenContent = document.getElementById("fullscreenContent");
 
         topicsList.forEach((topic, index) => {
             let topicDiv = document.createElement("div");
             topicDiv.classList.add("topic");
             topicDiv.textContent = topic;
             topicDiv.setAttribute("data-index", index + 1);
+            topicDiv.addEventListener("click", () => openFullscreen(topic));
             topicsContainer.appendChild(topicDiv);
         });
+
+        function openFullscreen(topicName) {
+            fullscreenTitle.textContent = topicName;
+            fullscreenContent.textContent = `Content of ${topicName} will go here.`;
+            fullscreenContainer.classList.add("show");
+        }
+
+        function closeFullscreen() {
+            fullscreenContainer.classList.remove("show");
+        }
 
         function searchTopic() {
             let input = document.getElementById("searchInput").value.toLowerCase();
@@ -162,8 +215,9 @@
             let seconds = String(now.getSeconds()).padStart(2, '0');
             document.getElementById("clock").textContent = `${hours}:${minutes}:${seconds}`;
         }
+
         setInterval(updateClock, 1000);
-        updateClock(); 
+        updateClock();
 
         document.querySelector(".icon").addEventListener("click", searchTopic);
         document.getElementById("searchInput").addEventListener("keypress", function(event) {
