@@ -14,220 +14,153 @@
         body {
             background-color: #121212;
             color: white;
+            transition: background-color 0.5s, color 0.5s;
             overflow-x: hidden;
-            padding-top: 80px; /* Sicherstellen, dass der Header nicht überlappt */
-            scroll-behavior: smooth; /* Smooth scrolling */
         }
         .header {
             position: fixed;
             top: 10px;
-            left: 10px;
+            left: 50%;
+            transform: translateX(-50%);
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 50px;
             padding: 10px 20px;
-            font-size: 24px;
-            font-weight: bold;
-            cursor: pointer;
-            z-index: 1000;
-            transition: transform 0.3s;
-        }
-        .header:hover {
-            transform: scale(1.05);
-        }
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            padding: 20px;
-        }
-        .topic {
-            width: calc(100% / 7 - 15px); /* Breite für 7 Items in einer Zeile */
-            height: 120px;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-            border-radius: 20px;
-            font-size: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            transition: transform 0.3s ease, background 0.5s ease, box-shadow 0.3s ease, filter 0.3s ease;
-            cursor: pointer;
-            margin-bottom: 20px;
-            position: relative;
-            will-change: transform; /* Optimiert für Performance */
-            overflow: hidden; /* Verhindert das Herauskommen von Effekten */
+            font-size: 24px;
+            font-weight: bold;
+            z-index: 1000;
         }
-        .topic:hover {
-            transform: scale(1.1) translateY(-10px); /* Box kommt nach vorne */
-            background: linear-gradient(135deg, #ff6ec4, #7873f5);
-            box-shadow: 0 10px 30px rgba(255, 0, 255, 0.5); /* Glühender Schatten */
-            filter: brightness(1.2); /* Helligkeit erhöhen */
-        }
-        .topic::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, #ff6ec4, #7873f5);
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-        }
-        .topic:hover::after {
-            opacity: 0.3;
-        }
-
         .search-container {
             position: fixed;
             top: 10px;
             right: 10px;
-            z-index: 1001;
-            display: flex;
-            align-items: center;
-            transition: transform 0.3s ease;
+            z-index: 1000;
         }
-
         .search-icon {
             font-size: 30px;
             cursor: pointer;
+            transition: transform 0.3s ease;
             background-color: rgba(255, 255, 255, 0.1);
-            padding: 10px;
             border-radius: 50%;
-            transition: background-color 0.3s ease, transform 0.3s ease;
+            padding: 10px;
         }
-
         .search-icon:hover {
-            background-color: rgba(255, 255, 255, 0.3);
             transform: scale(1.1);
         }
-
         .search-bar {
             display: none;
-            margin-left: 10px;
-            padding: 8px;
-            font-size: 16px;
-            border-radius: 20px;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.1);
             border: none;
-            width: 200px;
-            background-color: #1e1e1e;
+            padding: 10px;
+            border-radius: 10px;
             color: white;
-            transition: width 0.3s ease, transform 0.3s ease;
+            font-size: 18px;
+            width: 200px;
+            transition: width 0.5s ease;
         }
-
-        .search-bar.active {
+        .search-bar.show {
             display: block;
             width: 250px;
-            transform: scaleY(1.2); /* Slime-Animation Effekt */
         }
-
-        .no-results {
-            color: red;
-            text-align: center;
-            font-size: 40px;
-            margin-top: 20px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        .container {
+            margin-top: 80px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            transition: transform 0.3s ease;
         }
-
-        .search-bar:focus {
-            outline: none;
+        .topic {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            padding: 20px;
+            margin: 10px;
+            border-radius: 15px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background 0.5s ease;
+            width: 140px;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-
+        .topic:hover {
+            transform: scale(1.1);
+            background: linear-gradient(135deg, #ff6ec4, #7873f5);
+        }
+        .topic.blink {
+            animation: blink 1s ease-in-out 5;
+        }
         @keyframes blink {
             0% { opacity: 1; }
-            50% { opacity: 0.5; }
+            50% { opacity: 0; }
             100% { opacity: 1; }
         }
-        .blink {
-            animation: blink 1s 5; /* Blinken 5 mal */
+        @keyframes slimeScroll {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(5px); }
         }
     </style>
 </head>
 <body>
-    <div class="header" onclick="location.reload()">Learning-Project</div>
+    <div class="header">Learning-Project</div>
     <div class="search-container">
-        <div class="search-icon" onclick="toggleSearch()">🔍</div>
-        <input type="text" class="search-bar" id="searchBar" placeholder="Suche Themen..." oninput="searchTopics()" onkeydown="checkEnter(event)">
+        <div class="search-icon" onclick="toggleSearch()">
+            🔍
+        </div>
+        <input class="search-bar" id="search-input" type="text" placeholder="Suche ein Thema..." onkeyup="searchTopics(event)">
     </div>
     <div class="container" id="topics">
         <!-- 70 Themen generieren -->
     </div>
-
     <script>
-        // Themen hinzufügen
-        let topicsContainer = document.getElementById('topics');
-        let topics = [];
+        // Themen erstellen
+        const topicsContainer = document.getElementById('topics');
         for (let i = 1; i <= 70; i++) {
-            let topic = "Thema " + i;
-            topics.push(topic);
-            let topicElement = document.createElement('div');
-            topicElement.classList.add('topic');
-            topicElement.textContent = topic;
-            topicsContainer.appendChild(topicElement);
+            const topic = document.createElement('div');
+            topic.classList.add('topic');
+            topic.textContent = `Thema ${i}`;
+            topic.id = `topic-${i}`;
+            topicsContainer.appendChild(topic);
         }
 
-        // Suchleiste anzeigen/verstecken
+        // Suchleiste toggle
         function toggleSearch() {
-            let searchBar = document.getElementById('searchBar');
-            searchBar.classList.toggle('active');
-        }
-
-        // Themen suchen
-        function searchTopics() {
-            let searchQuery = document.getElementById('searchBar').value.toLowerCase();
-            let topicElements = document.querySelectorAll('.topic');
-            let noResults = true;
-
-            topicElements.forEach((topic, index) => {
-                if (topics[index].toLowerCase().includes(searchQuery)) {
-                    topic.style.display = 'block'; // Zeige Thema an
-                    noResults = false;
-                } else {
-                    topic.style.display = 'none'; // Verstecke Thema
-                }
-            });
-
-            // Keine Suchergebnisse gefunden
-            let noResultsElement = document.querySelector('.no-results');
-            if (noResults && searchQuery) {
-                if (!noResultsElement) {
-                    let message = document.createElement('div');
-                    message.classList.add('no-results');
-                    message.textContent = "Nicht gefunden";
-                    topicsContainer.appendChild(message);
-                }
-            } else {
-                if (noResultsElement) {
-                    noResultsElement.remove();
-                }
+            const searchBar = document.getElementById('search-input');
+            searchBar.classList.toggle('show');
+            if (searchBar.classList.contains('show')) {
+                searchBar.focus();
             }
         }
 
-        // Enter drücken für Scrollen
-        function checkEnter(event) {
+        // Suchfunktion und Scrollen zum Thema
+        function searchTopics(event) {
             if (event.key === 'Enter') {
-                let searchQuery = document.getElementById('searchBar').value.toLowerCase();
-                let topicElements = document.querySelectorAll('.topic');
-                let targetTopic = null;
-
-                topicElements.forEach((topic, index) => {
-                    if (topics[index].toLowerCase().includes(searchQuery)) {
-                        targetTopic = topic;
-                    }
-                });
-
-                if (targetTopic) {
-                    targetTopic.scrollIntoView({ behavior: 'smooth' }); // Scrollt zu dem Thema
-                    targetTopic.classList.add('blink'); // Blinkt 5 mal
-                    setTimeout(() => targetTopic.classList.remove('blink'), 5000); // Blinken nach 5 Sekunden entfernen
+                const query = event.target.value.toLowerCase();
+                const topic = document.querySelector(`#${query}`);
+                if (topic) {
+                    // Zum Thema scrollen und es blinkt 5 mal
+                    topic.scrollIntoView({ behavior: 'smooth' });
+                    topic.classList.add('blink');
+                    setTimeout(() => topic.classList.remove('blink'), 5000);
+                } else {
+                    alert('Thema nicht gefunden');
                 }
             }
         }
+
+        // Scroll-Animationen wie bei macOS
+        window.addEventListener('scroll', () => {
+            const container = document.querySelector('.container');
+            container.style.transform = `translateY(${window.scrollY * 0.2}px)`;
+        });
     </script>
 </body>
 </html>
