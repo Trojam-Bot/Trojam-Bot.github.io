@@ -20,41 +20,41 @@
         .header {
             position: fixed;
             top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 10%;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 50px;
             padding: 10px 20px;
             display: flex;
             align-items: center;
-            justify-content: center;
             font-size: 24px;
             font-weight: bold;
             z-index: 1000;
+            cursor: pointer;
         }
         .mode-toggle {
             position: fixed;
             top: 10px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-50px);
+            right: 10%;
             font-size: 24px;
             cursor: pointer;
             transition: transform 0.3s;
         }
         .mode-toggle:hover {
-            transform: translateX(-50%) translateY(-50px) scale(1.1);
+            transform: scale(1.1);
         }
         .container {
             margin-top: 80px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            max-height: 80vh;
+            overflow-y: auto;
         }
         .topic {
             background: linear-gradient(135deg, #6a11cb, #2575fc);
             padding: 15px 30px;
-            margin: 10px;
+            margin: 10px 0;
             border-radius: 20px;
             font-size: 20px;
             transition: transform 0.2s, background 0.5s;
@@ -64,19 +64,18 @@
             transform: scale(1.05);
             background: linear-gradient(135deg, #ff6ec4, #7873f5);
         }
-        @keyframes scrollWobble {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(5px); }
-            100% { transform: translateY(0); }
+        @keyframes scrollEffect {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
-        .scroll-effect {
-            animation: scrollWobble 1s infinite ease-in-out;
+        .topic {
+            animation: scrollEffect 0.5s ease-in-out;
         }
     </style>
 </head>
 <body>
+    <div class="header" onclick="location.reload()">Learning-Project</div>
     <div class="mode-toggle" onclick="toggleMode()">🌙</div>
-    <div class="header">Learning-Project</div>
     <div class="container" id="topics">
         <!-- 40 Themen generieren -->
     </div>
@@ -94,10 +93,11 @@
                 toggle.textContent = "🌙";
             }
         }
+
         let topicsContainer = document.getElementById('topics');
         for (let i = 1; i <= 40; i++) {
             let topic = document.createElement('div');
-            topic.classList.add('topic', 'scroll-effect');
+            topic.classList.add('topic');
             topic.textContent = "Thema " + i;
             topicsContainer.appendChild(topic);
         }
