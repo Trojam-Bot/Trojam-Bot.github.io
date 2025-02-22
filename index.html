@@ -88,7 +88,7 @@
         .topic:hover {
             background: linear-gradient(135deg, #2575fc, #6a11cb);
             transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
             filter: brightness(1.2);
         }
         .topic:hover .topic-content {
@@ -220,6 +220,7 @@
         let fullscreenTitle = document.getElementById("fullscreenTitle");
         let fullscreenContent = document.getElementById("fullscreenContent");
 
+        // Create topic boxes
         topicsList.forEach(topic => {
             let topicDiv = document.createElement("div");
             topicDiv.classList.add("topic");
@@ -247,7 +248,7 @@
             let topicItems = document.querySelectorAll(".topic");
             let found = false;
             topicItems.forEach(item => {
-                if (item.textContent.toLowerCase().includes(searchText)) {
+                if (item.textContent.toLowerCase() === searchText) {
                     item.style.display = "block";
                     found = true;
                 } else {
