@@ -180,8 +180,12 @@
             margin-top: 50px;
             display: none;
         }
+        /* Removed hover effect from search bar */
+        .search-container input:hover {
+            background: none;
+        }
         /* Hover Effects for All */
-        .header:hover, .clock:hover, .topic:hover, .back-button:hover, .search-container input:hover {
+        .header:hover, .clock:hover, .topic:hover, .back-button:hover {
             background: rgba(255, 255, 255, 0.1);
             transform: scale(1.05);
             filter: brightness(1.2);
@@ -236,115 +240,93 @@
             { name: "Blockchain", emoji: "🔗" },
             { name: "Digital Marketing", emoji: "📢" },
             { name: "UI/UX Design", emoji: "🎨" },
-            { name: "Project Management", emoji: "📋" },
-            { name: "Data Visualization", emoji: "📊" },
-            { name: "Virtualization", emoji: "💻" },
-            { name: "3D Modeling", emoji: "🖼️" },
-            { name: "IoT", emoji: "📡" },
-            { name: "VR/AR", emoji: "🕶️" },
-            { name: "Game Design", emoji: "🎮" },
-            { name: "Software Testing", emoji: "🔍" },
+            { name: "Data Analysis", emoji: "📈" },
+            { name: "Project Management", emoji: "📅" },
+            { name: "Agile Methodology", emoji: "🏃‍♂️" },
             { name: "DevOps", emoji: "⚙️" },
-            { name: "Agile Methodology", emoji: "⚡" },
-            { name: "Product Management", emoji: "📦" },
-            { name: "Embedded Systems", emoji: "🖥️" },
-            { name: "Digital Transformation", emoji: "🔄" },
-            { name: "Robotics", emoji: "🤖" },
+            { name: "Game Design", emoji: "🎮" },
+            { name: "Machine Vision", emoji: "👁️" },
             { name: "Big Data", emoji: "📊" },
-            { name: "Business Intelligence", emoji: "📈" },
-            { name: "Quantum Computing", emoji: "🔮" },
-            { name: "Cryptocurrency", emoji: "💰" },
-            { name: "E-Commerce", emoji: "🛍️" },
-            { name: "SEO", emoji: "🔍" },
-            { name: "Data Engineering", emoji: "⚙️" },
-            { name: "Game Art", emoji: "🎨" },
+            { name: "Quantum Computing", emoji: "⚛️" },
+            { name: "Digital Twins", emoji: "🛸" },
+            { name: "Robotics", emoji: "🤖" },
+            { name: "Embedded Systems", emoji: "🔌" },
             { name: "Cloud Security", emoji: "🔐" },
-            { name: "IT Management", emoji: "📋" },
-            { name: "Smart Cities", emoji: "🏙️" },
-            { name: "Digital Innovation", emoji: "💡" },
-            { name: "Business Automation", emoji: "📦" },
-            { name: "Software Architecture", emoji: "🏛️" },
-            { name: "Virtual Reality", emoji: "🕶️" },
-            { name: "Data Privacy", emoji: "🔒" },
-            { name: "Smart Devices", emoji: "📱" },
-            { name: "E-Learning", emoji: "🎓" },
-            { name: "3D Animation", emoji: "🎬" },
-            { name: "Tech Startups", emoji: "🚀" },
-            { name: "Web Security", emoji: "🔐" },
+            { name: "Data Encryption", emoji: "🔑" },
             { name: "AI Ethics", emoji: "⚖️" },
-            { name: "Game Programming", emoji: "🎮" },
-            { name: "User Testing", emoji: "📝" },
-            { name: "SaaS", emoji: "💻" },
-            { name: "Mobile Apps", emoji: "📱" },
-            { name: "Data Storage", emoji: "💾" },
-            { name: "Big Data Analytics", emoji: "📊" },
-            { name: "Business Systems", emoji: "📉" },
-            { name: "Tech Support", emoji: "🛠️" },
-            { name: "IoT Development", emoji: "📡" },
-            { name: "Cloud Engineering", emoji: "☁️" },
+            { name: "VR/AR", emoji: "🕶️" },
+            { name: "E-commerce", emoji: "🛒" },
+            { name: "SEO", emoji: "🔍" },
             { name: "IT Infrastructure", emoji: "🏗️" },
-            { name: "Software Development Lifecycle", emoji: "🔄" },
+            { name: "Privacy", emoji: "🔒" },
+            { name: "System Administration", emoji: "🖥️" },
+            { name: "Digital Transformation", emoji: "🔄" },
+            { name: "Chatbots", emoji: "💬" },
+            { name: "Data Visualization", emoji: "📊" },
+            { name: "Machine Learning Algorithms", emoji: "🔢" },
+            { name: "Web Scraping", emoji: "🕷️" },
+            { name: "IoT", emoji: "🌐" },
+            { name: "Natural Language Processing", emoji: "🗣️" },
+            { name: "API Development", emoji: "🖧" },
+            { name: "Video Editing", emoji: "🎬" },
+            { name: "Animation", emoji: "🎨" },
+            { name: "3D Modeling", emoji: "🖼️" },
+            { name: "Computer Vision", emoji: "🖥️" },
+            { name: "Smart Homes", emoji: "🏠" },
+            { name: "Smart Cities", emoji: "🏙️" },
+            { name: "Networking Protocols", emoji: "🌍" },
+            { name: "Cryptocurrency", emoji: "💰" },
+            { name: "Tech Support", emoji: "🛠️" },
+            { name: "Privacy Laws", emoji: "📜" },
+            { name: "Technology Trends", emoji: "🔮" },
+            { name: "Tech Entrepreneurship", emoji: "🚀" },
+            { name: "Data Mining", emoji: "⛏️" },
+            { name: "Smart Devices", emoji: "📱" },
+            { name: "Technology and Society", emoji: "🌍" },
+            { name: "Remote Work", emoji: "💻" },
+            { name: "Telemedicine", emoji: "💉" },
+            { name: "Gaming Hardware", emoji: "🖱️" },
+            { name: "Digital Art", emoji: "🎨" },
             { name: "Tech Careers", emoji: "💼" },
-            { name: "Tech Events", emoji: "🎤" },
-            { name: "Tech Podcasts", emoji: "🎧" },
-            { name: "Technology News", emoji: "📰" },
-            { name: "App Development", emoji: "📱" }
+            { name: "Tech Innovation", emoji: "💡" },
+            { name: "Wearable Technology", emoji: "⌚" },
+            { name: "Holography", emoji: "🖼️" },
+            { name: "Sustainable Tech", emoji: "🌱" },
+            { name: "Artificial General Intelligence", emoji: "🤖" },
+            { name: "Edge Computing", emoji: "🖥️" },
+            { name: "Tech Startups", emoji: "🚀" },
+            { name: "Digital Content Creation", emoji: "📸" },
+            { name: "Game Streaming", emoji: "🎮" },
+            { name: "Augmented Reality", emoji: "🕶️" },
+            { name: "Biotechnology", emoji: "🧬" }
         ];
 
-        let topicsContainer = document.getElementById("topics");
-        let fullscreenContainer = document.getElementById("fullscreen");
-        let fullscreenTitle = document.getElementById("fullscreenTitle");
-        let fullscreenContent = document.getElementById("fullscreenContent");
-
-        topicsList.forEach(topic => {
-            let topicDiv = document.createElement("div");
-            topicDiv.classList.add("topic");
-            topicDiv.innerHTML = `
-                <span class="emoji">${topic.emoji}</span>
-                <div class="topic-content">${topic.name}</div>
-            `;
-            topicDiv.onclick = function() { openFullscreen(topic.name); };
-            topicsContainer.appendChild(topicDiv);
-        });
+        function displayTopics() {
+            const topicsContainer = document.getElementById('topics');
+            topicsContainer.innerHTML = "";
+            topicsList.forEach(topic => {
+                const topicElement = document.createElement('div');
+                topicElement.classList.add('topic');
+                topicElement.innerHTML = `<div class="topic-content">
+                        <div class="emoji">${topic.emoji}</div>
+                        ${topic.name}
+                    </div>`;
+                topicElement.addEventListener('click', () => openFullscreen(topic));
+                topicsContainer.appendChild(topicElement);
+            });
+        }
 
         function openFullscreen(topic) {
-            fullscreenContainer.classList.add("show");
-            document.body.style.pointerEvents = "none"; // Disable interaction with background
-            fullscreenTitle.textContent = topic;
-            fullscreenContent.textContent = "Details about " + topic + " go here...";
+            document.getElementById('fullscreen').classList.add('show');
+            document.getElementById('fullscreenTitle').textContent = topic.name;
+            document.getElementById('fullscreenContent').textContent = "Detailed information about " + topic.name;
         }
 
         function closeFullscreen() {
-            fullscreenContainer.classList.remove("show");
-            document.body.style.pointerEvents = "auto"; // Enable interaction with background
+            document.getElementById('fullscreen').classList.remove('show');
         }
 
-        const searchInput = document.getElementById("searchInput");
-
-        searchInput.addEventListener("input", () => {
-            let searchText = searchInput.value.toLowerCase();
-            let topicItems = document.querySelectorAll(".topic");
-            let found = false;
-            topicItems.forEach(item => {
-                if (item.textContent.toLowerCase().includes(searchText)) {
-                    item.style.display = "block";
-                    found = true;
-                } else {
-                    item.style.display = "none";
-                }
-            });
-
-            if (!found && searchText !== "") {
-                document.getElementById("notFound").style.display = "block";
-            } else {
-                document.getElementById("notFound").style.display = "none";
-            }
-        });
-
-        setInterval(() => {
-            let date = new Date();
-            document.getElementById("clock").textContent = date.toLocaleTimeString();
-        }, 1000);
+        displayTopics();
     </script>
 </body>
 </html>
