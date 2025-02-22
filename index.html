@@ -20,28 +20,31 @@
         .header {
             position: fixed;
             top: 10px;
-            left: 10%;
+            left: 10px;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 50px;
             padding: 10px 20px;
-            display: flex;
-            align-items: center;
             font-size: 24px;
             font-weight: bold;
-            z-index: 1000;
             cursor: pointer;
+            z-index: 1000;
         }
         .mode-toggle {
             position: fixed;
             top: 10px;
-            right: 10%;
-            font-size: 24px;
+            right: 10px;
+            font-size: 30px;
             cursor: pointer;
-            transition: transform 0.3s;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            padding: 10px;
+            transition: transform 0.3s, background 0.3s;
+            z-index: 1001;
         }
         .mode-toggle:hover {
             transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.3);
         }
         .container {
             margin-top: 80px;
@@ -50,26 +53,53 @@
             align-items: center;
             max-height: 80vh;
             overflow-y: auto;
+            padding-bottom: 20px;
         }
         .topic {
             background: linear-gradient(135deg, #6a11cb, #2575fc);
             padding: 15px 30px;
             margin: 10px 0;
-            border-radius: 20px;
+            border-radius: 30px;
             font-size: 20px;
-            transition: transform 0.2s, background 0.5s;
+            transition: transform 0.2s, background 0.5s, box-shadow 0.3s;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
         .topic:hover {
             transform: scale(1.05);
             background: linear-gradient(135deg, #ff6ec4, #7873f5);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+        }
+        .topic::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #ff6ec4, #7873f5);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .topic:hover::after {
+            opacity: 0.2;
         }
         @keyframes scrollEffect {
             0% { opacity: 0; transform: translateY(20px); }
             100% { opacity: 1; transform: translateY(0); }
         }
         .topic {
-            animation: scrollEffect 0.5s ease-in-out;
+            animation: scrollEffect 0.8s ease-out;
+        }
+        .confetti {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
         }
     </style>
 </head>
@@ -79,6 +109,9 @@
     <div class="container" id="topics">
         <!-- 40 Themen generieren -->
     </div>
+
+    <div class="confetti" id="confetti"></div>
+
     <script>
         function toggleMode() {
             let body = document.body;
@@ -94,6 +127,23 @@
             }
         }
 
+        function generateConfetti() {
+            const confettiContainer = document.getElementById('confetti');
+            confettiContainer.innerHTML = '';
+            for (let i = 0; i < 50; i++) {
+                const confettiPiece = document.createElement('div');
+                confettiPiece.style.position = 'absolute';
+                confettiPiece.style.width = `${Math.random() * 10 + 10}px`;
+                confettiPiece.style.height = `${Math.random() * 10 + 10}px`;
+                confettiPiece.style.backgroundColor = Math.random() > 0.5 ? '#ff6ec4' : '#7873f5';
+                confettiPiece.style.transform = `rotate(${Math.random() * 360}deg)`;
+                confettiPiece.style.animation = `confettiAnimation ${Math.random() * 2 + 2}s linear infinite`;
+                confettiContainer.appendChild(confettiPiece);
+                confettiPiece.style.left = `${Math.random() * 100}vw`;
+                confettiPiece.style.top = `${Math.random() * 100}vh`;
+            }
+        }
+
         let topicsContainer = document.getElementById('topics');
         for (let i = 1; i <= 40; i++) {
             let topic = document.createElement('div');
@@ -101,6 +151,11 @@
             topic.textContent = "Thema " + i;
             topicsContainer.appendChild(topic);
         }
+
+        document.querySelector('.mode-toggle').addEventListener('click', function () {
+            generateConfetti();
+        });
     </script>
+
 </body>
 </html>
