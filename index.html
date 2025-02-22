@@ -3,246 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learning-Project</title>
+    <title>Themen-Suche</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <h1>Futuristische Themen</h1>
+        <div class="clock" id="clock"></div>
+    </div>
+
+    <!-- Suchleiste -->
+    <div class="search-container">
+        <input type="text" id="searchInput" class="search-input" placeholder="Suche ein Thema...">
+    </div>
+
+    <!-- Themen Boxen -->
+    <div class="topics">
+        <div class="topic" id="topic1">Thema 1</div>
+        <div class="topic" id="topic2">Thema 2</div>
+        <div class="topic" id="topic3">Thema 3</div>
+        <div class="topic" id="topic4">Thema 4</div>
+        <div class="topic" id="topic5">Thema 5</div>
+        <div class="topic" id="topic6">Thema 6</div>
+        <div class="topic" id="topic7">Thema 7</div>
+        <!-- Weitere Themen können hier hinzugefügt werden -->
+    </div>
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            background-color: #121212;
-            color: white;
-            transition: background-color 0.5s, color 0.5s;
-            overflow-x: hidden;
-            padding: 0;
-            margin: 0;
-        }
-
+        /* Header Styling */
         .header {
-            position: fixed;
-            top: 10px;
-            left: 20px;
-            font-size: 36px;
-            font-weight: bold;
-            color: #00fff9;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            background: rgba(0, 0, 0, 0.3); /* Lighter background with blur */
-            border-radius: 15px;
-            padding: 10px 20px;
-            backdrop-filter: blur(15px); /* Blur effect */
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
-            z-index: 999;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            position: sticky;
+            top: 0;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            color: white;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            border-radius: 10px;
         }
 
-        .header:hover {
-            color: #00ffea;
-            transform: translateX(5px);
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+        .header h1 {
+            margin: 0;
+            font-size: 2em;
         }
 
-        .search-container {
-            position: fixed;
+        .clock {
+            position: absolute;
+            right: 20px;
             top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80%;
-            max-width: 600px;
-            display: flex;
-            align-items: center;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 25px;
-            padding: 5px 15px;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
-            z-index: 999;
-            transition: transform 0.3s ease;
+            font-size: 1.5em;
+            color: #00fff9;
+        }
+
+        /* Suchleiste */
+        .search-container {
+            margin: 20px auto;
+            text-align: center;
+            position: relative;
         }
 
         .search-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: white;
+            padding: 15px;
             font-size: 18px;
-            padding: 10px;
+            border: none;
             border-radius: 25px;
             outline: none;
-            transition: transform 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            width: 70%;
+            backdrop-filter: blur(10px);
         }
 
         .search-input::placeholder {
-            color: #aaa;
+            color: rgba(255, 255, 255, 0.5);
         }
 
-        .search-icon {
-            color: #00fff9;
-            font-size: 24px;
-            margin-left: 10px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .search-icon:hover {
-            transform: scale(1.2);
-        }
-
-        .topic-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            margin-top: 100px;
+        /* Themen Boxen */
+        .topics {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 20px;
             padding: 20px;
         }
 
         .topic {
-            background: #2d2d2d;
-            border-radius: 20px;
-            width: 120px;
-            height: 120px;
-            margin: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 16px;
-            color: #fff;
-            cursor: pointer;
+            background: rgba(0, 255, 255, 0.2);
+            color: white;
+            text-align: center;
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
             transition: all 0.3s ease;
-            box-shadow: 0 0 5px rgba(0, 255, 255, 0.2); /* Soft glow */
+            cursor: pointer;
         }
 
         .topic:hover {
-            background: #4e4e4e;
+            background: rgba(0, 255, 255, 0.3);
             transform: translateY(-5px);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
         }
 
-        .clock {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 255, 255, 0.1);
-            padding: 10px 20px;
-            border-radius: 25px;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
-            color: #00fff9;
-            font-size: 18px;
-            font-weight: bold;
-            z-index: 999;
-            transition: transform 0.3s ease;
-        }
-
-        .clock:hover {
-            transform: translateY(-3px);
-        }
-
+        /* Blinken bei der Suche */
         @keyframes blink {
             0% {
-                background-color: #00fff9;
+                background-color: rgba(0, 255, 255, 0.3);
+                box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
             }
             50% {
-                background-color: #2d2d2d;
+                background-color: rgba(0, 255, 255, 0.1);
+                box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
             }
             100% {
-                background-color: #00fff9;
+                background-color: rgba(0, 255, 255, 0.3);
+                box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
             }
         }
 
-        .highlight {
-            animation: blink 0.5s ease-in-out 5; /* Blinking effect */
+        .topic.found {
+            animation: blink 1s ease-out 5;
         }
     </style>
-</head>
-<body>
-    <div class="header" onclick="location.reload();">Learning-Project</div>
-
-    <div class="search-container">
-        <input type="text" id="search-input" class="search-input" placeholder="Suche nach Themen...">
-        <span class="search-icon" id="search-icon">🔍</span>
-    </div>
-
-    <div class="topic-container" id="topics">
-        <!-- Dynamically generated topics go here -->
-    </div>
-
-    <div class="clock" id="clock"></div>
 
     <script>
-        // Dynamically populate topics
-        const topicsContainer = document.getElementById('topics');
-        for (let i = 1; i <= 70; i++) {
-            let topic = document.createElement('div');
-            topic.classList.add('topic');
-            topic.textContent = "Thema " + i;
-            topic.addEventListener('click', () => {
-                alert('Du hast ' + topic.textContent + ' ausgewählt.');
-            });
-            topicsContainer.appendChild(topic);
-        }
-
-        // Display current time in the clock
-        function updateTime() {
-            const clockElement = document.getElementById('clock');
+        // Real-Time Uhrzeit
+        function updateClock() {
+            const clock = document.getElementById("clock");
             const now = new Date();
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            const seconds = now.getSeconds().toString().padStart(2, '0');
-            clockElement.textContent = `${hours}:${minutes}:${seconds}`;
-        }
-        setInterval(updateTime, 1000);
-
-        // Search functionality
-        const searchInput = document.getElementById('search-input');
-        const searchIcon = document.getElementById('search-icon');
-
-        searchIcon.addEventListener('click', () => {
-            searchAndHighlight(searchInput.value);
-        });
-
-        searchInput.addEventListener('keypress', (event) => {
-            if (event.key === 'Enter') {
-                searchAndHighlight(searchInput.value);
-            }
-        });
-
-        function searchAndHighlight(query) {
-            const topics = document.querySelectorAll('.topic');
-            let found = false;
-            topics.forEach(topic => {
-                if (topic.textContent.toLowerCase().includes(query.toLowerCase())) {
-                    topic.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    topic.classList.add('highlight');
-                    setTimeout(() => topic.classList.remove('highlight'), 2000);
-                    found = true;
-                }
-            });
-
-            if (!found) {
-                alert('Kein Thema gefunden!');
-            }
+            const hours = String(now.getHours()).padStart(2, "0");
+            const minutes = String(now.getMinutes()).padStart(2, "0");
+            const seconds = String(now.getSeconds()).padStart(2, "0");
+            clock.textContent = `${hours}:${minutes}:${seconds}`;
         }
 
-        // Add some hover effects and animations
-        const topics = document.querySelectorAll('.topic');
-        topics.forEach(topic => {
-            topic.addEventListener('mouseover', () => {
-                topic.style.backgroundColor = '#4e4e4e';
-                topic.style.transform = 'scale(1.05)';
-                topic.style.boxShadow = '0 0 15px rgba(0, 255, 255, 0.5)';
-            });
-            topic.addEventListener('mouseout', () => {
-                topic.style.backgroundColor = '#2d2d2d';
-                topic.style.transform = 'scale(1)';
-                topic.style.boxShadow = '0 0 5px rgba(0, 255, 255, 0.2)';
-            });
-        });
+        setInterval(updateClock, 1000);
     </script>
 </body>
 </html>
