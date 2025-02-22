@@ -29,6 +29,10 @@
             font-weight: bold;
             cursor: pointer;
             z-index: 1000;
+            transition: transform 0.3s;
+        }
+        .header:hover {
+            transform: scale(1.05);
         }
         .mode-toggle {
             position: fixed;
@@ -93,19 +97,25 @@
         .topic {
             animation: scrollEffect 0.8s ease-out;
         }
-        .confetti {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            z-index: 9999;
+        @keyframes confettiAnimation {
+            0% { transform: translateY(0) rotate(0); opacity: 1; }
+            100% { transform: translateY(300px) rotate(360deg); opacity: 0; }
+        }
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff6ec4;
+            animation: confettiAnimation 2s ease-out infinite;
+        }
+        .confetti-piece:nth-child(odd) {
+            background-color: #7873f5;
         }
     </style>
 </head>
 <body>
     <div class="header" onclick="location.reload()">Learning-Project</div>
-    <div class="mode-toggle" onclick="toggleMode()">🌙</div>
+    <div class="mode-toggle" onclick="generateConfetti()">🌙</div>
     <div class="container" id="topics">
         <!-- 40 Themen generieren -->
     </div>
@@ -130,17 +140,12 @@
         function generateConfetti() {
             const confettiContainer = document.getElementById('confetti');
             confettiContainer.innerHTML = '';
-            for (let i = 0; i < 50; i++) {
+            for (let i = 0; i < 30; i++) {
                 const confettiPiece = document.createElement('div');
-                confettiPiece.style.position = 'absolute';
-                confettiPiece.style.width = `${Math.random() * 10 + 10}px`;
-                confettiPiece.style.height = `${Math.random() * 10 + 10}px`;
-                confettiPiece.style.backgroundColor = Math.random() > 0.5 ? '#ff6ec4' : '#7873f5';
-                confettiPiece.style.transform = `rotate(${Math.random() * 360}deg)`;
-                confettiPiece.style.animation = `confettiAnimation ${Math.random() * 2 + 2}s linear infinite`;
-                confettiContainer.appendChild(confettiPiece);
+                confettiPiece.classList.add('confetti-piece');
                 confettiPiece.style.left = `${Math.random() * 100}vw`;
-                confettiPiece.style.top = `${Math.random() * 100}vh`;
+                confettiPiece.style.animationDelay = `${Math.random() * 0.5}s`;
+                confettiContainer.appendChild(confettiPiece);
             }
         }
 
