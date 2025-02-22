@@ -82,7 +82,7 @@
         .search-container {
             position: fixed;
             top: 10px;
-            left: 10px;
+            right: 10px;
             z-index: 1001;
             display: flex;
             align-items: center;
@@ -113,18 +113,24 @@
             width: 200px;
             background-color: #1e1e1e;
             color: white;
-            transition: width 0.3s ease;
+            transition: width 0.3s ease, transform 0.3s ease;
         }
 
         .search-bar.active {
             display: block;
             width: 250px;
+            transform: scaleY(1.2); /* Slime-Animation Effekt */
         }
 
         .no-results {
             color: red;
             text-align: center;
+            font-size: 40px;
             margin-top: 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         .search-bar:focus {
@@ -177,18 +183,18 @@
                 }
             });
 
+            // Keine Suchergebnisse gefunden
+            let noResultsElement = document.querySelector('.no-results');
             if (noResults && searchQuery) {
-                let noResultsElement = document.querySelector('.no-results');
                 if (!noResultsElement) {
                     let message = document.createElement('div');
                     message.classList.add('no-results');
-                    message.textContent = "Keine Themen gefunden.";
+                    message.textContent = "Nicht gefunden";
                     topicsContainer.appendChild(message);
                 }
             } else {
-                let existingMessage = document.querySelector('.no-results');
-                if (existingMessage) {
-                    existingMessage.remove();
+                if (noResultsElement) {
+                    noResultsElement.remove();
                 }
             }
         }
