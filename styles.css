@@ -1,27 +1,88 @@
+/* 🌟 Allgemeine Einstellungen */
 body {
     font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: white;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-header {
-    background-color: #333;
-    color: white;
-    padding: 20px;
-    text-align: center;
+/* 🌞 Lightmode & 🌙 Darkmode */
+body.light-mode {
+    background-color: #f5f5f5;
+    color: black;
 }
 
-footer {
-    text-align: center;
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #333;
+/* 🎛️ Dark-/Lightmode-Button */
+#modeToggle {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 10px 20px;
+    background-color: #00d1ff;
     color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 209, 255, 0.8);
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
-/* Container für Tabelle */
+
+#modeToggle:hover {
+    transform: scale(1.1);
+    background-color: #008cff;
+}
+
+/* 🚀 Überschriften */
+h1, h2, h3 {
+    text-align: center;
+    color: #00d1ff;
+    text-transform: uppercase;
+    margin: 20px 0;
+    transition: color 0.3s ease;
+}
+
+body.light-mode h1, body.light-mode h2, body.light-mode h3 {
+    color: #0077cc;
+}
+
+/* 🔗 Themen-Links */
+.topic {
+    display: inline-block;
+    margin: 10px;
+    padding: 8px 15px;
+    background-color: transparent;
+    color: #00ff7f;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.topic:hover {
+    transform: scale(1.1);
+    background: linear-gradient(90deg, #ff00ff, #00ffff, #00ff7f);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* 🌈 Regenbogeneffekt bei Hover */
+@keyframes rainbow {
+    0% { color: #ff0000; }
+    20% { color: #ffa500; }
+    40% { color: #ffff00; }
+    60% { color: #008000; }
+    80% { color: #0000ff; }
+    100% { color: #4b0082; }
+}
+
+.topic:hover span {
+    animation: rainbow 1.5s infinite;
+}
+
+/* 📊 Tabelle */
 .table-container {
-    margin: 30px 0;
+    margin: 30px auto;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -78,7 +139,7 @@ footer {
     border-bottom: none;
 }
 
-/* Dark-/Lightmode-Anpassung */
+/* 🌕 Lightmode für Tabelle */
 body.light-mode .glow-table {
     background-color: rgba(255, 255, 255, 0.95);
     box-shadow: 0 0 20px rgba(0, 191, 255, 0.3);
@@ -95,4 +156,31 @@ body.light-mode .glow-table td {
 
 body.light-mode .glow-table tr:hover td {
     background-color: rgba(0, 191, 255, 0.1);
+}
+
+/* 🎉 Konfetti-Animation für Dark-/Lightmode-Toggle */
+@keyframes confetti {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(100vh); opacity: 0; }
+}
+
+.confetti {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background-color: #ff0;
+    border-radius: 50%;
+    animation: confetti 2s ease-out;
+    z-index: 9999;
+}
+
+/* 🎈 Konfetti erzeugen */
+#confetti-area {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
 }
