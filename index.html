@@ -16,21 +16,22 @@
             color: white;
             overflow-x: hidden;
         }
-        .header {
+        .header, .clock {
             position: fixed;
             top: 10px;
-            left: 10px;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 10px 20px;
-            font-size: 24px;
+            font-size: 18px;
             font-weight: bold;
             cursor: pointer;
             transition: background 0.3s, transform 0.2s;
             z-index: 1000;
         }
-        .header:hover {
+        .header { left: 10px; }
+        .clock { right: 10px; }
+        .header:hover, .clock:hover {
             background: rgba(255, 255, 255, 0.2);
             transform: scale(1.05);
         }
@@ -110,6 +111,7 @@
         <input type="text" id="searchInput" placeholder="Search topics...">
         <span class="icon">🔍</span>
     </div>
+    <div class="clock" id="clock">00:00:00</div>
     <div class="container" id="topics"></div>
     <div class="not-found" id="notFound">Topic not found</div>
 
@@ -152,6 +154,16 @@
 
             notFoundMessage.style.display = found ? "none" : "block";
         }
+
+        function updateClock() {
+            let now = new Date();
+            let hours = String(now.getHours()).padStart(2, '0');
+            let minutes = String(now.getMinutes()).padStart(2, '0');
+            let seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById("clock").textContent = `${hours}:${minutes}:${seconds}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock(); 
 
         document.querySelector(".icon").addEventListener("click", searchTopic);
         document.getElementById("searchInput").addEventListener("keypress", function(event) {
