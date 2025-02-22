@@ -27,15 +27,10 @@
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
-            transition: background 0.3s, transform 0.2s;
             z-index: 1000;
         }
         .header { left: 10px; }
         .clock { right: 10px; }
-        .header:hover, .clock:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.05);
-        }
         .search-container {
             position: fixed;
             top: 10px;
@@ -86,11 +81,6 @@
             transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
             cursor: pointer;
         }
-        .topic:hover {
-            transform: scale(1.08);
-            background: linear-gradient(135deg, #ff6ec4, #7873f5);
-            box-shadow: 0px 0px 15px rgba(255, 110, 196, 0.8);
-        }
         .fullscreen {
             position: fixed;
             top: 0;
@@ -129,13 +119,12 @@
             backdrop-filter: blur(10px);
             padding: 10px 15px;
             font-size: 30px;
-            border-radius: 50%;
+            border-radius: 0; /* Kein Kreis mehr */
             cursor: pointer;
             transition: background 0.3s, transform 0.2s;
         }
         .fullscreen .back-button:hover {
             background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.1);
         }
         .fullscreen .back-button:active {
             transform: scale(1.0);
