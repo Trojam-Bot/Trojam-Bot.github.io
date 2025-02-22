@@ -68,8 +68,8 @@
         .container {
             margin-top: 80px;
             display: grid;
-            grid-template-columns: repeat(9, 1fr); /* 9 Boxen pro Zeile */
-            gap: 5px; /* Kleinerer Abstand zwischen den Boxen */
+            grid-template-columns: repeat(9, 1fr); /* 9 Themen pro Zeile */
+            gap: 10px 5px; /* Abstand: Oben/Unten bleibt, Links/Rechts wird kleiner */
             justify-items: center;
         }
         .topic {
@@ -79,7 +79,7 @@
             align-items: center;
             justify-content: center;
             background: linear-gradient(135deg, #6a11cb, #2575fc);
-            border-radius: 15px;
+            border-radius: 20px;
             font-size: 14px;
             text-align: center;
             transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
@@ -88,7 +88,7 @@
         .topic:hover {
             transform: scale(1.08);
             background: linear-gradient(135deg, #ff6ec4, #7873f5);
-            box-shadow: 0px 0px 10px rgba(255, 110, 196, 0.8);
+            box-shadow: 0px 0px 15px rgba(255, 110, 196, 0.8);
         }
         @keyframes blink {
             0%, 100% { opacity: 1; }
