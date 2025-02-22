@@ -13,6 +13,7 @@
             margin: 0;
             padding: 0;
             transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
         }
 
         /* 🌞 Hellmodus */
@@ -21,7 +22,7 @@
             color: black;
         }
 
-        /* 🟦 Überschrift Box */
+        /* 🟦 Header Box */
         .header-box {
             background: #00d1ff;
             padding: 20px;
@@ -32,6 +33,7 @@
             border-radius: 20px;
             margin: 20px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
         }
 
         /* 🌙 Dark/Light Mode Umschalter */
@@ -60,44 +62,67 @@
         }
 
         .topic {
-            background-color: #00d1ff;
+            background: linear-gradient(45deg, #ff66cc, #9933ff, #3399ff);
             color: white;
             padding: 20px;
             text-align: center;
             border-radius: 15px;
             font-size: 1.5rem;
             cursor: pointer;
-            transition: transform 0.3s ease, background-color 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            width: 200px;
+            height: 200px;
         }
 
+        /* 🌈 Slime Hover-Effekt */
         .topic:hover {
-            background-color: #0077cc;
-            transform: scale(1.1);
+            animation: slimeEffect 0.8s ease-in-out;
         }
 
-        /* 🖱️ Thema Klick Animation */
-        .blob-animation {
-            animation: blobEffect 0.6s ease-out;
-        }
-
-        @keyframes blobEffect {
+        @keyframes slimeEffect {
             0% {
                 transform: scale(1);
+                box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+            }
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 0 40px rgba(255, 255, 255, 0.6);
             }
             100% {
-                transform: scale(1.5);
-                opacity: 0;
+                transform: scale(1);
+                box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
             }
         }
 
-        /* 🌈 Wechsel-Effekte */
-        .topic span {
-            display: block;
-            transition: transform 0.3s ease;
+        /* 🖱️ Thema Klick - Fullscreen Animation */
+        .fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #ff66cc, #9933ff, #3399ff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            border-radius: 0;
+            transform: scale(1);
+            transition: all 0.5s ease;
         }
 
-        .topic:active span {
-            transform: scale(1.1);
+        .fullscreen .topic-content {
+            font-size: 2rem;
+            color: white;
+        }
+
+        /* 🏠 Button für Refresh (Learning Project) */
+        .header-box {
+            cursor: pointer;
         }
 
         /* 🌞 Sonnen-Mond Modus */
@@ -118,23 +143,30 @@
     <button id="modeToggle">🌙</button>
 
     <!-- 🟦 Header Box -->
-    <div class="header-box">
+    <div class="header-box" onclick="window.location.reload()">
         Learning Project
     </div>
 
     <!-- 🌐 Themen Boxen -->
     <div class="topics-container">
-        <div class="topic" id="topic1">
+        <div class="topic" onclick="openTopic('tech')">
             <span>🌐 Technology & Programming</span>
         </div>
-        <div class="topic" id="topic2">
+        <div class="topic" onclick="openTopic('science')">
             <span>📚 Science & Education</span>
         </div>
-        <div class="topic" id="topic3">
+        <div class="topic" onclick="openTopic('design')">
             <span>🎨 Creativity & Design</span>
         </div>
-        <div class="topic" id="topic4">
+        <div class="topic" onclick="openTopic('growth')">
             <span>💡 Personal Growth & Everyday Skills</span>
+        </div>
+    </div>
+
+    <!-- 🖱️ Thema Fullscreen -->
+    <div id="fullscreen" class="fullscreen" style="display:none;">
+        <div class="topic-content" id="topicContent">
+            <!-- Sub-Themen erscheinen hier -->
         </div>
     </div>
 
@@ -147,15 +179,56 @@
             modeToggle.classList.toggle("sun");
         });
 
-        // 🖱️ Blob Animation bei Klick
-        document.querySelectorAll('.topic').forEach((topic) => {
-            topic.addEventListener('click', (e) => {
-                e.target.classList.add('blob-animation');
-                setTimeout(() => {
-                    e.target.classList.remove('blob-animation');
-                }, 600); // Zeit für Animation
-            });
-        });
+        // 🖱️ Fullscreen und Thema Inhalt
+        function openTopic(topic) {
+            const fullscreen = document.getElementById('fullscreen');
+            const topicContent = document.getElementById('topicContent');
+
+            let content = '';
+            if (topic === 'tech') {
+                content = `
+                    <h2>Technology & Programming</h2>
+                    <ul>
+                        <li>Web Development (HTML, CSS, JavaScript)</li>
+                        <li>App Development (Android, iOS, Flutter)</li>
+                        <li>AI & Machine Learning</li>
+                        <li>Cybersecurity & Ethical Hacking</li>
+                        <li>Data Analysis with Python or Excel</li>
+                    </ul>`;
+            } else if (topic === 'science') {
+                content = `
+                    <h2>Science & Education</h2>
+                    <ul>
+                        <li>Astronomy and the Universe</li>
+                        <li>Biology: How the Human Body Works</li>
+                        <li>Physics: From Motion to Quantum Mechanics</li>
+                        <li>Chemistry: Understanding Reactions</li>
+                        <li>Math: From Basics to Algebra</li>
+                    </ul>`;
+            } else if (topic === 'design') {
+                content = `
+                    <h2>Creativity & Design</h2>
+                    <ul>
+                        <li>Graphic Design with Canva or Photoshop</li>
+                        <li>Video Editing (like with DaVinci Resolve)</li>
+                        <li>3D Modeling and Animation</li>
+                        <li>Writing and Storytelling</li>
+                    </ul>`;
+            } else if (topic === 'growth') {
+                content = `
+                    <h2>Personal Growth & Everyday Skills</h2>
+                    <ul>
+                        <li>Time Management & Productivity</li>
+                        <li>Financial Literacy & Investing</li>
+                        <li>Cooking & New Recipes</li>
+                        <li>Learning Languages</li>
+                    </ul>`;
+            }
+
+            topicContent.innerHTML = content;
+            fullscreen.style.display = 'flex';
+        }
     </script>
+
 </body>
 </html>
