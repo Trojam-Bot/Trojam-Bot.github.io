@@ -32,6 +32,10 @@
             font-size: 24px;
             font-weight: bold;
             z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+        .header:hover {
+            transform: scale(1.05);
         }
         .search-container {
             position: fixed;
@@ -71,10 +75,10 @@
         }
         .container {
             margin-top: 80px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr); /* 7 Boxen pro Zeile */
             gap: 10px;
+            padding: 20px;
             transition: transform 0.3s ease;
         }
         .topic {
@@ -144,7 +148,7 @@
         function searchTopics(event) {
             if (event.key === 'Enter') {
                 const query = event.target.value.toLowerCase();
-                const topic = document.querySelector(`#${query}`);
+                const topic = document.querySelector(`#topic-${query}`);
                 if (topic) {
                     // Zum Thema scrollen und es blinkt 5 mal
                     topic.scrollIntoView({ behavior: 'smooth' });
