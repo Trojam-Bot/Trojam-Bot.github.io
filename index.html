@@ -31,19 +31,20 @@
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            background: rgba(0, 0, 0, 0.5); /* Blur background */
+            background: rgba(0, 0, 0, 0.3); /* Lighter background with blur */
             border-radius: 15px;
             padding: 10px 20px;
-            backdrop-filter: blur(10px); /* Blur effect */
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+            backdrop-filter: blur(15px); /* Blur effect */
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
             z-index: 999;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         .header:hover {
             color: #00ffea;
             transform: translateX(5px);
-            box-shadow: 0 0 25px rgba(0, 255, 255, 0.8);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
         }
 
         .search-container {
@@ -113,7 +114,7 @@
             color: #fff;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 0 5px rgba(0, 255, 255, 0.3); /* Reduced light effect */
+            box-shadow: 0 0 5px rgba(0, 255, 255, 0.2); /* Soft glow */
         }
 
         .topic:hover {
@@ -232,7 +233,7 @@
             topic.addEventListener('mouseout', () => {
                 topic.style.backgroundColor = '#2d2d2d';
                 topic.style.transform = 'scale(1)';
-                topic.style.boxShadow = '0 0 5px rgba(0, 255, 255, 0.3)';
+                topic.style.boxShadow = '0 0 5px rgba(0, 255, 255, 0.2)';
             });
         });
     </script>
