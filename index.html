@@ -143,13 +143,20 @@
             transform: translateY(-3px);
         }
 
-        @keyframes glow {
+        @keyframes blink {
             0% {
-                box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+                background-color: #00fff9;
+            }
+            50% {
+                background-color: #2d2d2d;
             }
             100% {
-                box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+                background-color: #00fff9;
             }
+        }
+
+        .highlight {
+            animation: blink 0.5s ease-in-out 5; /* Blinking effect */
         }
     </style>
 </head>
