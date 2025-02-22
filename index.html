@@ -137,11 +137,14 @@
             background: #1e1e1e;
             padding: 30px;
             border-radius: 20px;
-            max-width: 600px;
+            max-width: 800px;
             width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
             transform: scale(0.8);
             opacity: 0;
             transition: transform 0.5s ease, opacity 0.5s ease;
+            position: relative;
         }
         .modal.open .modal-content {
             transform: scale(1);
@@ -152,10 +155,21 @@
             margin-bottom: 20px;
             color: white;
         }
+        .modal-content h2 {
+            font-size: 24px;
+            margin-top: 30px;
+            color: #6a11cb;
+        }
         .modal-content p {
             font-size: 18px;
             line-height: 1.6;
             color: #ccc;
+            margin-bottom: 20px;
+        }
+        .modal-content img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin: 20px 0;
         }
         .modal-content button {
             background: #2575fc;
@@ -170,6 +184,33 @@
         }
         .modal-content button:hover {
             background: #6a11cb;
+        }
+        .table-of-contents {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 15px;
+            max-width: 200px;
+            z-index: 10000;
+        }
+        .table-of-contents ul {
+            list-style: none;
+            padding: 0;
+        }
+        .table-of-contents li {
+            margin: 10px 0;
+        }
+        .table-of-contents a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        .table-of-contents a:hover {
+            color: #6a11cb;
         }
         .not-found {
             text-align: center;
@@ -197,17 +238,58 @@
     <div class="modal" id="modal">
         <div class="modal-content">
             <h1 id="modalTitle"></h1>
-            <p id="modalDescription"></p>
+            <div id="modalDescription"></div>
             <button onclick="closeModal()">Close</button>
         </div>
     </div>
 
+    <!-- Table of Contents -->
+    <div class="table-of-contents" id="tableOfContents">
+        <ul id="tocList"></ul>
+    </div>
+
     <script>
         const topicsList = [
-            { name: "Programming", emoji: "💻", description: "Programming is the process of writing instructions for computers to execute. It involves problem-solving, logic, and creativity." },
-            { name: "Web Development", emoji: "🌐", description: "Web development involves building and maintaining websites. It includes front-end (client-side) and back-end (server-side) development." },
-            { name: "Artificial Intelligence", emoji: "🤖", description: "AI is the simulation of human intelligence in machines. It includes machine learning, natural language processing, and robotics." },
-            // Add more topics with descriptions here
+            {
+                name: "Programming",
+                emoji: "💻",
+                description: `
+                    <h2>What is Programming?</h2>
+                    <p>Programming is the process of writing instructions for computers to execute. It involves problem-solving, logic, and creativity.</p>
+                    <img src="https://via.placeholder.com/800x400" alt="Programming">
+                    <h2>History of Programming</h2>
+                    <p>Programming has evolved from machine code in the 1940s to high-level languages like Python and JavaScript today.</p>
+                    <h2>Popular Programming Languages</h2>
+                    <ul>
+                        <li>Python</li>
+                        <li>JavaScript</li>
+                        <li>Java</li>
+                        <li>C++</li>
+                        <li>Ruby</li>
+                    </ul>
+                    <h2>Why Learn Programming?</h2>
+                    <p>Programming is a valuable skill in today's digital world. It opens doors to careers in software development, data science, and more.</p>
+                    <img src="https://via.placeholder.com/800x400" alt="Why Learn Programming">
+                    <!-- Add more content here to make it scrollable -->
+                    ${Array.from({ length: 50 }, (_, i) => `<h2>Section ${i + 1}</h2><p>This is additional content to make the page scrollable. ${i + 1}</p>`).join('')}
+                `
+            },
+            {
+                name: "Web Development",
+                emoji: "🌐",
+                description: `
+                    <h2>What is Web Development?</h2>
+                    <p>Web development involves building and maintaining websites. It includes front-end (client-side) and back-end (server-side) development.</p>
+                    <img src="https://via.placeholder.com/800x400" alt="Web Development">
+                    <h2>Front-End Development</h2>
+                    <p>Front-end development focuses on the user interface and experience. It uses HTML, CSS, and JavaScript.</p>
+                    <h2>Back-End Development</h2>
+                    <p>Back-end development handles server-side logic, databases, and APIs. It uses languages like Python, Ruby, and Node.js.</p>
+                    <!-- Add more content here to make it scrollable -->
+                    ${Array.from({ length: 50 }, (_, i) => `<h2>Section ${i + 1}</h2><p>This is additional content to make the page scrollable. ${i + 1}</p>`).join('')}
+                `
+            },
+            // Add more topics with detailed descriptions here
         ];
 
         function displayTopics() {
@@ -239,8 +321,25 @@
             const modalTitle = document.getElementById('modalTitle');
             const modalDescription = document.getElementById('modalDescription');
             modalTitle.textContent = topic.name;
-            modalDescription.textContent = topic.description;
+            modalDescription.innerHTML = topic.description;
             modal.classList.add('open');
+
+            // Generate Table of Contents
+            const tocList = document.getElementById('tocList');
+            tocList.innerHTML = "";
+            const headings = modalDescription.querySelectorAll('h2');
+            headings.forEach(heading => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.textContent = heading.textContent;
+                a.href = `#${heading.textContent.replace(/\s+/g, '-').toLowerCase()}`;
+                a.onclick = (e) => {
+                    e.preventDefault();
+                    heading.scrollIntoView({ behavior: 'smooth' });
+                };
+                li.appendChild(a);
+                tocList.appendChild(li);
+            });
         }
 
         function closeModal() {
