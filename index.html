@@ -73,6 +73,28 @@
         .search-container .search-icon:hover {
             transform: scale(1.1);
         }
+        .search-suggestions {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 500;
+            display: none;
+        }
+        .suggestion-item {
+            padding: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .suggestion-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
         .container {
             margin-top: 100px;
             display: grid;
@@ -121,11 +143,12 @@
 <body>
     <div class="header" onclick="window.location.reload()">Learning-Project</div>
     <div class="search-container">
-        <input class="search-bar" id="search-input" type="text" placeholder="Suche ein Thema..." oninput="searchTopics(event)">
+        <input class="search-bar" id="search-input" type="text" placeholder="Suche ein Thema..." oninput="showSuggestions(event)">
         <div class="search-icon">
             🔍
         </div>
     </div>
+    <div class="search-suggestions" id="suggestions"></div>
     <div class="container" id="topics">
         <!-- 70 Themen generieren -->
     </div>
@@ -136,37 +159,68 @@
     <script>
         // Themen erstellen
         const topicsContainer = document.getElementById('topics');
+        const topics = [];
         for (let i = 1; i <= 70; i++) {
             const topic = document.createElement('div');
             topic.classList.add('topic');
             topic.textContent = `Thema ${i}`;
             topic.id = `topic-${i}`;
+            topics.push(`Thema ${i}`);
             topicsContainer.appendChild(topic);
         }
 
-        // Suchfunktion
-        function searchTopics(event) {
+        // Suchvorschläge anzeigen
+        function showSuggestions(event) {
             const query = event.target.value.toLowerCase();
-            const topic = document.querySelector(`#topic-${query}`);
-            const noResults = document.getElementById('no-results');
-
-            // Alle Themen zurücksetzen
-            document.querySelectorAll('.topic').forEach(item => item.style.display = 'block');
-            noResults.style.display = 'none';
+            const suggestionsContainer = document.getElementById('suggestions');
+            suggestionsContainer.innerHTML = '';
 
             if (query) {
-                // Suche nach Thema
-                if (topic) {
-                    topic.scrollIntoView({ behavior: 'smooth' });
-                    topic.classList.add('blink');
-                    setTimeout(() => topic.classList.remove('blink'), 5000);
+                const filteredSuggestions = topics.filter(topic => topic.toLowerCase().includes(query));
+                
+                if (filteredSuggestions.length > 0) {
+                    suggestionsContainer.style.display = 'block';
+                    filteredSuggestions.forEach(suggestion => {
+                        const suggestionItem = document.createElement('div');
+                        suggestionItem.classList.add('suggestion-item');
+                        suggestionItem.textContent = suggestion;
+                        suggestionItem.onclick = () => searchTopic(suggestion);
+                        suggestionsContainer.appendChild(suggestionItem);
+                    });
                 } else {
-                    // Kein Ergebnis gefunden
-                    document.querySelectorAll('.topic').forEach(item => item.style.display = 'none');
-                    noResults.style.display = 'block';
+                    suggestionsContainer.style.display = 'none';
                 }
+            } else {
+                suggestionsContainer.style.display = 'none';
             }
         }
+
+        // Thema suchen
+        function searchTopic(topic) {
+            const topicElement = document.getElementById(`topic-${topic}`);
+            if (topicElement) {
+                topicElement.scrollIntoView({ behavior: 'smooth' });
+                topicElement.classList.add('blink');
+                setTimeout(() => topicElement.classList.remove('blink'), 5000);
+            }
+        }
+
+        // Suchergebnisse anzeigen und Fehlerbehandlung
+        document.getElementById('search-input').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                const query = event.target.value.toLowerCase();
+                const foundTopic = topics.find(topic => topic.toLowerCase().includes(query));
+                
+                if (foundTopic) {
+                    searchTopic(foundTopic);
+                } else {
+                    document.getElementById('no-results').style.display = 'block';
+                    setTimeout(() => {
+                        document.getElementById('no-results').style.display = 'none';
+                    }, 3000);
+                }
+            }
+        });
     </script>
 </body>
 </html>
