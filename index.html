@@ -180,17 +180,14 @@
             margin-top: 50px;
             display: none;
         }
-        /* Removed hover effect from search bar */
         .search-container input:hover {
             background: none;
         }
-        /* Hover Effects for All */
         .header:hover, .clock:hover, .topic:hover, .back-button:hover {
             background: rgba(255, 255, 255, 0.1);
             transform: scale(1.05);
             filter: brightness(1.2);
         }
-        /* 3D effect when mouse moves over box */
         .topic:hover {
             transform: scale(1.05) rotateY(5deg) rotateX(5deg);
         }
@@ -302,18 +299,27 @@
         ];
 
         function displayTopics() {
+            const searchInput = document.getElementById('searchInput');
             const topicsContainer = document.getElementById('topics');
+            const notFound = document.getElementById('notFound');
             topicsContainer.innerHTML = "";
-            topicsList.forEach(topic => {
-                const topicElement = document.createElement('div');
-                topicElement.classList.add('topic');
-                topicElement.innerHTML = `<div class="topic-content">
-                        <div class="emoji">${topic.emoji}</div>
-                        ${topic.name}
-                    </div>`;
-                topicElement.addEventListener('click', () => openFullscreen(topic));
-                topicsContainer.appendChild(topicElement);
-            });
+            const filteredTopics = topicsList.filter(topic => topic.name.toLowerCase().includes(searchInput.value.toLowerCase()));
+            
+            if (filteredTopics.length === 0) {
+                notFound.style.display = 'block';
+            } else {
+                notFound.style.display = 'none';
+                filteredTopics.forEach(topic => {
+                    const topicElement = document.createElement('div');
+                    topicElement.classList.add('topic');
+                    topicElement.innerHTML = `<div class="topic-content">
+                            <div class="emoji">${topic.emoji}</div>
+                            ${topic.name}
+                        </div>`;
+                    topicElement.addEventListener('click', () => openFullscreen(topic));
+                    topicsContainer.appendChild(topicElement);
+                });
+            }
         }
 
         function openFullscreen(topic) {
@@ -325,6 +331,15 @@
         function closeFullscreen() {
             document.getElementById('fullscreen').classList.remove('show');
         }
+
+        function updateClock() {
+            const clock = document.getElementById('clock');
+            const now = new Date();
+            clock.textContent = now.toLocaleTimeString();
+        }
+
+        setInterval(updateClock, 1000);
+        document.getElementById('searchInput').addEventListener('input', displayTopics);
 
         displayTopics();
     </script>
