@@ -216,7 +216,8 @@
             const topics = document.querySelectorAll('.topic');
             let found = false;
             topics.forEach(topic => {
-                if (topic.textContent.toLowerCase().includes(query.toLowerCase())) {
+                // Exact match check, case insensitive
+                if (topic.textContent.trim().toLowerCase() === query.trim().toLowerCase()) {
                     topic.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     topic.classList.add('highlight');
                     setTimeout(() => topic.classList.remove('highlight'), 2000);
