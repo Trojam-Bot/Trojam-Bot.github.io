@@ -16,8 +16,8 @@
             color: white;
             transition: background-color 0.5s, color 0.5s;
             overflow-x: hidden;
-            overflow-y: scroll;
             height: 100%;
+            padding-top: 80px; /* Sicherstellen, dass der Header nicht überlappt */
         }
         .header {
             position: fixed;
@@ -45,7 +45,7 @@
             background: rgba(255, 255, 255, 0.2);
             border-radius: 50%;
             padding: 10px;
-            transition: transform 0.3s, background 0.3s;
+            transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
             z-index: 1001;
         }
         .mode-toggle:hover {
@@ -53,17 +53,13 @@
             background: rgba(255, 255, 255, 0.3);
         }
         .container {
-            margin-top: 80px;
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            padding-bottom: 20px;
-            max-height: 80vh;
+            justify-content: space-between;
+            padding: 20px;
         }
         .topic {
-            width: 120px;
+            width: calc(100% / 7 - 15px); /* Breite für 7 Items in einer Zeile */
             height: 120px;
             background: linear-gradient(135deg, #6a11cb, #2575fc);
             border-radius: 20px;
@@ -72,10 +68,10 @@
             align-items: center;
             justify-content: center;
             color: white;
-            transition: transform 0.2s, background 0.5s, box-shadow 0.3s;
+            transition: transform 0.3s ease, background 0.5s ease;
             cursor: pointer;
+            margin-bottom: 20px;
             position: relative;
-            overflow: hidden;
         }
         .topic:hover {
             transform: scale(1.05);
@@ -97,19 +93,35 @@
         .topic:hover::after {
             opacity: 0.2;
         }
-        @keyframes slimeUpDown {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0); }
-        }
+
+        /* Smooth scroll animation */
         .topic {
-            animation: slimeUpDown 1s ease-in-out infinite;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Mond/Sonne Animation */
+        .mode-toggle {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .mode-toggle.sun {
+            transform: rotate(360deg);
+        }
+        .mode-toggle.moon {
+            transform: rotate(0deg);
+        }
+        body.sun-mode {
+            background-color: #f5f5f5;
+            color: #000;
+        }
+        body.moon-mode {
+            background-color: #121212;
+            color: white;
         }
     </style>
 </head>
 <body>
     <div class="header" onclick="location.reload()">Learning-Project</div>
-    <div class="mode-toggle" onclick="toggleMode()">🌙</div>
+    <div class="mode-toggle moon" onclick="toggleMode()">🌙</div>
     <div class="container" id="topics">
         <!-- 40 Themen generieren -->
     </div>
@@ -118,14 +130,18 @@
         function toggleMode() {
             let body = document.body;
             let toggle = document.querySelector('.mode-toggle');
-            if (body.style.backgroundColor === "rgb(18, 18, 18)") {
-                body.style.backgroundColor = "#f5f5f5";
-                body.style.color = "#000";
+            if (body.classList.contains('moon-mode')) {
+                body.classList.remove('moon-mode');
+                body.classList.add('sun-mode');
                 toggle.textContent = "☀️";
+                toggle.classList.remove('moon');
+                toggle.classList.add('sun');
             } else {
-                body.style.backgroundColor = "#121212";
-                body.style.color = "white";
+                body.classList.remove('sun-mode');
+                body.classList.add('moon-mode');
                 toggle.textContent = "🌙";
+                toggle.classList.remove('sun');
+                toggle.classList.add('moon');
             }
         }
 
@@ -137,17 +153,15 @@
             topicsContainer.appendChild(topic);
         }
 
-        // Mond/Sonne-Transformation
-        let modeToggle = document.querySelector('.mode-toggle');
-        modeToggle.addEventListener('click', function () {
-            modeToggle.style.transition = "transform 0.3s ease-in-out";
-            if (modeToggle.textContent === "🌙") {
-                modeToggle.textContent = "☀️";
-                modeToggle.style.transform = "rotate(360deg)";
-            } else {
-                modeToggle.textContent = "🌙";
-                modeToggle.style.transform = "rotate(0deg)";
-            }
+        // Scroll-Effekt für die Themenboxen
+        window.addEventListener('scroll', () => {
+            let topics = document.querySelectorAll('.topic');
+            topics.forEach(topic => {
+                let rect = topic.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom >= 0) {
+                    topic.style.transform = 'translateY(' + (window.scrollY / 15) + 'px)';
+                }
+            });
         });
     </script>
 </body>
