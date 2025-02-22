@@ -5,65 +5,130 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learner Project</title>
     <style>
+        /* Allgemeine Styles */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #fff;
             margin: 0;
             padding: 0;
-            color: #333;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease;
         }
-        header, footer {
+        
+        h1, h2, h3 {
+            font-family: 'Segoe UI', sans-serif;
+            transition: transform 0.3s ease;
+        }
+
+        /* Header */
+        header {
             background-color: #333;
-            color: white;
+            color: #fff;
             text-align: center;
+            padding: 40px;
+            box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.5);
+            animation: slideIn 1s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        /* Hover-Effekt für Links */
+        h3:hover {
+            color: #1DB954;
+            transform: scale(1.05);
+        }
+
+        /* Content */
+        .content {
             padding: 20px;
+            animation: fadeIn 1s ease-in;
         }
-        h1 {
-            margin: 0;
-            font-size: 2.5rem;
-        }
+
+        /* Sections */
         h2 {
             font-size: 2rem;
-            color: #333;
+            color: #1DB954;
+            margin-top: 40px;
         }
-        h3 {
-            font-size: 1.5rem;
-        }
-        p {
-            font-size: 1rem;
-            line-height: 1.6;
-        }
+
         ul {
             list-style-type: none;
             padding: 0;
+            margin-top: 10px;
         }
+
         li {
             font-size: 1.1rem;
-            margin: 5px 0;
+            margin: 8px 0;
+            padding-left: 10px;
         }
-        .content {
-            padding: 20px;
-        }
+
+        /* Summary Table */
         .summary {
-            background-color: #fff;
+            background-color: #222;
+            border-radius: 8px;
             padding: 10px;
-            border: 1px solid #ddd;
             margin-top: 20px;
+            box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.5);
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 10px;
         }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
+
         th, td {
-            padding: 10px;
+            padding: 15px;
             text-align: left;
+            border-bottom: 1px solid #444;
         }
+
         th {
-            background-color: #333;
+            background-color: #1DB954;
             color: white;
+        }
+
+        td {
+            background-color: #333;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Animation */
+        @keyframes slideIn {
+            0% {
+                transform: translateY(-100%);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
         }
     </style>
 </head>
@@ -148,7 +213,7 @@
     </div>
 
     <footer>
-        <p>Created with ❤️ by Trojam </p>
+        <p>Created with ❤️ by Trojam</p>
     </footer>
 
 </body>
