@@ -39,6 +39,7 @@
             flex-wrap: wrap;
             justify-content: space-between;
             padding: 20px;
+            scroll-behavior: smooth;
         }
         .topic {
             width: calc(100% / 7 - 15px); /* Breite für 7 Items in einer Zeile */
@@ -137,13 +138,21 @@
             outline: none;
         }
 
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .blink {
+            animation: blink 1s 5; /* Blinken 5 mal */
+        }
     </style>
 </head>
 <body>
     <div class="header" onclick="location.reload()">Learning-Project</div>
     <div class="search-container">
         <div class="search-icon" onclick="toggleSearch()">🔍</div>
-        <input type="text" class="search-bar" id="searchBar" placeholder="Suche Themen..." oninput="searchTopics()">
+        <input type="text" class="search-bar" id="searchBar" placeholder="Suche Themen..." oninput="searchTopics()" onkeydown="checkEnter(event)">
     </div>
     <div class="container" id="topics">
         <!-- 70 Themen generieren -->
@@ -195,6 +204,27 @@
             } else {
                 if (noResultsElement) {
                     noResultsElement.remove();
+                }
+            }
+        }
+
+        // Enter drücken für Scrollen
+        function checkEnter(event) {
+            if (event.key === 'Enter') {
+                let searchQuery = document.getElementById('searchBar').value.toLowerCase();
+                let topicElements = document.querySelectorAll('.topic');
+                let targetTopic = null;
+
+                topicElements.forEach((topic, index) => {
+                    if (topics[index].toLowerCase().includes(searchQuery)) {
+                        targetTopic = topic;
+                    }
+                });
+
+                if (targetTopic) {
+                    targetTopic.scrollIntoView({ behavior: 'smooth' }); // Scrollt zu dem Thema
+                    targetTopic.classList.add('blink'); // Blinkt 5 mal
+                    setTimeout(() => targetTopic.classList.remove('blink'), 5000); // Blinken nach 5 Sekunden entfernen
                 }
             }
         }
