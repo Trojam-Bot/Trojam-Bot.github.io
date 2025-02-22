@@ -28,6 +28,7 @@
             font-weight: bold;
             cursor: pointer;
             z-index: 1000;
+            transition: all 0.3s ease;
         }
         .header { left: 10px; }
         .clock { right: 10px; }
@@ -43,6 +44,7 @@
             border-radius: 30px;
             padding: 8px 15px;
             z-index: 1000;
+            transition: all 0.3s ease;
         }
         .search-container input {
             background: transparent;
@@ -52,9 +54,15 @@
             font-size: 18px;
             padding: 5px;
             width: 250px;
+            transition: all 0.3s ease;
         }
         .search-container input::placeholder {
             color: rgba(255, 255, 255, 0.7);
+        }
+        .search-container .icon {
+            margin-left: 10px;
+            font-size: 20px;
+            cursor: pointer;
         }
         .container {
             margin-top: 80px;
@@ -75,7 +83,15 @@
             text-align: center;
             position: relative;
             overflow: hidden;
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s, filter 0.3s ease;
             cursor: pointer;
+            perspective: 1000px;
+        }
+        .topic:hover {
+            background: linear-gradient(135deg, #2575fc, #6a11cb);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            filter: brightness(1.5);
         }
         .topic .topic-content {
             display: flex;
@@ -83,6 +99,7 @@
             justify-content: center;
             height: 100%;
             width: 100%;
+            transition: transform 0.3s ease;
         }
         .topic .emoji {
             position: absolute;
@@ -91,6 +108,11 @@
             transform: translate(-50%, -50%);
             font-size: 40px;
             opacity: 0.1;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .topic:hover .emoji {
+            opacity: 0.3;
+            transform: translate(-50%, -50%) scale(1.1);
         }
         .fullscreen {
             position: fixed;
@@ -102,20 +124,19 @@
             display: none;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: center;
             z-index: 9999;
             pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
+            transition: all 0.3s ease;
         }
         .fullscreen.show {
             display: flex;
             pointer-events: auto;
-            opacity: 1;
+            animation: fadeIn 0.5s ease-out;
         }
         .fullscreen .topic {
-            width: 100%;
-            height: auto;
+            width: 90%;
+            height: 90%;
             font-size: 50px;
             text-align: center;
             background: linear-gradient(135deg, #2575fc, #6a11cb);
@@ -123,7 +144,7 @@
             align-items: center;
             justify-content: center;
             border-radius: 20px;
-            margin-top: 30px;
+            transition: none;
         }
         .fullscreen .back-button {
             position: absolute;
@@ -135,26 +156,44 @@
             font-size: 30px;
             border-radius: 0;
             cursor: pointer;
+            transition: background 0.3s, transform 0.2s ease;
+        }
+        .fullscreen .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .fullscreen .back-button:active {
+            transform: scale(1.0);
         }
         .fullscreen .topic h1 {
             font-size: 60px;
             margin-bottom: 20px;
             color: white;
         }
-        .fullscreen .info {
-            margin-top: 40px;
-            width: 80%;
+        .fullscreen .topic h2 {
+            font-size: 30px;
             color: white;
-            font-size: 18px;
-            line-height: 1.5;
-            overflow-y: auto;
-            max-height: 60vh;
+            margin-top: 20px;
         }
         .not-found {
             text-align: center;
             font-size: 24px;
             margin-top: 50px;
             display: none;
+        }
+        .search-container input:hover {
+            background: none;
+        }
+        .header:hover, .clock:hover, .topic:hover, .back-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+            filter: brightness(1.2);
+        }
+        .topic:hover {
+            transform: scale(1.05) rotateY(5deg) rotateX(5deg);
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
         }
     </style>
 </head>
@@ -171,31 +210,92 @@
         <button class="back-button" onclick="closeFullscreen()">←</button>
         <div class="topic">
             <h1 id="fullscreenTitle"></h1>
-            <div class="info" id="fullscreenInfo"></div>
+            <h2 id="fullscreenContent"></h2>
         </div>
     </div>
 
     <script>
         const topicsList = [
-            { 
-                name: "Programming", 
-                emoji: "💻", 
-                description: "Programming is the process of creating software using programming languages. It involves various methods and techniques to write code that can be executed by a computer.", 
-                longInfo: "Programming is essential for building the technology we use every day. It started with simple languages like Assembly and evolved into high-level languages like Python, Java, and C++. Today, the field of programming is broad and diverse, encompassing software engineering, web development, data science, and more." 
-            },
-            { 
-                name: "Web Development", 
-                emoji: "🌐", 
-                description: "Web development involves creating websites and web applications for the internet. It includes everything from designing the user interface to coding the backend.", 
-                longInfo: "Web development is a fast-paced field that combines creativity with technical skills. Frontend developers focus on what users see and interact with, while backend developers work on server-side logic and databases. Full-stack developers are proficient in both. Modern tools like React, Angular, and Node.js have revolutionized web development."
-            },
-            { 
-                name: "Artificial Intelligence", 
-                emoji: "🤖", 
-                description: "AI is the simulation of human intelligence by machines, such as learning, reasoning, and problem-solving.", 
-                longInfo: "AI has applications across various industries, from healthcare to autonomous vehicles. Machine learning allows computers to learn from data and improve over time. The future of AI holds immense potential, with breakthroughs in robotics, ethics, and AI-powered creativity."
-            },
-            // Weitere 69 Themen können hier hinzugefügt werden...
+            { name: "Programming", emoji: "💻" },
+            { name: "Web Development", emoji: "🌐" },
+            { name: "Artificial Intelligence", emoji: "🤖" },
+            { name: "Machine Learning", emoji: "📊" },
+            { name: "Cybersecurity", emoji: "🔒" },
+            { name: "Databases", emoji: "💾" },
+            { name: "Cloud Computing", emoji: "☁️" },
+            { name: "Software Development", emoji: "🖥️" },
+            { name: "Computer Hardware", emoji: "🔧" },
+            { name: "Networking", emoji: "🌐" },
+            { name: "Operating Systems", emoji: "💻" },
+            { name: "Automation", emoji: "🤖" },
+            { name: "Open-Source Software", emoji: "🔓" },
+            { name: "IT Support", emoji: "🛠️" },
+            { name: "Data Science", emoji: "📊" },
+            { name: "Game Development", emoji: "🎮" },
+            { name: "Mobile Development", emoji: "📱" },
+            { name: "Cloud Architecture", emoji: "🗺️" },
+            { name: "Blockchain", emoji: "🔗" },
+            { name: "Digital Marketing", emoji: "📢" },
+            { name: "UI/UX Design", emoji: "🎨" },
+            { name: "Data Analysis", emoji: "📈" },
+            { name: "Project Management", emoji: "📅" },
+            { name: "Agile Methodology", emoji: "🏃‍♂️" },
+            { name: "DevOps", emoji: "⚙️" },
+            { name: "Game Design", emoji: "🎮" },
+            { name: "Machine Vision", emoji: "👁️" },
+            { name: "Big Data", emoji: "📊" },
+            { name: "Quantum Computing", emoji: "⚛️" },
+            { name: "Digital Twins", emoji: "🛸" },
+            { name: "Robotics", emoji: "🤖" },
+            { name: "Embedded Systems", emoji: "🔌" },
+            { name: "Cloud Security", emoji: "🔐" },
+            { name: "Data Encryption", emoji: "🔑" },
+            { name: "AI Ethics", emoji: "⚖️" },
+            { name: "VR/AR", emoji: "🕶️" },
+            { name: "E-commerce", emoji: "🛒" },
+            { name: "SEO", emoji: "🔍" },
+            { name: "IT Infrastructure", emoji: "🏗️" },
+            { name: "Privacy", emoji: "🔒" },
+            { name: "System Administration", emoji: "🖥️" },
+            { name: "Digital Transformation", emoji: "🔄" },
+            { name: "Chatbots", emoji: "💬" },
+            { name: "Data Visualization", emoji: "📊" },
+            { name: "Machine Learning Algorithms", emoji: "🔢" },
+            { name: "Web Scraping", emoji: "🕷️" },
+            { name: "IoT", emoji: "🌐" },
+            { name: "Natural Language Processing", emoji: "🗣️" },
+            { name: "API Development", emoji: "🖧" },
+            { name: "Video Editing", emoji: "🎬" },
+            { name: "Animation", emoji: "🎨" },
+            { name: "3D Modeling", emoji: "🖼️" },
+            { name: "Computer Vision", emoji: "🖥️" },
+            { name: "Smart Homes", emoji: "🏠" },
+            { name: "Smart Cities", emoji: "🏙️" },
+            { name: "Networking Protocols", emoji: "🌍" },
+            { name: "Cryptocurrency", emoji: "💰" },
+            { name: "Tech Support", emoji: "🛠️" },
+            { name: "Privacy Laws", emoji: "📜" },
+            { name: "Technology Trends", emoji: "🔮" },
+            { name: "Tech Entrepreneurship", emoji: "🚀" },
+            { name: "Data Mining", emoji: "⛏️" },
+            { name: "Smart Devices", emoji: "📱" },
+            { name: "Technology and Society", emoji: "🌍" },
+            { name: "Remote Work", emoji: "💻" },
+            { name: "Telemedicine", emoji: "💉" },
+            { name: "Gaming Hardware", emoji: "🖱️" },
+            { name: "Digital Art", emoji: "🎨" },
+            { name: "Tech Careers", emoji: "💼" },
+            { name: "Tech Innovation", emoji: "💡" },
+            { name: "Wearable Technology", emoji: "⌚" },
+            { name: "Holography", emoji: "🖼️" },
+            { name: "Sustainable Tech", emoji: "🌱" },
+            { name: "Artificial General Intelligence", emoji: "🤖" },
+            { name: "Edge Computing", emoji: "🖥️" },
+            { name: "Tech Startups", emoji: "🚀" },
+            { name: "Digital Content Creation", emoji: "📸" },
+            { name: "Game Streaming", emoji: "🎮" },
+            { name: "Augmented Reality", emoji: "🕶️" },
+            { name: "Biotechnology", emoji: "🧬" }
         ];
 
         function displayTopics() {
@@ -223,15 +323,13 @@
         }
 
         function openFullscreen(topic) {
-            const fullscreen = document.getElementById('fullscreen');
+            document.getElementById('fullscreen').classList.add('show');
             document.getElementById('fullscreenTitle').textContent = topic.name;
-            document.getElementById('fullscreenInfo').textContent = topic.longInfo;
-            fullscreen.classList.add('show');
+            document.getElementById('fullscreenContent').textContent = "Detailed information about " + topic.name;
         }
 
         function closeFullscreen() {
-            const fullscreen = document.getElementById('fullscreen');
-            fullscreen.classList.remove('show');
+            document.getElementById('fullscreen').classList.remove('show');
         }
 
         function updateClock() {
