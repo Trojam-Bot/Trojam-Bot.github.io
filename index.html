@@ -5,7 +5,232 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learning Project</title>
     <style>
-        /* Add your existing CSS styles here */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #121212;
+            color: white;
+            overflow-x: hidden;
+            position: relative;
+        }
+        .header, .clock {
+            position: fixed;
+            top: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        .header { left: 10px; }
+        .clock { right: 10px; }
+        .search-container {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 8px 15px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        .search-container input {
+            background: transparent;
+            border: none;
+            color: white;
+            outline: none;
+            font-size: 18px;
+            padding: 5px;
+            width: 250px;
+            transition: all 0.3s ease;
+        }
+        .search-container input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .search-container .icon {
+            margin-left: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .container {
+            margin-top: 80px;
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+            gap: 10px 5px;
+            justify-items: center;
+        }
+        .topic {
+            width: 110px;
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            border-radius: 20px;
+            font-size: 14px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s, filter 0.3s ease;
+            cursor: pointer;
+            perspective: 1000px;
+        }
+        .topic:hover {
+            background: linear-gradient(135deg, #2575fc, #6a11cb);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            filter: brightness(1.5);
+        }
+        .topic .topic-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            transition: transform 0.3s ease;
+        }
+        .topic .emoji {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            opacity: 0.1;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .topic:hover .emoji {
+            opacity: 0.3;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .modal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background: #1e1e1e;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.8);
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            position: relative;
+        }
+        .modal.open .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+        .modal-content h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        .modal-content h2 {
+            font-size: 24px;
+            margin-top: 30px;
+            color: #6a11cb;
+        }
+        .modal-content p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+        .modal-content img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .modal-content button {
+            background: #2575fc;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s ease;
+        }
+        .modal-content button:hover {
+            background: #6a11cb;
+        }
+        .table-of-contents {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 15px;
+            max-width: 200px;
+            max-height: 70vh;
+            overflow-y: auto;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .table-of-contents.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .table-of-contents ul {
+            list-style: none;
+            padding: 0;
+        }
+        .table-of-contents li {
+            margin: 10px 0;
+        }
+        .table-of-contents a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        .table-of-contents a:hover {
+            color: #6a11cb;
+        }
+        .not-found {
+            text-align: center;
+            font-size: 24px;
+            margin-top: 50px;
+            display: none;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -54,6 +279,7 @@
                     <h2>Why Learn Programming?</h2>
                     <p>Programming is a valuable skill in today's digital world. It opens doors to careers in software development, data science, and more.</p>
                     <img src="https://via.placeholder.com/800x400" alt="Why Learn Programming">
+                    <!-- Add more content here to make it scrollable -->
                     ${Array.from({ length: 50 }, (_, i) => `<h2>Section ${i + 1}</h2><p>This is additional content to make the page scrollable. ${i + 1}</p>`).join('')}
                 `
             },
@@ -68,73 +294,12 @@
                     <p>Front-end development focuses on the user interface and experience. It uses HTML, CSS, and JavaScript.</p>
                     <h2>Back-End Development</h2>
                     <p>Back-end development handles server-side logic, databases, and APIs. It uses languages like Python, Ruby, and Node.js.</p>
+                    <!-- Add more content here to make it scrollable -->
                     ${Array.from({ length: 50 }, (_, i) => `<h2>Section ${i + 1}</h2><p>This is additional content to make the page scrollable. ${i + 1}</p>`).join('')}
                 `
             },
-            {
-                name: "Artificial Intelligence",
-                emoji: "🤖",
-                description: `
-                    <h2>What is Artificial Intelligence?</h2>
-                    <p>AI is the simulation of human intelligence in machines. It includes machine learning, natural language processing, and robotics.</p>
-                    <img src="https://via.placeholder.com/800x400" alt="AI">
-                    <h2>Applications of AI</h2>
-                    <p>AI is used in healthcare, finance, transportation, and more. It powers technologies like self-driving cars and virtual assistants.</p>
-                    ${Array.from({ length: 50 }, (_, i) => `<h2>Section ${i + 1}</h2><p>This is additional content to make the page scrollable. ${i + 1}</p>`).join('')}
-                `
-            },
-            {
-                name: "Machine Learning",
-                emoji: "📊",
-                description: `
-                    <h2>What is Machine Learning?</h2>
-                    <p>Machine learning is a subset of AI that enables systems to learn from data and improve over time without explicit programming.</p>
-                    <img src="https://via.placeholder.com/800x400" alt="Machine Learning">
-                    <h2>Types of Machine Learning</h2>
-                    <ul>
-                        <li>Supervised Learning</li>
-                        <li>Unsupervised Learning</li>
-                        <li>Reinforcement Learning</li>
-                    </ul>
-                    ${Array.from({ length: 50 }, (_, i) => `<h2>Section ${i + 1}</h2><p>This is additional content to make the page scrollable. ${i + 1}</p>`).join('')}
-                `
-            },
-            {
-                name: "Cybersecurity",
-                emoji: "🔒",
-                description: `
-                    <h2>What is Cybersecurity?</h2>
-                    <p>Cybersecurity involves protecting systems, networks, and data from digital attacks.</p>
-                    <img src="https://via.placeholder.com/800x400" alt="Cybersecurity">
-                    <h2>Common Threats</h2>
-                    <ul>
-                        <li>Malware</li>
-                        <li>Phishing</li>
-                        <li>Ransomware</li>
-                    </ul>
-                    ${Array.from({ length: 50 }, (_, i) => `<h2>Section ${i + 1}</h2><p>This is additional content to make the page scrollable. ${i + 1}</p>`).join('')}
-                `
-            },
-            // Add 95 more topics here...
-            {
-                name: "Quantum Computing",
-                emoji: "⚛️",
-                description: `
-                    <h2>What is Quantum Computing?</h2>
-                    <p>Quantum computing uses quantum-mechanical phenomena to perform computations. It has the potential to solve problems that are intractable for classical computers.</p>
-                    <img src="https://via.placeholder.com/800x400" alt="Quantum Computing">
-                    <h2>Applications of Quantum Computing</h2>
-                    <ul>
-                        <li>Cryptography</li>
-                        <li>Drug Discovery</li>
-                        <li>Optimization Problems</li>
-                    </ul>
-                    ${Array.from({ length: 50 }, (_, i) => `<h2>Section ${i + 1}</h2><p>This is additional content to make the page scrollable. ${i + 1}</p>`).join('')}
-                `
-            }
+            // Add more topics with detailed descriptions here
         ];
-
-        // Add 95 more topics to the topicsList array...
 
         function displayTopics() {
             const searchInput = document.getElementById('searchInput');
