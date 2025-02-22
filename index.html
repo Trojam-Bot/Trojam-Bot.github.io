@@ -3,353 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learner Project</title>
+    <title>Learn with Animation</title>
     <style>
-        /* Allgemeine Styles */
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #121212;
-            color: #fff;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            overflow-x: hidden;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        
-        h1, h2, h3 {
-            font-family: 'Segoe UI', sans-serif;
-            transition: transform 0.3s ease;
+            transition: background-color 0.5s ease, color 0.5s ease;
         }
 
-        /* Header */
-        header {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 40px;
-            box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.5);
-            animation: slideIn 1s ease-out;
-        }
-
-        header h1 {
-            font-size: 2.8rem;
-        }
-
-        header p {
-            font-size: 1.2rem;
-            margin-top: 10px;
-        }
-
-        /* Hover-Effekt für Links */
-        h3:hover {
-            color: #1DB954;
-            transform: scale(1.05);
-        }
-
-        /* Content */
-        .content {
+        #content {
             padding: 20px;
-            animation: fadeIn 1s ease-in;
+            transition: transform 0.5s ease;
         }
 
-        /* Sections */
-        h2 {
-            font-size: 2rem;
-            color: #1DB954;
-            margin-top: 40px;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-            margin-top: 10px;
-        }
-
-        li {
-            font-size: 1.1rem;
-            margin: 8px 0;
-            padding-left: 10px;
-            transition: color 0.3s ease, transform 0.3s ease;
-        }
-
-        li:hover {
-            color: #1DB954;
-            transform: translateX(10px);
+        .topic {
+            font-size: 2em;
+            font-weight: bold;
+            color: green;
+            text-decoration: underline;
             cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: color 0.3s ease;
         }
 
-        li.small-theme {
-            color: inherit; /* Farbe folgt dem Modus */
-            cursor: pointer;
+        .subtopic {
+            color: white;
+            font-size: 1.5em;
+            margin: 5px 0;
+            transition: color 0.3s ease;
         }
 
-        li.small-theme:hover {
-            transform: scale(1.05);
-        }
-
-        li.small-theme:hover {
-            color: #fff;
-        }
-
-        /* Summary Table */
-        .summary {
-            background-color: #222;
-            border-radius: 8px;
-            padding: 10px;
-            margin-top: 20px;
-            box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.5);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-
-        th, td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #444;
-        }
-
-        th {
-            background-color: #1DB954;
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #121212;
             color: white;
         }
 
-        td {
-            background-color: #333;
+        /* Light Mode Styles */
+        body.light-mode {
+            background-color: #f4f4f4;
+            color: black;
         }
 
-        /* Button */
-        .mode-toggle-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: #1DB954;
-            color: white;
-            border: none;
+        .theme-toggle {
+            cursor: pointer;
             padding: 10px 20px;
-            font-size: 1rem;
+            border: none;
+            background-color: #444;
+            color: white;
+            font-size: 1.2em;
             border-radius: 5px;
-            cursor: pointer;
+            margin-top: 20px;
             transition: background-color 0.3s ease;
         }
 
-        .mode-toggle-btn:hover {
-            background-color: #155a33;
+        .theme-toggle:hover {
+            background-color: #777;
         }
 
-        /* Animation */
-        @keyframes slideIn {
-            0% {
-                transform: translateY(-100%);
-            }
-            100% {
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-
-        /* Light Mode */
-        body.light-mode {
-            background-color: #fff;
-            color: #000;
-        }
-
-        body.light-mode h1, 
-        body.light-mode h2, 
-        body.light-mode h3 {
-            color: #1DB954;
-        }
-
-        body.light-mode li {
-            color: #000;
-        }
-
-        body.light-mode .summary {
-            background-color: #f4f4f4;
-            color: #000;
-        }
-
-        body.light-mode table {
-            background-color: #f4f4f4;
-        }
-
-        body.light-mode th {
-            background-color: #1DB954;
-        }
-
-        body.light-mode td {
-            background-color: #fff;
-            color: #000;
-        }
-
-        body.light-mode .mode-toggle-btn {
-            background-color: #555;
-        }
-
-        /* Konfetti-Animation */
-        .confetti {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            display: none;
-        }
-
-        .confetti div {
-            width: 10px;
-            height: 10px;
-            background-color: #1DB954;
-            position: absolute;
-            animation: confettiFall 1.5s infinite;
-        }
-
-        @keyframes confettiFall {
-            0% {
-                transform: translateY(-10px);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh);
-                opacity: 0;
-            }
-        }
-
-        /* Rainbow hover effect */
-        .rainbow-text:hover {
-            background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
-            background-clip: text;
-            color: transparent;
-        }
-
-        /* Maus-Zeiger beim Hover auf Text */
-        .small-theme {
+        /* Mouseover effect for text rainbow */
+        .rainbow-text {
             display: inline-block;
+            position: relative;
+            overflow: hidden;
         }
 
+        .rainbow-text span {
+            transition: color 0.3s ease;
+        }
+
+        /* Add animation when dark mode or light mode is toggled */
+        .sliding-animation {
+            animation: slide 1s forwards;
+        }
+
+        @keyframes slide {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        /* Rainbow animation for hovering letters */
+        .rainbow-hover span:hover {
+            animation: rainbow 1s linear infinite;
+        }
+
+        @keyframes rainbow {
+            0% { color: red; }
+            20% { color: orange; }
+            40% { color: yellow; }
+            60% { color: green; }
+            80% { color: blue; }
+            100% { color: violet; }
+        }
     </style>
 </head>
-<body>
+<body class="light-mode">
+    <div id="content">
+        <div class="topic" id="tech" onmouseover="highlightText(this)">Technology & Programming</div>
+        <div class="subtopic">Web Development (HTML, CSS, JavaScript)</div>
+        <div class="subtopic">App Development (Android, iOS, Flutter)</div>
+        <div class="subtopic">Artificial Intelligence & Machine Learning</div>
 
-    <header>
-        <h1>HELLO AND WELCOME TO LEARNER PROJECT :)</h1>
-        <p>Welcome to Learner Project – Your Path to New Knowledge!</p>
-    </header>
+        <div class="topic" id="science" onmouseover="highlightText(this)">Science & Education</div>
+        <div class="subtopic">Astronomy and the Universe</div>
+        <div class="subtopic">Biology: How the Human Body Works</div>
 
-    <div class="content">
-        <p>We're glad you're here! This website is your companion for learning new things, expanding your skills, and taking your knowledge to the next level. Whether you want to improve yourself, get creative, or simply satisfy your curiosity – you'll find everything you need right here.</p>
-        <p>You will like those projects!</p>
-
-        <h2>Technology & Programming 🌐</h2>
-        <ul>
-            <li><h3 class="small-theme rainbow-text">Web Development (HTML, CSS, JavaScript)</h3></li>
-            <li><h3 class="small-theme rainbow-text">App Development (Android, iOS, Flutter)</h3></li>
-            <li><h3 class="small-theme rainbow-text">Artificial Intelligence & Machine Learning</h3></li>
-            <li><h3 class="small-theme rainbow-text">Cybersecurity & Ethical Hacking</h3></li>
-            <li><h3 class="small-theme rainbow-text">Data Analysis with Python or Excel</h3></li>
-        </ul>
-
-        <h2>Science & Education 📚</h2>
-        <ul>
-            <li><h3 class="small-theme rainbow-text">Astronomy and the Universe</h3></li>
-            <li><h3 class="small-theme rainbow-text">Biology: How the Human Body Works</h3></li>
-            <li><h3 class="small-theme rainbow-text">Physics: From Motion to Quantum Mechanics</h3></li>
-            <li><h3 class="small-theme rainbow-text">Chemistry: Understanding Reactions</h3></li>
-            <li><h3 class="small-theme rainbow-text">Math: From Basics to Algebra</h3></li>
-        </ul>
-
-        <h2>Creativity & Design 🎨</h2>
-        <ul>
-            <li><h3 class="small-theme rainbow-text">Graphic Design with Canva or Photoshop</h3></li>
-            <li><h3 class="small-theme rainbow-text">Video Editing (like with DaVinci Resolve 😉)</h3></li>
-            <li><h3 class="small-theme rainbow-text">3D Modeling and Animation</h3></li>
-            <li><h3 class="small-theme rainbow-text">Writing and Storytelling</h3></li>
-        </ul>
-
-        <h2>Personal Growth & Everyday Skills 💡</h2>
-        <ul>
-            <li><h3 class="small-theme rainbow-text">Time Management & Productivity</h3></li>
-            <li><h3 class="small-theme rainbow-text">Financial Literacy & Investing</h3></li>
-            <li><h3 class="small-theme rainbow-text">Cooking & New Recipes</h3></li>
-            <li><h3 class="small-theme rainbow-text">Learning Languages (like the ones you’re already working on 😉)</h3></li>
-        </ul>
-
-        <h2>Summary 📝</h2>
-        <div class="summary">
-            <table>
-                <tr>
-                    <th>Topic</th>
-                    <th>Subtopics</th>
-                </tr>
-                <tr>
-                    <td><strong>Technology & Programming</strong></td>
-                    <td>Web Development, App Development, Artificial Intelligence, Cybersecurity</td>
-                </tr>
-                <tr>
-                    <td><strong>Science</strong></td>
-                    <td>Astronomy, Biology, Physics, Chemistry</td>
-                </tr>
-                <tr>
-                    <td><strong>Mathematics</strong></td>
-                    <td>Algebra, Geometry, Statistics, Calculus</td>
-                </tr>
-                <tr>
-                    <td><strong>Creativity & Design</strong></td>
-                    <td>Graphic Design, 3D Modeling, Photography</td>
-                </tr>
-                <tr>
-                    <td><strong>Personal Development</strong></td>
-                    <td>Time Management, Communication, Financial Planning</td>
-                </tr>
-                <tr>
-                    <td><strong>Languages</strong></td>
-                    <td>English, Spanish, German, French...</td>
-                </tr>
-            </table>
-        </div>
+        <div class="theme-toggle" onclick="toggleMode()">Toggle Dark/Light Mode</div>
     </div>
 
-    <button class="mode-toggle-btn" onclick="toggleMode()">Toggle Dark/Light Mode</button>
-
-    <!-- Konfetti-Container -->
-    <div class="confetti" id="confetti"></div>
-
     <script>
+        let isDarkMode = false;
+
         function toggleMode() {
             const body = document.body;
-            body.classList.toggle('light-mode');
-            triggerConfetti();
-        }
+            const button = document.querySelector('.theme-toggle');
+            isDarkMode = !isDarkMode;
 
-        function triggerConfetti() {
-            const confettiContainer = document.getElementById('confetti');
-            confettiContainer.style.display = 'block';
-            for (let i = 0; i < 100; i++) {
-                let confettiPiece = document.createElement('div');
-                confettiPiece.style.left = `${Math.random() * 100}%`;
-                confettiPiece.style.animationDuration = `${Math.random() * 2 + 1}s`;
-                confettiPiece.style.animationDelay = `${Math.random() * 2}s`;
-                confettiContainer.appendChild(confettiPiece);
+            if (isDarkMode) {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                document.getElementById('content').classList.add('sliding-animation');
+            } else {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                document.getElementById('content').classList.add('sliding-animation');
             }
-
-            setTimeout(() => {
-                confettiContainer.style.display = 'none';
-                confettiContainer.innerHTML = '';
-            }, 5000);
         }
-    </script>
 
+        function highlightText(element) {
+            let words = element.innerText.split("");
+            element.innerHTML = "";
+            words.forEach((letter, index) => {
+                let span = document.createElement("span");
+                span.innerText = letter;
+                span.classList.add("rainbow-hover");
+                element.appendChild(span);
+            });
+        }
+
+        // Dynamically change background color based on mouse position
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth * 255;
+            const mouseY = e.clientY / window.innerHeight * 255;
+            document.body.style.backgroundColor = `rgb(${mouseX}, ${mouseY}, 255)`;
+        });
+    </script>
 </body>
 </html>
