@@ -32,6 +32,10 @@
         }
         .header { left: 10px; }
         .clock { right: 10px; }
+        .header:hover, .clock:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
         .search-container {
             position: fixed;
             top: 10px;
@@ -45,6 +49,9 @@
             padding: 8px 15px;
             z-index: 1000;
             transition: all 0.3s ease;
+        }
+        .search-container:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
         .search-container input {
             background: transparent;
@@ -281,8 +288,6 @@
                     <h2>Why Learn Programming?</h2>
                     <p>Programming is a valuable skill in today's digital world. It opens doors to careers in software development, data science, and more.</p>
                     <img src="https://via.placeholder.com/800x400" alt="Why Learn Programming">
-                    <!-- Add more content here to make it scrollable -->
-                    ${Array.from({ length: 50 }, (_, i) => `<h2>Section ${i + 1}</h2><p>This is additional content to make the page scrollable. ${i + 1}</p>`).join('')}
                 `
             },
             {
@@ -296,8 +301,6 @@
                     <p>Front-end development focuses on the user interface and experience. It uses HTML, CSS, and JavaScript.</p>
                     <h2>Back-End Development</h2>
                     <p>Back-end development handles server-side logic, databases, and APIs. It uses languages like Python, Ruby, and Node.js.</p>
-                    <!-- Add more content here to make it scrollable -->
-                    ${Array.from({ length: 50 }, (_, i) => `<h2>Section ${i + 1}</h2><p>This is additional content to make the page scrollable. ${i + 1}</p>`).join('')}
                 `
             },
             {
@@ -320,8 +323,6 @@
                     <h2>Why Use Linux?</h2>
                     <p>Linux is known for its stability, security, and flexibility. It is also free and open-source.</p>
                     <img src="https://via.placeholder.com/800x400" alt="Why Use Linux">
-                    <!-- Add more content here to make it scrollable -->
-                    ${Array.from({ length: 50 }, (_, i) => `<h2>Section ${i + 1}</h2><p>This is additional content to make the page scrollable. ${i + 1}</p>`).join('')}
                 `
             },
             {
@@ -344,8 +345,6 @@
                     <h2>Why Use Windows?</h2>
                     <p>Windows is known for its user-friendly interface, compatibility with a wide range of software, and strong support for gaming.</p>
                     <img src="https://via.placeholder.com/800x400" alt="Why Use Windows">
-                    <!-- Add more content here to make it scrollable -->
-                    ${Array.from({ length: 50 }, (_, i) => `<h2>Section ${i + 1}</h2><p>This is additional content to make the page scrollable. ${i + 1}</p>`).join('')}
                 `
             },
             {
@@ -368,8 +367,6 @@
                     <h2>Why Use macOS?</h2>
                     <p>macOS is known for its stability, security, and seamless integration with other Apple devices.</p>
                     <img src="https://via.placeholder.com/800x400" alt="Why Use macOS">
-                    <!-- Add more content here to make it scrollable -->
-                    ${Array.from({ length: 50 }, (_, i) => `<h2>Section ${i + 1}</h2><p>This is additional content to make the page scrollable. ${i + 1}</p>`).join('')}
                 `
             },
             // Add more topics with detailed descriptions here
