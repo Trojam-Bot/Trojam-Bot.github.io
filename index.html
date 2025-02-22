@@ -79,38 +79,119 @@
             opacity: 0.3;
         }
 
-        /* Smooth scroll animation */
-        .topic {
-            transition: transform 0.3s ease-in-out;
+        .search-container {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .search-icon {
+            font-size: 30px;
+            cursor: pointer;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 50%;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .search-icon:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .search-bar {
+            display: none;
+            margin-left: 10px;
+            padding: 8px;
+            font-size: 16px;
+            border-radius: 20px;
+            border: none;
+            width: 200px;
+            background-color: #1e1e1e;
+            color: white;
+            transition: width 0.3s ease;
+        }
+
+        .search-bar.active {
+            display: block;
+            width: 250px;
+        }
+
+        .no-results {
+            color: red;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .search-bar:focus {
+            outline: none;
         }
 
     </style>
 </head>
 <body>
     <div class="header" onclick="location.reload()">Learning-Project</div>
+    <div class="search-container">
+        <div class="search-icon" onclick="toggleSearch()">🔍</div>
+        <input type="text" class="search-bar" id="searchBar" placeholder="Suche Themen..." oninput="searchTopics()">
+    </div>
     <div class="container" id="topics">
         <!-- 70 Themen generieren -->
     </div>
 
     <script>
+        // Themen hinzufügen
         let topicsContainer = document.getElementById('topics');
+        let topics = [];
         for (let i = 1; i <= 70; i++) {
-            let topic = document.createElement('div');
-            topic.classList.add('topic');
-            topic.textContent = "Thema " + i;
-            topicsContainer.appendChild(topic);
+            let topic = "Thema " + i;
+            topics.push(topic);
+            let topicElement = document.createElement('div');
+            topicElement.classList.add('topic');
+            topicElement.textContent = topic;
+            topicsContainer.appendChild(topicElement);
         }
 
-        // Scroll-Effekt für die Themenboxen
-        window.addEventListener('scroll', () => {
-            let topics = document.querySelectorAll('.topic');
-            topics.forEach(topic => {
-                let rect = topic.getBoundingClientRect();
-                if (rect.top < window.innerHeight && rect.bottom >= 0) {
-                    topic.style.transform = 'translateY(' + (window.scrollY / 15) + 'px)';
+        // Suchleiste anzeigen/verstecken
+        function toggleSearch() {
+            let searchBar = document.getElementById('searchBar');
+            searchBar.classList.toggle('active');
+        }
+
+        // Themen suchen
+        function searchTopics() {
+            let searchQuery = document.getElementById('searchBar').value.toLowerCase();
+            let topicElements = document.querySelectorAll('.topic');
+            let noResults = true;
+
+            topicElements.forEach((topic, index) => {
+                if (topics[index].toLowerCase().includes(searchQuery)) {
+                    topic.style.display = 'block'; // Zeige Thema an
+                    noResults = false;
+                } else {
+                    topic.style.display = 'none'; // Verstecke Thema
                 }
             });
-        });
+
+            if (noResults && searchQuery) {
+                let noResultsElement = document.querySelector('.no-results');
+                if (!noResultsElement) {
+                    let message = document.createElement('div');
+                    message.classList.add('no-results');
+                    message.textContent = "Keine Themen gefunden.";
+                    topicsContainer.appendChild(message);
+                }
+            } else {
+                let existingMessage = document.querySelector('.no-results');
+                if (existingMessage) {
+                    existingMessage.remove();
+                }
+            }
+        }
     </script>
 </body>
 </html>
