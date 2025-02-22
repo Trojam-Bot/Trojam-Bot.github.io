@@ -15,6 +15,7 @@
             background-color: #121212;
             color: white;
             overflow-x: hidden;
+            font-size: 16px;
         }
         .header {
             position: fixed;
@@ -72,25 +73,25 @@
             margin-top: 80px;
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 10px; /* Reduzierte Lücken */
+            gap: 10px;
             padding: 20px;
         }
         .topic {
             background: linear-gradient(135deg, #6a11cb, #2575fc);
-            padding: 30px 40px; /* Vergrößerte Boxen */
+            padding: 30px 40px;
             margin: 10px;
             border-radius: 15px;
             font-size: 20px;
             cursor: pointer;
-            transition: transform 0.3s ease, background 0.5s ease;
-            width: 180px;
-            height: 180px;
+            transition: transform 0.3s ease, background 0.5s ease, box-shadow 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 100%; /* Dynamische Breite, um im Bildschirm zu passen */
+            height: 150px; /* Feste Höhe */
         }
         .topic:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
             background: linear-gradient(135deg, #ff6ec4, #7873f5);
             box-shadow: 0 0 15px rgba(255, 105, 180, 0.8);
         }
