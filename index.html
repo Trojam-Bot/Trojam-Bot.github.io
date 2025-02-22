@@ -27,7 +27,7 @@
             position: fixed;
             top: 10px;
             right: 10px;
-            font-size: 2rem;
+            font-size: 1.5rem;
             background: transparent;
             border: none;
             cursor: pointer;
@@ -62,15 +62,6 @@
             box-shadow: 0 0 50px rgba(0, 255, 255, 0.8);
         }
 
-        /* 🌐 Emoji Drehung */
-        #modeToggle {
-            transition: transform 0.6s ease;
-        }
-
-        body.light-mode #modeToggle {
-            transform: rotate(180deg);
-        }
-
         /* 🌐 Themen-Boxen */
         .topic-container {
             margin: 20px auto;
@@ -99,26 +90,74 @@
             transform: translateY(-5px);
         }
 
-        /* 🌟 Smooth Animation für die Tabellen */
+        /* 🌙/🌞 Emoji Drehung */
+        #modeToggle.rotate {
+            animation: rotateEmoji 0.5s ease;
+        }
+
+        @keyframes rotateEmoji {
+            0% {
+                transform: rotate(0deg);
+            }
+            50% {
+                transform: rotate(180deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 🌐 Tabellenanimation */
         .topic-table {
             display: none;
             width: 100%;
             margin-top: 15px;
             border-collapse: collapse;
-            opacity: 0;
-            transform: translateY(30px);
             transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
-        .active-table {
+        .topic-table.active-table {
             display: table;
             opacity: 1;
-            transform: translateY(0);
+            transform: scale(1);
         }
 
-        /* 3D-Effekt für Überschriften */
+        .topic-table td,
+        .topic-table th {
+            padding: 10px;
+            text-align: left;
+            color: white;
+        }
+
+        .topic-table th {
+            background-color: #00d1ff;
+        }
+
+        .topic-table td {
+            background-color: rgba(0, 255, 255, 0.1);
+        }
+
+        /* 📜 3D-Überschrift-Effekt */
+        .topic {
+            transition: transform 0.3s ease;
+        }
+
         .topic:hover {
-            transform: translateY(-5px) scale(1.1);
+            transform: scale(1.1) translateY(-3px);
+        }
+
+        /* 🌈 Regenbogeneffekt */
+        @keyframes rainbow {
+            0% { color: #ff0000; }
+            20% { color: #ffa500; }
+            40% { color: #ffff00; }
+            60% { color: #008000; }
+            80% { color: #0000ff; }
+            100% { color: #4b0082; }
+        }
+
+        .topic:hover span {
+            animation: rainbow 1.5s infinite;
         }
 
         /* 📜 Smooth Scroll-Effekt */
@@ -132,77 +171,6 @@
             opacity: 1;
             transform: translateY(0);
         }
-
-        /* Chatbox-Design */
-        .chatbox-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 250px;
-            height: 50px;
-            background-color: #0077cc;
-            color: white;
-            border-radius: 25px;
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(0, 209, 255, 0.5);
-            transition: width 0.3s ease;
-        }
-
-        .chatbox-container.open {
-            width: 400px;
-        }
-
-        .chatbox-container span {
-            margin-left: 10px;
-            font-size: 1.1rem;
-        }
-
-        .chatbox-container .robot {
-            font-size: 2rem;
-        }
-
-        .chatbox {
-            display: none;
-            position: fixed;
-            bottom: 100px;
-            right: 20px;
-            background-color: #121212;
-            color: white;
-            width: 350px;
-            height: 400px;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 0 15px rgba(0, 209, 255, 0.6);
-            transition: all 0.3s ease;
-        }
-
-        .chatbox.open {
-            display: block;
-        }
-
-        .chatbox textarea {
-            width: 100%;
-            height: 60px;
-            padding: 10px;
-            background-color: #333;
-            color: white;
-            border-radius: 5px;
-            border: none;
-            resize: none;
-        }
-        
-        /* 🌞 Chatbox Animation */
-        .chatbox.open {
-            transform: scale(1.1);
-        }
-
-        .chatbox-container.open .chatbox {
-            display: block;
-        }
-
     </style>
 </head>
 <body>
@@ -219,114 +187,156 @@
 <!-- 🌐 Themen mit Unterthemen -->
 <div class="topic-container" data-scroll>
     <div class="topic" onclick="toggleTable('techTable')">🌐 Technology & Programming</div>
-    <table class="topic-table" id="techTable">
-        <thead>
-            <tr>
-                <th>Topic</th>
-                <th>Subtopics</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Web Development</td>
-                <td>HTML, CSS, JavaScript</td>
-            </tr>
-            <tr>
-                <td>App Development</td>
-                <td>Android, iOS, Flutter</td>
-            </tr>
-            <tr>
-                <td>AI & Machine Learning</td>
-                <td>Python, TensorFlow</td>
-            </tr>
-            <tr>
-                <td>Cybersecurity</td>
-                <td>Ethical Hacking, Cryptography</td>
-            </tr>
-            <tr>
-                <td>Data Analysis</td>
-                <td>Python, Excel</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="topic-table" id="techTable">
+        <table>
+            <thead>
+                <tr>
+                    <th>Topic</th>
+                    <th>Subtopics</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Web Development</td>
+                    <td>HTML, CSS, JavaScript</td>
+                </tr>
+                <tr>
+                    <td>App Development</td>
+                    <td>Android, iOS, Flutter</td>
+                </tr>
+                <tr>
+                    <td>AI & Machine Learning</td>
+                    <td>Python, TensorFlow</td>
+                </tr>
+                <tr>
+                    <td>Cybersecurity</td>
+                    <td>Ethical Hacking, Cryptography</td>
+                </tr>
+                <tr>
+                    <td>Data Analysis</td>
+                    <td>Python, Excel</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <div class="topic" onclick="toggleTable('scienceTable')">📚 Science & Education</div>
-    <table class="topic-table" id="scienceTable">
-        <thead>
-            <tr>
-                <th>Topic</th>
-                <th>Subtopics</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Astronomy</td>
-                <td>The Universe, Stars, Planets</td>
-            </tr>
-            <tr>
-                <td>Biology</td>
-                <td>The Human Body, Genetics</td>
-            </tr>
-            <tr>
-                <td>Physics</td>
-                <td>Motion, Quantum Mechanics</td>
-            </tr>
-            <tr>
-                <td>Chemistry</td>
-                <td>Chemical Reactions, Periodic Table</td>
-            </tr>
-            <tr>
-                <td>Math</td>
-                <td>Basic Algebra, Calculus</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+    <div class="topic-table" id="scienceTable">
+        <table>
+            <thead>
+                <tr>
+                    <th>Topic</th>
+                    <th>Subtopics</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Astronomy</td>
+                    <td>The Universe, Stars, Planets</td>
+                </tr>
+                <tr>
+                    <td>Biology</td>
+                    <td>The Human Body, Genetics</td>
+                </tr>
+                <tr>
+                    <td>Physics</td>
+                    <td>Motion, Quantum Mechanics</td>
+                </tr>
+                <tr>
+                    <td>Chemistry</td>
+                    <td>Chemical Reactions, Periodic Table</td>
+                </tr>
+                <tr>
+                    <td>Math</td>
+                    <td>Basic Math, Algebra, Geometry</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-<!-- 📱 Chatbox-Sektion -->
-<div class="chatbox-container">
-    <span class="robot">🤖</span><span>Chat with AI for Help</span>
-    <div class="chatbox">
-        <textarea placeholder="Type your question..."></textarea>
+    <div class="topic" onclick="toggleTable('designTable')">🎨 Creativity & Design</div>
+    <div class="topic-table" id="designTable">
+        <table>
+            <thead>
+                <tr>
+                    <th>Topic</th>
+                    <th>Subtopics</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Graphic Design</td>
+                    <td>Canva, Photoshop</td>
+                </tr>
+                <tr>
+                    <td>Video Editing</td>
+                    <td>DaVinci Resolve</td>
+                </tr>
+                <tr>
+                    <td>3D Modeling</td>
+                    <td>Blender, Maya</td>
+                </tr>
+                <tr>
+                    <td>Writing & Storytelling</td>
+                    <td>Creative Writing, Story Crafting</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="topic" onclick="toggleTable('growthTable')">💡 Personal Growth & Everyday Skills</div>
+    <div class="topic-table" id="growthTable">
+        <table>
+            <thead>
+                <tr>
+                    <th>Topic</th>
+                    <th>Subtopics</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Time Management</td>
+                    <td>Productivity Hacks, Task Management</td>
+                </tr>
+                <tr>
+                    <td>Financial Literacy</td>
+                    <td>Investing, Budgeting</td>
+                </tr>
+                <tr>
+                    <td>Cooking</td>
+                    <td>Healthy Recipes, Cooking Skills</td>
+                </tr>
+                <tr>
+                    <td>Public Speaking</td>
+                    <td>Confidence Building, Presentation Skills</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
 <script>
-    let darkMode = false;
-    const modeToggle = document.getElementById('modeToggle');
-    const body = document.body;
-    const chatboxContainer = document.querySelector('.chatbox-container');
-    const chatbox = document.querySelector('.chatbox');
-
-    // 🌑 Darkmode und Lightmode Umschalten
-    modeToggle.addEventListener('click', () => {
-        darkMode = !darkMode;
-        body.classList.toggle('light-mode', darkMode);
-        modeToggle.textContent = darkMode ? '🌞' : '🌙';
+    // 🌙/🌞 Darkmode Lightmode Umschaltung
+    document.getElementById('modeToggle').addEventListener('click', function () {
+        document.body.classList.toggle('light-mode');
+        this.classList.toggle('rotate');
+        this.textContent = document.body.classList.contains('light-mode') ? '🌞' : '🌙';
     });
 
-    // 🌍 Tabelle dynamisch anzeigen
+    // 🎉 Themen-Table Toggle
     function toggleTable(tableId) {
         const table = document.getElementById(tableId);
         table.classList.toggle('active-table');
     }
 
-    // 💬 Chatbox Öffnen
-    chatboxContainer.addEventListener('click', () => {
-        chatboxContainer.classList.toggle('open');
-        chatbox.classList.toggle('open');
-    });
-
-    // 🌟 Ein- und Ausblenden der Themen
-    document.querySelectorAll('[data-scroll]').forEach((el) => {
-        window.addEventListener('scroll', () => {
-            if (el.getBoundingClientRect().top <= window.innerHeight) {
-                el.classList.add('active');
+    // 🌐 Animation aktivieren
+    window.addEventListener('scroll', function () {
+        document.querySelectorAll('[data-scroll]').forEach(function (element) {
+            if (element.getBoundingClientRect().top < window.innerHeight) {
+                element.classList.add('active');
             }
         });
     });
-
-    window.scroll();
 </script>
 
 </body>
