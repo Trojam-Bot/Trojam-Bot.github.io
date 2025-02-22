@@ -75,6 +75,7 @@
             border-radius: 20px;
             transition: all 0.3s ease;
             cursor: pointer;
+            user-select: none; /* Verhindert das Umschalten des Cursors */
         }
 
         .topic:hover {
@@ -82,18 +83,19 @@
             background-color: #0088cc;
         }
 
-        /* Blob Animation für Click */
+        /* Klick-Animation für Themen */
         .topic.clicked {
-            animation: blobAnimation 1s ease-out;
+            animation: clickAnimation 0.5s ease-out;
         }
 
-        @keyframes blobAnimation {
+        @keyframes clickAnimation {
             0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+            20% { transform: scale(1.1); }
+            50% { transform: scale(1); }
             100% { transform: scale(1); }
         }
 
-        /* 🪐 Unter-Themen mit Animation */
+        /* Blob-Animation für Subthemen */
         .subtopics {
             display: none;
             text-align: center;
@@ -103,11 +105,12 @@
 
         .subtopics.show {
             display: block;
+            animation: blobAnimation 1s ease-out;
         }
 
-        .subtopics span {
-            display: block;
-            margin: 10px 0;
+        @keyframes blobAnimation {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         /* 🌟 Smooth Scroll-Effekt */
@@ -134,6 +137,7 @@
         .shake {
             animation: shake 0.5s ease;
         }
+
     </style>
 </head>
 <body>
@@ -189,6 +193,10 @@
     modeToggle.addEventListener("click", () => {
         document.body.classList.toggle("light-mode");
         modeToggle.textContent = document.body.classList.contains("light-mode") ? "🌞" : "🌙";
+
+        // Rotation für Mond/Sonne
+        modeToggle.style.transition = "transform 0.3s ease";
+        modeToggle.style.transform = document.body.classList.contains("light-mode") ? "rotate(360deg)" : "rotate(-360deg)";
     });
 
     // 📜 Scroll-Effekte
@@ -207,13 +215,16 @@
     window.addEventListener("scroll", scrollHandler);
     scrollHandler();
 
-    // Blob-Effekt für das Öffnen von Subtopics
+    // Klick-Animation für Themen
     function toggleSubtopics(topic) {
         const subtopics = document.getElementById(`${topic}-subtopics`);
         subtopics.classList.toggle('show');
         
         const topicDiv = document.getElementById(topic);
-        topicDiv.classList.toggle('clicked');
+        topicDiv.classList.add('clicked');
+        
+        // Entfernen der Animation nach dem Klick
+        setTimeout(() => topicDiv.classList.remove('clicked'), 500);
     }
 
     // Wackel-Animation für Scrollen
