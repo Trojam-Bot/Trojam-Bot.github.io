@@ -19,12 +19,7 @@
         .header {
             position: fixed;
             top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 50px;
-            padding: 10px 20px;
+            left: 20px;
             font-size: 24px;
             font-weight: bold;
             z-index: 1000;
@@ -33,7 +28,6 @@
         }
         .header:hover {
             transform: scale(1.05);
-            background: rgba(255, 255, 255, 0.2);
         }
         .search-container {
             position: fixed;
@@ -44,32 +38,32 @@
             display: flex;
             align-items: center;
             gap: 10px;
-        }
-        .search-icon {
-            font-size: 30px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            background-color: rgba(255, 255, 255, 0.2);
-            padding: 10px;
-            border-radius: 50%;
-        }
-        .search-icon:hover {
-            transform: scale(1.1);
+            width: 50%;
         }
         .search-bar {
-            display: none;
             background-color: rgba(255, 255, 255, 0.1);
             padding: 10px;
-            border-radius: 10px;
+            border-radius: 30px;
             color: white;
             font-size: 18px;
-            width: 200px;
+            width: 100%;
             border: none;
-            transition: width 0.5s ease;
+            transition: width 0.3s ease;
+            height: 40px;
         }
-        .search-bar.show {
-            display: block;
-            width: 250px;
+        .search-bar::placeholder {
+            color: #bbb;
+        }
+        .search-container .search-icon {
+            font-size: 30px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+        .search-container .search-icon:hover {
+            transform: scale(1.1);
         }
         .container {
             margin-top: 80px;
@@ -111,12 +105,12 @@
     </style>
 </head>
 <body>
-    <div class="header" onclick="window.location.reload();">Learning-Project</div>
+    <div class="header">Learning-Project</div>
     <div class="search-container">
-        <div class="search-icon" onclick="toggleSearch()">
+        <input class="search-bar" id="search-input" type="text" placeholder="Suche ein Thema..." onkeyup="searchTopics(event)">
+        <div class="search-icon">
             🔍
         </div>
-        <input class="search-bar" id="search-input" type="text" placeholder="Suche ein Thema..." onkeyup="searchTopics(event)">
     </div>
     <div class="container" id="topics">
         <!-- 70 Themen generieren -->
@@ -132,28 +126,15 @@
             topicsContainer.appendChild(topic);
         }
 
-        // Suchleiste toggle
-        function toggleSearch() {
-            const searchBar = document.getElementById('search-input');
-            searchBar.classList.toggle('show');
-            if (searchBar.classList.contains('show')) {
-                searchBar.focus();
-            }
-        }
-
         // Suchfunktion und Scrollen zum Thema
         function searchTopics(event) {
-            if (event.key === 'Enter') {
-                const query = event.target.value.toLowerCase();
-                const topic = document.querySelector(`#topic-${query}`);
-                if (topic) {
-                    // Zum Thema scrollen und es blinkt 5 mal
-                    topic.scrollIntoView({ behavior: 'smooth' });
-                    topic.classList.add('blink');
-                    setTimeout(() => topic.classList.remove('blink'), 5000);
-                } else {
-                    alert('Thema nicht gefunden');
-                }
+            const query = event.target.value.toLowerCase();
+            const topic = document.querySelector(`#topic-${query}`);
+            if (topic) {
+                // Zum Thema scrollen und es blinkt 5 mal
+                topic.scrollIntoView({ behavior: 'smooth' });
+                topic.classList.add('blink');
+                setTimeout(() => topic.classList.remove('blink'), 5000);
             }
         }
     </script>
