@@ -16,7 +16,6 @@
             color: white;
             transition: background-color 0.5s, color 0.5s;
             overflow-x: hidden;
-            height: 100%;
             padding-top: 80px; /* Sicherstellen, dass der Header nicht überlappt */
         }
         .header {
@@ -36,22 +35,6 @@
         .header:hover {
             transform: scale(1.05);
         }
-        .mode-toggle {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            font-size: 30px;
-            cursor: pointer;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            padding: 10px;
-            transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
-            z-index: 1001;
-        }
-        .mode-toggle:hover {
-            transform: scale(1.1);
-            background: rgba(255, 255, 255, 0.3);
-        }
         .container {
             display: flex;
             flex-wrap: wrap;
@@ -68,7 +51,7 @@
             align-items: center;
             justify-content: center;
             color: white;
-            transition: transform 0.3s ease, background 0.5s ease;
+            transition: transform 0.3s ease, background 0.5s ease, box-shadow 0.3s ease;
             cursor: pointer;
             margin-bottom: 20px;
             position: relative;
@@ -77,6 +60,7 @@
             transform: scale(1.05);
             background: linear-gradient(135deg, #ff6ec4, #7873f5);
             box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+            filter: brightness(1.2);
         }
         .topic::after {
             content: '';
@@ -91,7 +75,7 @@
             pointer-events: none;
         }
         .topic:hover::after {
-            opacity: 0.2;
+            opacity: 0.3;
         }
 
         /* Smooth scroll animation */
@@ -99,16 +83,7 @@
             transition: transform 0.3s ease-in-out;
         }
 
-        /* Mond/Sonne Animation */
-        .mode-toggle {
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .mode-toggle.sun {
-            transform: rotate(360deg);
-        }
-        .mode-toggle.moon {
-            transform: rotate(0deg);
-        }
+        /* Dark & Light Mode */
         body.sun-mode {
             background-color: #f5f5f5;
             color: #000;
@@ -121,32 +96,25 @@
 </head>
 <body>
     <div class="header" onclick="location.reload()">Learning-Project</div>
-    <div class="mode-toggle moon" onclick="toggleMode()">🌙</div>
     <div class="container" id="topics">
-        <!-- 40 Themen generieren -->
+        <!-- 70 Themen generieren -->
     </div>
 
     <script>
+        // Funktion um den Dark Mode zu aktivieren
         function toggleMode() {
             let body = document.body;
-            let toggle = document.querySelector('.mode-toggle');
             if (body.classList.contains('moon-mode')) {
                 body.classList.remove('moon-mode');
                 body.classList.add('sun-mode');
-                toggle.textContent = "☀️";
-                toggle.classList.remove('moon');
-                toggle.classList.add('sun');
             } else {
                 body.classList.remove('sun-mode');
                 body.classList.add('moon-mode');
-                toggle.textContent = "🌙";
-                toggle.classList.remove('sun');
-                toggle.classList.add('moon');
             }
         }
 
         let topicsContainer = document.getElementById('topics');
-        for (let i = 1; i <= 40; i++) {
+        for (let i = 1; i <= 70; i++) {
             let topic = document.createElement('div');
             topic.classList.add('topic');
             topic.textContent = "Thema " + i;
