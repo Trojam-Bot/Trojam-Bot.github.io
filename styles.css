@@ -2,7 +2,7 @@
 body {
   font-family: 'INIR', sans-serif;
   background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
-  color: #00ffcc;
+  color: #8a2be2;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
@@ -25,7 +25,7 @@ header {
 }
 
 nav a {
-  color: #00ffcc;
+  color: #8a2be2;
   text-decoration: none;
   margin: 0 15px;
   transition: color 0.3s, text-shadow 0.3s;
@@ -38,15 +38,15 @@ nav a:hover {
 
 .search-bar input {
   padding: 10px;
-  border: 2px solid #00ffcc;
+  border: 2px solid #8a2be2;
   background: transparent;
-  color: #00ffcc;
+  color: #8a2be2;
   outline: none;
 }
 
 .search-bar button {
   padding: 10px 20px;
-  background: #00ffcc;
+  background: #8a2be2;
   border: none;
   color: #000;
   cursor: pointer;
@@ -73,7 +73,7 @@ nav a:hover {
 .hero h1 {
   font-size: 4rem;
   margin: 0;
-  text-shadow: 0 0 10px #00ffcc;
+  text-shadow: 0 0 10px #8a2be2;
 }
 
 .hero p {
@@ -86,20 +86,20 @@ nav a:hover {
   gap: 20px;
 }
 
-.neon-button {
+.purple-button {
   padding: 15px 30px;
   background: transparent;
-  border: 2px solid #00ffcc;
-  color: #00ffcc;
+  border: 2px solid #8a2be2;
+  color: #8a2be2;
   font-size: 1rem;
   cursor: pointer;
   transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
 }
 
-.neon-button:hover {
-  background: #00ffcc;
+.purple-button:hover {
+  background: #8a2be2;
   color: #000;
-  box-shadow: 0 0 20px #00ffcc;
+  box-shadow: 0 0 20px #8a2be2;
   transform: scale(1.1);
 }
 
@@ -124,7 +124,7 @@ nav a:hover {
 
 .game-card {
   background: rgba(0, 0, 0, 0.8);
-  border: 2px solid #00ffcc;
+  border: 2px solid #8a2be2;
   border-radius: 10px;
   padding: 20px;
   text-align: center;
@@ -133,7 +133,7 @@ nav a:hover {
 
 .game-card:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 20px #00ffcc;
+  box-shadow: 0 0 20px #8a2be2;
 }
 
 .game-card img {
