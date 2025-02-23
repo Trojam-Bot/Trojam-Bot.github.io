@@ -1,38 +1,23 @@
-// Load Game Function
-function loadGame(gameName) {
-  const gameContainer = document.getElementById('game-container');
-  const gameContent = document.getElementById('game-content');
+// Parallax Effect
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+  document.body.style.backgroundPosition = `center ${scrollY * 0.5}px`;
+});
 
-  // Load the game script dynamically
-  const script = document.createElement('script');
-  script.src = `assets/${gameName}.js`;
-  document.body.appendChild(script);
+// Light Effects on Mouse Move
+document.addEventListener('mousemove', (e) => {
+  const x = e.clientX / window.innerWidth;
+  const y = e.clientY / window.innerHeight;
+  document.body.style.background = `radial-gradient(circle at ${x * 100}% ${y * 100}%, #00ffcc, #1a1a1a)`;
+});
 
-  // Show the game container
-  gameContainer.classList.remove('hidden');
-}
-
-// Close Game Function
-function closeGame() {
-  const gameContainer = document.getElementById('game-container');
-  gameContainer.classList.add('hidden');
-  document.getElementById('game-content').innerHTML = '';
-}
-
-// Calculator Functions
-function appendToDisplay(value) {
-  document.getElementById('calc-display').value += value;
-}
-
-function clearDisplay() {
-  document.getElementById('calc-display').value = '';
-}
-
-function calculateResult() {
-  const display = document.getElementById('calc-display');
-  try {
-    display.value = eval(display.value);
-  } catch (error) {
-    display.value = 'Error';
-  }
-}
+// Hover Effects for Game Cards
+const gameCards = document.querySelectorAll('.game-card');
+gameCards.forEach(card => {
+  card.addEventListener('mouseenter', () => {
+    card.style.boxShadow = '0 0 20px #00ffcc';
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.boxShadow = 'none';
+  });
+});
