@@ -1,23 +1,40 @@
+// Open Game Info Panel
+const gameBoxes = document.querySelectorAll('.game-box');
+const infoPanel = document.querySelector('.info-panel');
+const closeBtn = document.querySelector('.close-btn');
 
-// Smooth scroll animation for feature cards
-document.addEventListener('DOMContentLoaded', () => {
-    const featureCards = document.querySelectorAll('.feature-card');
-    featureCards.forEach((card, index) => {
-        setTimeout(() => {
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-        }, index * 200);
+gameBoxes.forEach(box => {
+    box.addEventListener('click', () => {
+        const game = box.getAttribute('data-game');
+        loadGameInfo(game);
+        infoPanel.style.display = 'flex';
     });
 });
 
-// Install button hover effect
-const installButton = document.querySelector('.install-button');
-installButton.addEventListener('mouseenter', () => {
-    installButton.style.transform = 'scale(1.1)';
-    installButton.style.boxShadow = '0 0 20px rgba(0, 191, 255, 0.8)';
+// Close Game Info Panel
+closeBtn.addEventListener('click', () => {
+    infoPanel.style.display = 'none';
 });
 
-installButton.addEventListener('mouseleave', () => {
-    installButton.style.transform = 'scale(1)';
-    installButton.style.boxShadow = '0 0 10px rgba(0, 191, 255, 0.5)';
-});
+// Load Game Info
+function loadGameInfo(game) {
+    const gameTitle = document.querySelector('.game-title');
+    const gameDescription = document.querySelector('.game-description');
+    const links = document.querySelector('.links');
+
+    if (game === 'minecraft') {
+        gameTitle.textContent = 'Minecraft';
+        gameDescription.textContent = 'Minecraft is a sandbox game where players can build and explore blocky worlds.';
+        links.innerHTML = `
+            <a href="https://www.minecraft.net" target="_blank">Official Website</a>
+            <a href="https://store.steampowered.com" target="_blank">Download on Steam</a>
+        `;
+    } else if (game === 'roblox') {
+        gameTitle.textContent = 'Roblox';
+        gameDescription.textContent = 'Roblox is a platform where users can create and play games.';
+        links.innerHTML = `
+            <a href="https://www.roblox.com" target="_blank">Official Website</a>
+            <a href="https://store.steampowered.com" target="_blank">Download on Steam</a>
+        `;
+    }
+}
