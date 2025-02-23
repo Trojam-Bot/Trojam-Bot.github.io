@@ -3,21 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Minigame Hub</title>
+  <title>CyberGame Hub</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <!-- Taskbar -->
   <div class="taskbar">
     <div class="logo" onclick="window.location.reload()">
-      <img src="assets/logo.png" alt="Logo">
+      <img src="assets/logo.png" alt="CyberGame Hub Logo">
     </div>
     <nav>
       <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#games">Games</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="#games"><i class="fas fa-gamepad"></i> Games</a></li>
+        <li><a href="#calculator"><i class="fas fa-calculator"></i> Calculator</a></li>
+        <li><a href="#about"><i class="fas fa-info-circle"></i> About</a></li>
+        <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
       </ul>
     </nav>
   </div>
@@ -25,44 +27,77 @@
   <!-- Main Content -->
   <div class="container">
     <section id="home">
-      <h1>Welcome to Minigame Hub!</h1>
-      <p>Play fun and interactive minigames with smooth and beautiful UI.</p>
+      <h1>Welcome to <span class="cyber-text">CyberGame Hub</span></h1>
+      <p>Immerse yourself in a world of cyberpunk minigames with stunning visuals and smooth gameplay.</p>
     </section>
 
     <section id="games">
-      <h2>Minigames</h2>
+      <h2><span class="cyber-text">Minigames</span></h2>
       <div class="game-grid">
         <div class="game-card" onclick="loadGame('game1')">
-          <h3>Game 1: Tic Tac Toe</h3>
+          <h3>Tic Tac Toe</h3>
           <p>A classic two-player game.</p>
         </div>
         <div class="game-card" onclick="loadGame('game2')">
-          <h3>Game 2: Memory Match</h3>
+          <h3>Memory Match</h3>
           <p>Test your memory skills.</p>
         </div>
         <div class="game-card" onclick="loadGame('game3')">
-          <h3>Game 3: Snake</h3>
+          <h3>Snake</h3>
           <p>Guide the snake to eat food.</p>
+        </div>
+        <div class="game-card" onclick="loadGame('game4')">
+          <h3>Flappy Bird</h3>
+          <p>Dodge obstacles and fly high.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="calculator">
+      <h2><span class="cyber-text">Calculator</span></h2>
+      <div class="calculator">
+        <input type="text" id="calc-display" disabled>
+        <div class="calc-buttons">
+          <button onclick="clearDisplay()">C</button>
+          <button onclick="appendToDisplay('/')">/</button>
+          <button onclick="appendToDisplay('*')">*</button>
+          <button onclick="appendToDisplay('-')">-</button>
+          <button onclick="appendToDisplay('7')">7</button>
+          <button onclick="appendToDisplay('8')">8</button>
+          <button onclick="appendToDisplay('9')">9</button>
+          <button onclick="appendToDisplay('+')">+</button>
+          <button onclick="appendToDisplay('4')">4</button>
+          <button onclick="appendToDisplay('5')">5</button>
+          <button onclick="appendToDisplay('6')">6</button>
+          <button onclick="calculateResult()">=</button>
+          <button onclick="appendToDisplay('1')">1</button>
+          <button onclick="appendToDisplay('2')">2</button>
+          <button onclick="appendToDisplay('3')">3</button>
+          <button onclick="appendToDisplay('0')">0</button>
+          <button onclick="appendToDisplay('.')">.</button>
         </div>
       </div>
     </section>
 
     <section id="about">
-      <h2>About</h2>
-      <p>This website is designed to provide a collection of fun and interactive minigames with a smooth and visually appealing user interface.</p>
+      <h2><span class="cyber-text">About</span></h2>
+      <p>CyberGame Hub is a futuristic platform offering a collection of fun and interactive minigames with a cyberpunk aesthetic.</p>
     </section>
 
     <section id="contact">
-      <h2>Contact</h2>
-      <p>Have questions or feedback? Reach out to us at <a href="mailto:contact@minigamehub.com">contact@minigamehub.com</a>.</p>
+      <h2><span class="cyber-text">Contact</span></h2>
+      <p>Reach out to us at <a href="mailto:contact@cybergamehub.com">contact@cybergamehub.com</a>.</p>
     </section>
   </div>
 
   <!-- Game Container -->
   <div id="game-container" class="hidden">
-    <button onclick="closeGame()" class="close-btn">Close Game</button>
+    <button onclick="closeGame()" class="close-btn"><i class="fas fa-times"></i> Close Game</button>
     <div id="game-content"></div>
   </div>
+
+  <!-- Cyberpunk Lighting Effect -->
+  <div class="cyber-lighting"></div>
 
   <script src="script.js"></script>
 </body>
