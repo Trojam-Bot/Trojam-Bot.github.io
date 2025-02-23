@@ -1,74 +1,998 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Learner Project</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="icon" href="icon.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Project</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* 🌟 General Settings */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        body {
+            background-color: #121212;
+            color: white;
+            overflow-x: hidden;
+            position: relative;
+            scroll-behavior: smooth;
+        }
+        .header, .clock {
+            position: fixed;
+            top: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        .header { left: 10px; }
+        .clock { right: 10px; }
+        .header:hover, .clock:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+        .search-container {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 8px 15px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        .search-container:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .search-container input {
+            background: transparent;
+            border: none;
+            color: white;
+            outline: none;
+            font-size: 18px;
+            padding: 5px;
+            width: 250px;
+            transition: all 0.3s ease;
+        }
+        .search-container input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .search-container .icon {
+            margin-left: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .container {
+            margin-top: 80px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 10px 5px;
+            justify-items: center;
+            padding: 0 20px;
+        }
+        .topic {
+            width: 110px;
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            border-radius: 20px;
+            font-size: 12px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s, filter 0.3s ease;
+            cursor: pointer;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+        .topic:hover {
+            background: linear-gradient(135deg, #2575fc, #6a11cb);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            filter: brightness(1.5);
+        }
+        .topic .topic-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            transition: transform 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        .topic .emoji {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            opacity: 0.1;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .topic:hover .emoji {
+            opacity: 0.3;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .modal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background: #1e1e1e;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.8);
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            position: relative;
+        }
+        .modal.open .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+        .modal-content h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        .modal-content h2 {
+            font-size: 20px;
+            margin-top: 30px;
+            color: #6a11cb;
+        }
+        .modal-content p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+        .modal-content button {
+            background: #2575fc;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s ease;
+        }
+        .modal-content button:hover {
+            background: #6a11cb;
+        }
+        .table-of-contents {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 15px;
+            max-width: 200px;
+            max-height: 70vh;
+            overflow-y: auto;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .table-of-contents.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .table-of-contents ul {
+            list-style: none;
+            padding: 0;
+        }
+        .table-of-contents li {
+            margin: 10px 0;
+        }
+        .table-of-contents a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        .table-of-contents a:hover {
+            color: #6a11cb;
+        }
+        .not-found {
+            text-align: center;
+            font-size: 24px;
+            margin-top: 50px;
+            display: none;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Overlay for Minigames */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 9998;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Clicker Game Styles */
+        .clicker-game {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .clicker-game.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .clicker-game h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        .clicker-game button {
+            background: #2575fc;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s ease;
+        }
+        .clicker-game button:hover {
+            background: #6a11cb;
+        }
+        .clicker-game .score {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        .clicker-game .upgrades {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .clicker-game .upgrade {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .clicker-game .upgrade:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Tic Tac Toe Styles */
+        .tic-tac-toe {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .tic-tac-toe.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .tic-tac-toe h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        .tic-tac-toe .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+        }
+        .tic-tac-toe .cell {
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        .tic-tac-toe .cell:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+        .tic-tac-toe .status {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .tic-tac-toe .mode-selector {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .tic-tac-toe .mode-selector button {
+            background: #2575fc;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .tic-tac-toe .mode-selector button:hover {
+            background: #6a11cb;
+        }
+        .tic-tac-toe .mode-selector button.active {
+            background: #6a11cb;
+        }
+    </style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="logo">
-      <i class="fas fa-rocket"></i>
-      <span>Learner Project</span>
+    <div class="header" onclick="location.reload()">🚫 Learning Project</div>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search topics...">
+        <span class="icon">🔍</span>
     </div>
-    <div class="search-bar">
-      <input type="text" placeholder="Search...">
-      <button><i class="fas fa-search"></i></button>
+    <div class="clock" id="clock">00:00:00</div>
+    <div class="container" id="topics"></div>
+    <div class="not-found" id="notFound">Topic not found</div>
+
+    <!-- Overlay for Minigames -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Modal for Topic Details -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h1 id="modalTitle"></h1>
+            <div id="modalDescription"></div>
+            <button onclick="closeModal()">Close</button>
+        </div>
     </div>
-    <div class="date-time">
-      <span>Jun 10, 2024</span>
-      <span>9:41 AM</span>
+
+    <!-- Table of Contents -->
+    <div class="table-of-contents" id="tableOfContents">
+        <ul id="tocList"></ul>
     </div>
-  </header>
 
-  <!-- Main Content -->
-  <main>
-    <section class="hero">
-      <h1>Welcome to Learner Project</h1>
-      <p>Explore, learn, and create with our innovative tools and resources.</p>
-      <div class="buttons">
-        <button class="cta-button">Get Started</button>
-        <button class="cta-button">Learn More</button>
-      </div>
-    </section>
-
-    <section class="features">
-      <h2>Features</h2>
-      <div class="feature-cards">
-        <div class="card">
-          <i class="fas fa-lightbulb"></i>
-          <h3>Innovative Ideas</h3>
-          <p>Discover cutting-edge concepts and solutions.</p>
+    <!-- Clicker Game -->
+    <div class="clicker-game" id="clickerGame">
+        <h2>Clicker Game</h2>
+        <div class="score">Score: <span id="clickerScore">0</span></div>
+        <button onclick="incrementScore()">Click Me!</button>
+        <div class="upgrades">
+            <div class="upgrade" onclick="buyUpgrade('autoClicker')">
+                Auto Clicker (Cost: 10)
+            </div>
+            <div class="upgrade" onclick="buyUpgrade('clickMultiplier')">
+                Click Multiplier (Cost: 50)
+            </div>
+            <div class="upgrade" onclick="buyUpgrade('megaClicker')">
+                Mega Clicker (Cost: 100)
+            </div>
+            <div class="upgrade" onclick="buyUpgrade('timeWarp')">
+                Time Warp (Cost: 200)
+            </div>
         </div>
-        <div class="card">
-          <i class="fas fa-code"></i>
-          <h3>Code Snippets</h3>
-          <p>Access ready-to-use code for your projects.</p>
+        <button onclick="closeClickerGame()">Close</button>
+    </div>
+
+    <!-- Tic Tac Toe Game -->
+    <div class="tic-tac-toe" id="ticTacToe">
+        <h2>Tic Tac Toe</h2>
+        <div class="mode-selector">
+            <button onclick="setDifficulty('easy')">Easy</button>
+            <button onclick="setDifficulty('normal')">Normal</button>
+            <button onclick="setDifficulty('hard')">Hard</button>
+            <button onclick="setDifficulty('devil')">Devil</button>
         </div>
-        <div class="card">
-          <i class="fas fa-users"></i>
-          <h3>Community</h3>
-          <p>Join a vibrant community of learners.</p>
+        <div class="board" id="ticTacToeBoard">
+            <div class="cell" data-index="0"></div>
+            <div class="cell" data-index="1"></div>
+            <div class="cell" data-index="2"></div>
+            <div class="cell" data-index="3"></div>
+            <div class="cell" data-index="4"></div>
+            <div class="cell" data-index="5"></div>
+            <div class="cell" data-index="6"></div>
+            <div class="cell" data-index="7"></div>
+            <div class="cell" data-index="8"></div>
         </div>
-      </div>
-    </section>
+        <div class="status" id="ticTacToeStatus"></div>
+        <button onclick="resetTicTacToe()">Reset Game</button>
+        <button onclick="closeTicTacToe()">Close</button>
+    </div>
 
-    <section class="about">
-      <h2>About Us</h2>
-      <p>We are dedicated to providing the best learning experience for everyone. Join us on this journey!</p>
-    </section>
-  </main>
+    <script>
+        const topicsList = [
+            {
+                name: "Programming",
+                emoji: "💻",
+                description: `
+                    <h2>What is Programming?</h2>
+                    <p>Programming is the process of writing instructions for computers to execute. It involves problem-solving, logic, and creativity.</p>
+                    <h2>History of Programming</h2>
+                    <p>Programming has evolved from machine code in the 1940s to high-level languages like Python and JavaScript today.</p>
+                    <h2>Popular Programming Languages</h2>
+                    <ul>
+                        <li>Python</li>
+                        <li>JavaScript</li>
+                        <li>Java</li>
+                        <li>C++</li>
+                        <li>Ruby</li>
+                    </ul>
+                    <h2>Why Learn Programming?</h2>
+                    <p>Programming is a valuable skill in today's digital world. It opens doors to careers in software development, data science, and more.</p>
+                `
+            },
+            {
+                name: "Web Development",
+                emoji: "🌐",
+                description: `
+                    <h2>What is Web Development?</h2>
+                    <p>Web development involves building and maintaining websites. It includes front-end (client-side) and back-end (server-side) development.</p>
+                    <h2>Front-End Development</h2>
+                    <p>Front-end development focuses on the user interface and experience. It uses HTML, CSS, and JavaScript.</p>
+                    <h2>Back-End Development</h2>
+                    <p>Back-end development handles server-side logic, databases, and APIs. It uses languages like Python, Ruby, and Node.js.</p>
+                `
+            },
+            {
+                name: "Linux",
+                emoji: "🐧",
+                description: `
+                    <h2>What is Linux?</h2>
+                    <p>Linux is an open-source operating system based on Unix. It is widely used in servers, desktops, and embedded systems.</p>
+                    <h2>History of Linux</h2>
+                    <p>Linux was created by Linus Torvalds in 1991. It has since become one of the most popular operating systems in the world.</p>
+                    <h2>Popular Linux Distributions</h2>
+                    <ul>
+                        <li>Ubuntu</li>
+                        <li>Fedora</li>
+                        <li>Debian</li>
+                        <li>CentOS</li>
+                        <li>Arch Linux</li>
+                    </ul>
+                    <h2>Why Use Linux?</h2>
+                    <p>Linux is known for its stability, security, and flexibility. It is also free and open-source.</p>
+                `
+            },
+            {
+                name: "Windows",
+                emoji: "🪟",
+                description: `
+                    <h2>What is Windows?</h2>
+                    <p>Windows is a family of operating systems developed by Microsoft. It is the most widely used OS for personal computers.</p>
+                    <h2>History of Windows</h2>
+                    <p>Windows was first released in 1985. It has since evolved through many versions, including Windows 95, XP, 7, and 10.</p>
+                    <h2>Popular Windows Versions</h2>
+                    <ul>
+                        <li>Windows 10</li>
+                        <li>Windows 8</li>
+                        <li>Windows 7</li>
+                        <li>Windows XP</li>
+                        <li>Windows 95</li>
+                    </ul>
+                    <h2>Why Use Windows?</h2>
+                    <p>Windows is known for its user-friendly interface, compatibility with a wide range of software, and strong support for gaming.</p>
+                `
+            },
+            {
+                name: "macOS",
+                emoji: "🍎",
+                description: `
+                    <h2>What is macOS?</h2>
+                    <p>macOS is the operating system for Apple's Mac computers. It is known for its sleek design and user-friendly interface.</p>
+                    <h2>History of macOS</h2>
+                    <p>macOS was first released in 2001 as Mac OS X. It has since evolved through many versions, including macOS Catalina and Big Sur.</p>
+                    <h2>Popular macOS Features</h2>
+                    <ul>
+                        <li>Spotlight Search</li>
+                        <li>Time Machine</li>
+                        <li>Mission Control</li>
+                        <li>iCloud Integration</li>
+                        <li>Continuity</li>
+                    </ul>
+                    <h2>Why Use macOS?</h2>
+                    <p>macOS is known for its stability, security, and seamless integration with other Apple devices.</p>
+                `
+            },
+            {
+                name: "Data Science",
+                emoji: "📊",
+                description: `
+                    <h2>What is Data Science?</h2>
+                    <p>Data Science is an interdisciplinary field that uses scientific methods, processes, algorithms, and systems to extract knowledge and insights from structured and unstructured data.</p>
+                    <h2>Key Components of Data Science</h2>
+                    <ul>
+                        <li>Data Analysis</li>
+                        <li>Machine Learning</li>
+                        <li>Data Visualization</li>
+                        <li>Big Data</li>
+                    </ul>
+                    <h2>Why Learn Data Science?</h2>
+                    <p>Data Science is one of the most in-demand fields today, with applications in finance, healthcare, marketing, and more.</p>
+                `
+            },
+            {
+                name: "Artificial Intelligence",
+                emoji: "🤖",
+                description: `
+                    <h2>What is Artificial Intelligence?</h2>
+                    <p>Artificial Intelligence (AI) is the simulation of human intelligence in machines that are programmed to think and learn like humans.</p>
+                    <h2>Applications of AI</h2>
+                    <ul>
+                        <li>Natural Language Processing</li>
+                        <li>Computer Vision</li>
+                        <li>Robotics</li>
+                        <li>Autonomous Vehicles</li>
+                    </ul>
+                    <h2>Why Learn AI?</h2>
+                    <p>AI is transforming industries and creating new opportunities in technology, healthcare, and beyond.</p>
+                `
+            },
+            {
+                name: "Cybersecurity",
+                emoji: "🔒",
+                description: `
+                    <h2>What is Cybersecurity?</h2>
+                    <p>Cybersecurity is the practice of protecting systems, networks, and programs from digital attacks.</p>
+                    <h2>Key Areas of Cybersecurity</h2>
+                    <ul>
+                        <li>Network Security</li>
+                        <li>Application Security</li>
+                        <li>Information Security</li>
+                        <li>Cloud Security</li>
+                    </ul>
+                    <h2>Why Learn Cybersecurity?</h2>
+                    <p>With the increasing number of cyber threats, cybersecurity is a critical field for protecting sensitive data and systems.</p>
+                `
+            },
+            {
+                name: "Cloud Computing",
+                emoji: "☁️",
+                description: `
+                    <h2>What is Cloud Computing?</h2>
+                    <p>Cloud Computing is the delivery of computing services over the internet, including storage, processing, and networking.</p>
+                    <h2>Types of Cloud Services</h2>
+                    <ul>
+                        <li>Infrastructure as a Service (IaaS)</li>
+                        <li>Platform as a Service (PaaS)</li>
+                        <li>Software as a Service (SaaS)</li>
+                    </ul>
+                    <h2>Why Learn Cloud Computing?</h2>
+                    <p>Cloud Computing is essential for modern IT infrastructure, enabling scalability, flexibility, and cost savings.</p>
+                `
+            },
+            {
+                name: "Blockchain",
+                emoji: "⛓️",
+                description: `
+                    <h2>What is Blockchain?</h2>
+                    <p>Blockchain is a decentralized digital ledger that records transactions across multiple computers in a secure and transparent manner.</p>
+                    <h2>Applications of Blockchain</h2>
+                    <ul>
+                        <li>Cryptocurrencies</li>
+                        <li>Smart Contracts</li>
+                        <li>Supply Chain Management</li>
+                        <li>Digital Identity</li>
+                    </ul>
+                    <h2>Why Learn Blockchain?</h2>
+                    <p>Blockchain technology is revolutionizing industries by providing secure and transparent solutions for various applications.</p>
+                `
+            },
+            {
+                name: "Clicker Game",
+                emoji: "🎮",
+                description: `
+                    <h2>Clicker Game</h2>
+                    <p>A fun and addictive clicker game with upgrades and smooth animations. Click the button to earn points and unlock upgrades!</p>
+                `,
+                onClick: () => openClickerGame()
+            },
+            {
+                name: "Tic Tac Toe",
+                emoji: "❌⭕",
+                description: `
+                    <h2>Tic Tac Toe</h2>
+                    <p>A classic game of Tic Tac Toe. Play against the computer and see if you can win!</p>
+                `,
+                onClick: () => openTicTacToe()
+            }
+        ];
 
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2024 Learner Project. All rights reserved.</p>
-  </footer>
+        function displayTopics() {
+            const searchInput = document.getElementById('searchInput');
+            const topicsContainer = document.getElementById('topics');
+            const notFound = document.getElementById('notFound');
+            topicsContainer.innerHTML = "";
+            const filteredTopics = topicsList.filter(topic => topic.name.toLowerCase().includes(searchInput.value.toLowerCase()));
+            
+            if (filteredTopics.length === 0) {
+                notFound.style.display = 'block';
+            } else {
+                notFound.style.display = 'none';
+                filteredTopics.forEach(topic => {
+                    const topicElement = document.createElement('div');
+                    topicElement.classList.add('topic');
+                    topicElement.innerHTML = `<div class="topic-content">
+                            <div class="emoji">${topic.emoji}</div>
+                            ${topic.name}
+                        </div>`;
+                    topicElement.addEventListener('click', () => {
+                        if (topic.onClick) topic.onClick();
+                        else openModal(topic);
+                    });
+                    topicElement.addEventListener('mousemove', (e) => handleMouseMove(e, topicElement));
+                    topicElement.addEventListener('mouseleave', () => handleMouseLeave(topicElement));
+                    topicsContainer.appendChild(topicElement);
+                });
+            }
+        }
 
-  <!-- Scripts -->
-  <script src="scripts.js"></script>
+        function handleMouseMove(e, element) {
+            const rect = element.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = (y - centerY) / 10;
+            const rotateY = -(x - centerX) / 10;
+            element.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+        }
+
+        function handleMouseLeave(element) {
+            element.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+        }
+
+        function openModal(topic) {
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDescription = document.getElementById('modalDescription');
+            modalTitle.textContent = topic.name;
+            modalDescription.innerHTML = topic.description;
+            modal.classList.add('open');
+
+            // Generate Table of Contents
+            const tocList = document.getElementById('tocList');
+            tocList.innerHTML = "";
+            const headings = modalDescription.querySelectorAll('h2');
+            headings.forEach(heading => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.textContent = heading.textContent;
+                a.href = `#${heading.textContent.replace(/\s+/g, '-').toLowerCase()}`;
+                a.onclick = (e) => {
+                    e.preventDefault();
+                    heading.scrollIntoView({ behavior: 'smooth' });
+                };
+                li.appendChild(a);
+                tocList.appendChild(li);
+            });
+
+            // Show Table of Contents
+            const tableOfContents = document.getElementById('tableOfContents');
+            tableOfContents.classList.add('visible');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.remove('open');
+
+            // Hide Table of Contents
+            const tableOfContents = document.getElementById('tableOfContents');
+            tableOfContents.classList.remove('visible');
+        }
+
+        function updateClock() {
+            const clock = document.getElementById('clock');
+            const now = new Date();
+            clock.textContent = now.toLocaleTimeString();
+        }
+
+        // Clicker Game Logic
+        let score = parseInt(localStorage.getItem('clickerScore')) || 0;
+        let autoClickerInterval;
+        let clickMultiplier = parseInt(localStorage.getItem('clickMultiplier')) || 1;
+        let autoClickerLevel = parseInt(localStorage.getItem('autoClickerLevel')) || 0;
+        let megaClickerLevel = parseInt(localStorage.getItem('megaClickerLevel')) || 0;
+        let timeWarpLevel = parseInt(localStorage.getItem('timeWarpLevel')) || 0;
+
+        function incrementScore() {
+            score += clickMultiplier;
+            updateScore();
+        }
+
+        function buyUpgrade(type) {
+            let cost = 0;
+            switch (type) {
+                case 'autoClicker':
+                    cost = 10 + autoClickerLevel * 10;
+                    if (score >= cost) {
+                        score -= cost;
+                        autoClickerLevel++;
+                        if (!autoClickerInterval) {
+                            autoClickerInterval = setInterval(() => incrementScore(), 1000);
+                        }
+                    }
+                    break;
+                case 'clickMultiplier':
+                    cost = 50 + clickMultiplier * 10;
+                    if (score >= cost) {
+                        score -= cost;
+                        clickMultiplier *= 2;
+                    }
+                    break;
+                case 'megaClicker':
+                    cost = 100 + megaClickerLevel * 50;
+                    if (score >= cost) {
+                        score -= cost;
+                        megaClickerLevel++;
+                        clickMultiplier *= 5;
+                    }
+                    break;
+                case 'timeWarp':
+                    cost = 200 + timeWarpLevel * 100;
+                    if (score >= cost) {
+                        score -= cost;
+                        timeWarpLevel++;
+                        clearInterval(autoClickerInterval);
+                        autoClickerInterval = setInterval(() => incrementScore(), 500);
+                    }
+                    break;
+            }
+            updateScore();
+            saveGameState();
+        }
+
+        function updateScore() {
+            document.getElementById('clickerScore').textContent = score;
+        }
+
+        function saveGameState() {
+            localStorage.setItem('clickerScore', score);
+            localStorage.setItem('clickMultiplier', clickMultiplier);
+            localStorage.setItem('autoClickerLevel', autoClickerLevel);
+            localStorage.setItem('megaClickerLevel', megaClickerLevel);
+            localStorage.setItem('timeWarpLevel', timeWarpLevel);
+        }
+
+        function openClickerGame() {
+            document.getElementById('overlay').classList.add('visible');
+            document.getElementById('clickerGame').classList.add('open');
+            updateScore();
+        }
+
+        function closeClickerGame() {
+            document.getElementById('overlay').classList.remove('visible');
+            document.getElementById('clickerGame').classList.remove('open');
+        }
+
+        // Tic Tac Toe Logic
+        let ticTacToeBoard = ['', '', '', '', '', '', '', '', ''];
+        let currentPlayer = 'X';
+        let gameActive = true;
+        let difficulty = 'normal';
+
+        function openTicTacToe() {
+            document.getElementById('overlay').classList.add('visible');
+            document.getElementById('ticTacToe').classList.add('open');
+            resetTicTacToe();
+        }
+
+        function closeTicTacToe() {
+            document.getElementById('overlay').classList.remove('visible');
+            document.getElementById('ticTacToe').classList.remove('open');
+        }
+
+        function resetTicTacToe() {
+            ticTacToeBoard = ['', '', '', '', '', '', '', '', ''];
+            currentPlayer = 'X';
+            gameActive = true;
+            document.getElementById('ticTacToeStatus').textContent = '';
+            document.querySelectorAll('.cell').forEach(cell => cell.textContent = '');
+        }
+
+        function setDifficulty(level) {
+            difficulty = level;
+            document.querySelectorAll('.mode-selector button').forEach(button => button.classList.remove('active'));
+            document.querySelector(`.mode-selector button[onclick="setDifficulty('${level}')"]`).classList.add('active');
+            resetTicTacToe();
+        }
+
+        function checkWin() {
+            const winPatterns = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+                [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+                [0, 4, 8], [2, 4, 6] // Diagonals
+            ];
+            for (const pattern of winPatterns) {
+                const [a, b, c] = pattern;
+                if (ticTacToeBoard[a] && ticTacToeBoard[a] === ticTacToeBoard[b] && ticTacToeBoard[a] === ticTacToeBoard[c]) {
+                    return ticTacToeBoard[a];
+                }
+            }
+            return ticTacToeBoard.includes('') ? null : 'Tie';
+        }
+
+        function makeMove(index) {
+            if (!gameActive || ticTacToeBoard[index] !== '') return;
+            ticTacToeBoard[index] = currentPlayer;
+            document.querySelector(`.cell[data-index="${index}"]`).textContent = currentPlayer;
+            const winner = checkWin();
+            if (winner) {
+                gameActive = false;
+                document.getElementById('ticTacToeStatus').textContent = winner === 'Tie' ? 'It\'s a Tie!' : `Player ${winner} Wins!`;
+            } else {
+                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                if (currentPlayer === 'O') {
+                    setTimeout(() => makeAIMove(), 100);
+                }
+            }
+        }
+
+        function makeAIMove() {
+            let move;
+            switch (difficulty) {
+                case 'easy':
+                    move = getRandomMove();
+                    break;
+                case 'normal':
+                    move = getNormalMove();
+                    break;
+                case 'hard':
+                    move = getHardMove();
+                    break;
+                case 'devil':
+                    move = getDevilMove();
+                    break;
+            }
+            makeMove(move);
+        }
+
+        function getRandomMove() {
+            const emptyCells = ticTacToeBoard.map((cell, index) => cell === '' ? index : null).filter(index => index !== null);
+            return emptyCells[Math.floor(Math.random() * emptyCells.length)];
+        }
+
+        function getNormalMove() {
+            // Try to win or block the player
+            const winPatterns = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+                [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+                [0, 4, 8], [2, 4, 6] // Diagonals
+            ];
+            for (const pattern of winPatterns) {
+                const [a, b, c] = pattern;
+                if (ticTacToeBoard[a] === 'O' && ticTacToeBoard[b] === 'O' && ticTacToeBoard[c] === '') return c;
+                if (ticTacToeBoard[a] === 'O' && ticTacToeBoard[c] === 'O' && ticTacToeBoard[b] === '') return b;
+                if (ticTacToeBoard[b] === 'O' && ticTacToeBoard[c] === 'O' && ticTacToeBoard[a] === '') return a;
+                if (ticTacToeBoard[a] === 'X' && ticTacToeBoard[b] === 'X' && ticTacToeBoard[c] === '') return c;
+                if (ticTacToeBoard[a] === 'X' && ticTacToeBoard[c] === 'X' && ticTacToeBoard[b] === '') return b;
+                if (ticTacToeBoard[b] === 'X' && ticTacToeBoard[c] === 'X' && ticTacToeBoard[a] === '') return a;
+            }
+            return getRandomMove();
+        }
+
+        function getHardMove() {
+            // Use minimax algorithm for optimal moves
+            let bestScore = -Infinity;
+            let move;
+            for (let i = 0; i < 9; i++) {
+                if (ticTacToeBoard[i] === '') {
+                    ticTacToeBoard[i] = 'O';
+                    let score = minimax(ticTacToeBoard, 0, false);
+                    ticTacToeBoard[i] = '';
+                    if (score > bestScore) {
+                        bestScore = score;
+                        move = i;
+                    }
+                }
+            }
+            return move;
+        }
+
+        function minimax(board, depth, isMaximizing) {
+            const winner = checkWin();
+            if (winner === 'O') return 10 - depth;
+            if (winner === 'X') return depth - 10;
+            if (winner === 'Tie') return 0;
+
+            if (isMaximizing) {
+                let bestScore = -Infinity;
+                for (let i = 0; i < 9; i++) {
+                    if (board[i] === '') {
+                        board[i] = 'O';
+                        let score = minimax(board, depth + 1, false);
+                        board[i] = '';
+                        bestScore = Math.max(score, bestScore);
+                    }
+                }
+                return bestScore;
+            } else {
+                let bestScore = Infinity;
+                for (let i = 0; i < 9; i++) {
+                    if (board[i] === '') {
+                        board[i] = 'X';
+                        let score = minimax(board, depth + 1, true);
+                        board[i] = '';
+                        bestScore = Math.min(score, bestScore);
+                    }
+                }
+                return bestScore;
+            }
+        }
+
+        function getDevilMove() {
+            // Always make the best possible move (unbeatable)
+            return getHardMove();
+        }
+
+        document.querySelectorAll('.cell').forEach(cell => {
+            cell.addEventListener('click', () => makeMove(parseInt(cell.getAttribute('data-index'))));
+        });
+
+        setInterval(updateClock, 1000);
+        document.getElementById('searchInput').addEventListener('input', displayTopics);
+
+        displayTopics();
+    </script>
 </body>
 </html>
