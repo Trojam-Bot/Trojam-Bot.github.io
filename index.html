@@ -3,41 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hyprland</title>
+    <title>Learning-Project</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Header Section -->
-    <header>
-        <h1>Smooth. Easy to configure. Dynamic tiling.</h1>
-        <p>Hyprland is a highly customizable Wayland compositor with smooth animations, easy configuration, and dynamic tiling.</p>
+    <!-- Sticky Top Bar -->
+    <header class="sticky-top">
+        <nav>
+            <div class="search-bar">
+                <input type="text" placeholder="Search games...">
+            </div>
+            <div class="filters">
+                <button>Shooter</button>
+                <button>RPG</button>
+                <button>Strategy</button>
+            </div>
+            <div class="sorting">
+                <select>
+                    <option>Popularity</option>
+                    <option>Release Date</option>
+                    <option>Genre</option>
+                </select>
+            </div>
+        </nav>
     </header>
 
-    <!-- Feature Cards Section -->
-    <section class="features">
-        <div class="feature-card">
-            <div class="icon">🌊</div>
-            <h2>Smooth</h2>
-            <p>Hyprland provides fluid animations and stunning effects, elevating your desktop experience.</p>
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1 class="title">Learning-Project</h1>
+        <p class="subtitle">Discover and learn everything about video games – mechanics, history, and more.</p>
+    </section>
+
+    <!-- Game Grid -->
+    <section class="game-grid">
+        <div class="game-box" data-game="minecraft">
+            <img src="assets/minecraft.png" alt="Minecraft">
+            <h3>Minecraft</h3>
         </div>
-        <div class="feature-card">
-            <div class="icon">⚙️</div>
-            <h2>Easy to configure</h2>
-            <p>Modify your configuration on the fly, use simple config files, and benefit from well-documented guides.</p>
-        </div>
-        <div class="feature-card">
-            <div class="icon">🔲</div>
-            <h2>Dynamic tiling</h2>
-            <p>Tiling window management with multiple layouts, extendable via plugins.</p>
+        <div class="game-box" data-game="roblox">
+            <img src="assets/roblox.png" alt="Roblox">
+            <h3>Roblox</h3>
         </div>
     </section>
 
-    <!-- Install Button -->
-    <section class="install">
-        <button class="install-button">Install</button>
-    </section>
+    <!-- Game Info Panel -->
+    <div class="info-panel">
+        <div class="panel-content">
+            <button class="close-btn">&times;</button>
+            <h2 class="game-title">Game Title</h2>
+            <p class="game-description">Game description goes here.</p>
+            <div class="screenshots"></div>
+            <div class="links">
+                <a href="#" target="_blank">Download on Steam</a>
+                <a href="#" target="_blank">Official Website</a>
+            </div>
+            <div class="toc">
+                <ul>
+                    <li><a href="#overview">Overview</a></li>
+                    <li><a href="#mechanics">Mechanics</a></li>
+                    <li><a href="#download">Download Links</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
-    <!-- JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
