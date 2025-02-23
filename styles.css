@@ -21,6 +21,7 @@ body {
   width: 100%;
   height: 100%;
   z-index: -1;
+  background: linear-gradient(135deg, #1e1e1e, #121212);
 }
 
 /* Header */
@@ -245,4 +246,63 @@ main {
 
 .table-of-contents a:hover {
   color: #6a11cb;
+}
+
+/* Light Mode */
+body.light-mode {
+  background: #f0f0f0;
+  color: #121212;
+}
+
+body.light-mode #particles-js {
+  background: linear-gradient(135deg, #f0f0f0, #ffffff);
+}
+
+body.light-mode header {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+body.light-mode .search-container {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .search-container input {
+  color: #121212;
+}
+
+body.light-mode .search-container input::placeholder {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+body.light-mode .topic {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .topic:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+body.light-mode .modal-content {
+  background: #ffffff;
+  color: #121212;
+}
+
+body.light-mode .modal-content h2 {
+  color: #2575fc;
+}
+
+body.light-mode .modal-content p {
+  color: #333;
+}
+
+body.light-mode .table-of-contents {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .table-of-contents a {
+  color: #121212;
+}
+
+body.light-mode .table-of-contents a:hover {
+  color: #2575fc;
 }
