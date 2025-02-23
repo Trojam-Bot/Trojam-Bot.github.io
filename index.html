@@ -3,70 +3,465 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learning-Project</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Learning Project</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #121212;
+            color: white;
+            overflow-x: hidden;
+            position: relative;
+        }
+        .header, .clock {
+            position: fixed;
+            top: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        .header { left: 10px; }
+        .clock { right: 10px; }
+        .header:hover, .clock:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+        .search-container {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 8px 15px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        .search-container:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .search-container input {
+            background: transparent;
+            border: none;
+            color: white;
+            outline: none;
+            font-size: 18px;
+            padding: 5px;
+            width: 250px;
+            transition: all 0.3s ease;
+        }
+        .search-container input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .search-container .icon {
+            margin-left: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .container {
+            margin-top: 80px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 10px 5px;
+            justify-items: center;
+            padding: 0 20px;
+        }
+        .topic {
+            width: 110px;
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            border-radius: 20px;
+            font-size: 14px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s, filter 0.3s ease;
+            cursor: pointer;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+        .topic:hover {
+            background: linear-gradient(135deg, #2575fc, #6a11cb);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            filter: brightness(1.5);
+        }
+        .topic .topic-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            transition: transform 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        .topic .emoji {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            opacity: 0.1;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .topic:hover .emoji {
+            opacity: 0.3;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .modal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background: #1e1e1e;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.8);
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            position: relative;
+        }
+        .modal.open .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+        .modal-content h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        .modal-content h2 {
+            font-size: 24px;
+            margin-top: 30px;
+            color: #6a11cb;
+        }
+        .modal-content p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+        .modal-content img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .modal-content button {
+            background: #2575fc;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s ease;
+        }
+        .modal-content button:hover {
+            background: #6a11cb;
+        }
+        .table-of-contents {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 15px;
+            max-width: 200px;
+            max-height: 70vh;
+            overflow-y: auto;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .table-of-contents.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .table-of-contents ul {
+            list-style: none;
+            padding: 0;
+        }
+        .table-of-contents li {
+            margin: 10px 0;
+        }
+        .table-of-contents a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        .table-of-contents a:hover {
+            color: #6a11cb;
+        }
+        .not-found {
+            text-align: center;
+            font-size: 24px;
+            margin-top: 50px;
+            display: none;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    </style>
 </head>
 <body>
-    <!-- Sticky Top Bar -->
-    <header class="sticky-top">
-        <nav>
-            <div class="search-bar">
-                <input type="text" placeholder="Search games...">
-            </div>
-            <div class="filters">
-                <button>Shooter</button>
-                <button>RPG</button>
-                <button>Strategy</button>
-            </div>
-            <div class="sorting">
-                <select>
-                    <option>Popularity</option>
-                    <option>Release Date</option>
-                    <option>Genre</option>
-                </select>
-            </div>
-        </nav>
-    </header>
+    <div class="header" onclick="location.reload()">Learning Project</div>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search topics...">
+        <span class="icon">🔍</span>
+    </div>
+    <div class="clock" id="clock">00:00:00</div>
+    <div class="container" id="topics"></div>
+    <div class="not-found" id="notFound">Topic not found</div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <h1 class="title">Learning-Project</h1>
-        <p class="subtitle">Discover and learn everything about video games – mechanics, history, and more.</p>
-    </section>
-
-    <!-- Game Grid -->
-    <section class="game-grid">
-        <div class="game-box" data-game="minecraft">
-            <img src="assets/minecraft.png" alt="Minecraft">
-            <h3>Minecraft</h3>
-        </div>
-        <div class="game-box" data-game="roblox">
-            <img src="assets/roblox.png" alt="Roblox">
-            <h3>Roblox</h3>
-        </div>
-    </section>
-
-    <!-- Game Info Panel -->
-    <div class="info-panel">
-        <div class="panel-content">
-            <button class="close-btn">&times;</button>
-            <h2 class="game-title">Game Title</h2>
-            <p class="game-description">Game description goes here.</p>
-            <div class="screenshots"></div>
-            <div class="links">
-                <a href="#" target="_blank">Download on Steam</a>
-                <a href="#" target="_blank">Official Website</a>
-            </div>
-            <div class="toc">
-                <ul>
-                    <li><a href="#overview">Overview</a></li>
-                    <li><a href="#mechanics">Mechanics</a></li>
-                    <li><a href="#download">Download Links</a></li>
-                </ul>
-            </div>
+    <!-- Modal for Topic Details -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h1 id="modalTitle"></h1>
+            <div id="modalDescription"></div>
+            <button onclick="closeModal()">Close</button>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Table of Contents -->
+    <div class="table-of-contents" id="tableOfContents">
+        <ul id="tocList"></ul>
+    </div>
+
+    <script>
+        const topicsList = [
+            {
+                name: "Programming",
+                emoji: "💻",
+                description: `
+                    <h2>What is Programming?</h2>
+                    <p>Programming is the process of writing instructions for computers to execute. It involves problem-solving, logic, and creativity.</p>
+                    <img src="https://via.placeholder.com/800x400" alt="Programming">
+                    <h2>History of Programming</h2>
+                    <p>Programming has evolved from machine code in the 1940s to high-level languages like Python and JavaScript today.</p>
+                    <h2>Popular Programming Languages</h2>
+                    <ul>
+                        <li>Python</li>
+                        <li>JavaScript</li>
+                        <li>Java</li>
+                        <li>C++</li>
+                        <li>Ruby</li>
+                    </ul>
+                    <h2>Why Learn Programming?</h2>
+                    <p>Programming is a valuable skill in today's digital world. It opens doors to careers in software development, data science, and more.</p>
+                    <img src="https://via.placeholder.com/800x400" alt="Why Learn Programming">
+                `
+            },
+            {
+                name: "Web Development",
+                emoji: "🌐",
+                description: `
+                    <h2>What is Web Development?</h2>
+                    <p>Web development involves building and maintaining websites. It includes front-end (client-side) and back-end (server-side) development.</p>
+                    <img src="https://via.placeholder.com/800x400" alt="Web Development">
+                    <h2>Front-End Development</h2>
+                    <p>Front-end development focuses on the user interface and experience. It uses HTML, CSS, and JavaScript.</p>
+                    <h2>Back-End Development</h2>
+                    <p>Back-end development handles server-side logic, databases, and APIs. It uses languages like Python, Ruby, and Node.js.</p>
+                `
+            },
+            {
+                name: "Linux",
+                emoji: "🐧",
+                description: `
+                    <h2>What is Linux?</h2>
+                    <p>Linux is an open-source operating system based on Unix. It is widely used in servers, desktops, and embedded systems.</p>
+                    <img src="https://via.placeholder.com/800x400" alt="Linux">
+                    <h2>History of Linux</h2>
+                    <p>Linux was created by Linus Torvalds in 1991. It has since become one of the most popular operating systems in the world.</p>
+                    <h2>Popular Linux Distributions</h2>
+                    <ul>
+                        <li>Ubuntu</li>
+                        <li>Fedora</li>
+                        <li>Debian</li>
+                        <li>CentOS</li>
+                        <li>Arch Linux</li>
+                    </ul>
+                    <h2>Why Use Linux?</h2>
+                    <p>Linux is known for its stability, security, and flexibility. It is also free and open-source.</p>
+                    <img src="https://via.placeholder.com/800x400" alt="Why Use Linux">
+                `
+            },
+            {
+                name: "Windows",
+                emoji: "🪟",
+                description: `
+                    <h2>What is Windows?</h2>
+                    <p>Windows is a family of operating systems developed by Microsoft. It is the most widely used OS for personal computers.</p>
+                    <img src="https://via.placeholder.com/800x400" alt="Windows">
+                    <h2>History of Windows</h2>
+                    <p>Windows was first released in 1985. It has since evolved through many versions, including Windows 95, XP, 7, and 10.</p>
+                    <h2>Popular Windows Versions</h2>
+                    <ul>
+                        <li>Windows 10</li>
+                        <li>Windows 8</li>
+                        <li>Windows 7</li>
+                        <li>Windows XP</li>
+                        <li>Windows 95</li>
+                    </ul>
+                    <h2>Why Use Windows?</h2>
+                    <p>Windows is known for its user-friendly interface, compatibility with a wide range of software, and strong support for gaming.</p>
+                    <img src="https://via.placeholder.com/800x400" alt="Why Use Windows">
+                `
+            },
+            {
+                name: "macOS",
+                emoji: "🍎",
+                description: `
+                    <h2>What is macOS?</h2>
+                    <p>macOS is the operating system for Apple's Mac computers. It is known for its sleek design and user-friendly interface.</p>
+                    <img src="https://via.placeholder.com/800x400" alt="macOS">
+                    <h2>History of macOS</h2>
+                    <p>macOS was first released in 2001 as Mac OS X. It has since evolved through many versions, including macOS Catalina and Big Sur.</p>
+                    <h2>Popular macOS Features</h2>
+                    <ul>
+                        <li>Spotlight Search</li>
+                        <li>Time Machine</li>
+                        <li>Mission Control</li>
+                        <li>iCloud Integration</li>
+                        <li>Continuity</li>
+                    </ul>
+                    <h2>Why Use macOS?</h2>
+                    <p>macOS is known for its stability, security, and seamless integration with other Apple devices.</p>
+                    <img src="https://via.placeholder.com/800x400" alt="Why Use macOS">
+                `
+            },
+            // Add more topics with detailed descriptions here
+        ];
+
+        function displayTopics() {
+            const searchInput = document.getElementById('searchInput');
+            const topicsContainer = document.getElementById('topics');
+            const notFound = document.getElementById('notFound');
+            topicsContainer.innerHTML = "";
+            const filteredTopics = topicsList.filter(topic => topic.name.toLowerCase().includes(searchInput.value.toLowerCase()));
+            
+            if (filteredTopics.length === 0) {
+                notFound.style.display = 'block';
+            } else {
+                notFound.style.display = 'none';
+                filteredTopics.forEach(topic => {
+                    const topicElement = document.createElement('div');
+                    topicElement.classList.add('topic');
+                    topicElement.innerHTML = `<div class="topic-content">
+                            <div class="emoji">${topic.emoji}</div>
+                            ${topic.name}
+                        </div>`;
+                    topicElement.addEventListener('click', () => openModal(topic));
+                    topicElement.addEventListener('mousemove', (e) => handleMouseMove(e, topicElement));
+                    topicElement.addEventListener('mouseleave', () => handleMouseLeave(topicElement));
+                    topicsContainer.appendChild(topicElement);
+                });
+            }
+        }
+
+        function handleMouseMove(e, element) {
+            const rect = element.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = (y - centerY) / 10;
+            const rotateY = -(x - centerX) / 10;
+            element.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+        }
+
+        function handleMouseLeave(element) {
+            element.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+        }
+
+        function openModal(topic) {
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDescription = document.getElementById('modalDescription');
+            modalTitle.textContent = topic.name;
+            modalDescription.innerHTML = topic.description;
+            modal.classList.add('open');
+
+            // Generate Table of Contents
+            const tocList = document.getElementById('tocList');
+            tocList.innerHTML = "";
+            const headings = modalDescription.querySelectorAll('h2');
+            headings.forEach(heading => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.textContent = heading.textContent;
+                a.href = `#${heading.textContent.replace(/\s+/g, '-').toLowerCase()}`;
+                a.onclick = (e) => {
+                    e.preventDefault();
+                    heading.scrollIntoView({ behavior: 'smooth' });
+                };
+                li.appendChild(a);
+                tocList.appendChild(li);
+            });
+
+            // Show Table of Contents
+            const tableOfContents = document.getElementById('tableOfContents');
+            tableOfContents.classList.add('visible');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.remove('open');
+
+            // Hide Table of Contents
+            const tableOfContents = document.getElementById('tableOfContents');
+            tableOfContents.classList.remove('visible');
+        }
+
+        function updateClock() {
+            const clock = document.getElementById('clock');
+            const now = new Date();
+            clock.textContent = now.toLocaleTimeString();
+        }
+
+        setInterval(updateClock, 1000);
+        document.getElementById('searchInput').addEventListener('input', displayTopics);
+
+        displayTopics();
+    </script>
 </body>
 </html>
