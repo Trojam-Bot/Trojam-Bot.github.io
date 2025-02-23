@@ -2,11 +2,11 @@
 document.addEventListener('mousemove', (e) => {
   const x = e.clientX / window.innerWidth;
   const y = e.clientY / window.innerHeight;
-  document.body.style.background = `radial-gradient(circle at ${x * 100}% ${y * 100}%, #8a2be2, #1a1a1a)`;
+  document.body.style.background = `radial-gradient(circle at ${x * 100}% ${y * 100}%, #f4f4f9, #ddd)`;
 });
 
 // Smooth Scroll for Anchor Links
-document.querySelectorAll('nav a').forEach(anchor => {
+document.querySelectorAll('header a').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
     e.preventDefault();
     document.querySelector(this.getAttribute('href')).scrollIntoView({
