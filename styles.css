@@ -1,186 +1,248 @@
-/* 🌟 Allgemeine Einstellungen */
+/* General Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #121212;
-    color: white;
-    margin: 0;
-    padding: 0;
-    transition: background-color 0.3s ease, color 0.3s ease;
+  background: #121212;
+  color: white;
+  overflow-x: hidden;
+  position: relative;
 }
 
-/* 🌞 Lightmode & 🌙 Darkmode */
-body.light-mode {
-    background-color: #f5f5f5;
-    color: black;
+/* Particle Background */
+#particles-js {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 }
 
-/* 🎛️ Dark-/Lightmode-Button */
-#modeToggle {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    padding: 10px 20px;
-    background-color: #00d1ff;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    box-shadow: 0 0 10px rgba(0, 209, 255, 0.8);
-    transition: transform 0.3s ease, background-color 0.3s ease;
+/* Header */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
 }
 
-#modeToggle:hover {
-    transform: scale(1.1);
-    background-color: #008cff;
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-/* 🚀 Überschriften */
-h1, h2, h3 {
-    text-align: center;
-    color: #00d1ff;
-    text-transform: uppercase;
-    margin: 20px 0;
-    transition: color 0.3s ease;
+.search-container {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 30px;
+  padding: 8px 15px;
+  transition: all 0.3s ease;
 }
 
-body.light-mode h1, body.light-mode h2, body.light-mode h3 {
-    color: #0077cc;
+.search-container:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
-/* 🔗 Themen-Links */
+.search-container input {
+  background: transparent;
+  border: none;
+  color: white;
+  outline: none;
+  font-size: 18px;
+  padding: 5px;
+  width: 250px;
+}
+
+.search-container input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.search-container .icon {
+  margin-left: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.clock {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#themeToggle {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Main Content */
+main {
+  margin-top: 100px;
+  padding: 20px;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px;
+}
+
 .topic {
-    display: inline-block;
-    margin: 10px;
-    padding: 8px 15px;
-    background-color: transparent;
-    color: #00ff7f;
-    text-decoration: underline;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease;
 }
 
 .topic:hover {
-    transform: scale(1.1);
-    background: linear-gradient(90deg, #ff00ff, #00ffff, #00ff7f);
-    -webkit-background-clip: text;
-    color: transparent;
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
 }
 
-/* 🌈 Regenbogeneffekt bei Hover */
-@keyframes rainbow {
-    0% { color: #ff0000; }
-    20% { color: #ffa500; }
-    40% { color: #ffff00; }
-    60% { color: #008000; }
-    80% { color: #0000ff; }
-    100% { color: #4b0082; }
+.topic .emoji {
+  font-size: 40px;
+  margin-bottom: 10px;
 }
 
-.topic:hover span {
-    animation: rainbow 1.5s infinite;
+.not-found {
+  text-align: center;
+  font-size: 24px;
+  margin-top: 50px;
+  display: none;
 }
 
-/* 📊 Tabelle */
-.table-container {
-    margin: 30px auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
-/* Glow-Tabelle */
-.glow-table {
-    width: 90%;
-    max-width: 1000px;
-    border-collapse: collapse;
-    border-radius: 12px;
-    overflow: hidden;
-    background-color: rgba(10, 10, 10, 0.9);
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
+.modal.open {
+  opacity: 1;
+  visibility: visible;
 }
 
-/* Hover-Effekt: Lichtstrahlen aus den Ecken */
-.glow-table:hover {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: 
-        0 0 30px rgba(0, 191, 255, 0.8),
-        0 0 60px rgba(0, 255, 255, 0.6),
-        0 0 90px rgba(0, 255, 255, 0.4);
+.modal-content {
+  background: #1e1e1e;
+  padding: 30px;
+  border-radius: 20px;
+  max-width: 800px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: scale(0.8);
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
-/* Tabellenkopf */
-.glow-table th {
-    background: linear-gradient(135deg, rgba(0, 255, 255, 0.5), rgba(0, 191, 255, 0.8));
-    color: #fff;
-    padding: 15px;
-    font-size: 1.3rem;
-    text-transform: uppercase;
-    border: none;
+.modal.open .modal-content {
+  transform: scale(1);
+  opacity: 1;
 }
 
-/* Tabellenzellen */
-.glow-table td {
-    padding: 12px 15px;
-    text-align: left;
-    color: white;
-    border-bottom: 1px solid rgba(0, 255, 255, 0.2);
-    transition: background-color 0.3s ease;
+.modal-content h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
 }
 
-/* Hover auf Zellen */
-.glow-table tr:hover td {
-    background-color: rgba(0, 255, 255, 0.1);
+.modal-content h2 {
+  font-size: 24px;
+  margin-top: 30px;
+  color: #6a11cb;
 }
 
-/* Letzte Zeile ohne Rand */
-.glow-table tr:last-child td {
-    border-bottom: none;
+.modal-content p {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #ccc;
+  margin-bottom: 20px;
 }
 
-/* 🌕 Lightmode für Tabelle */
-body.light-mode .glow-table {
-    background-color: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 0 20px rgba(0, 191, 255, 0.3);
+.modal-content button {
+  background: #2575fc;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background 0.3s ease;
 }
 
-body.light-mode .glow-table th {
-    background: linear-gradient(135deg, rgba(0, 191, 255, 0.6), rgba(0, 128, 255, 0.9));
-    color: #000;
+.modal-content button:hover {
+  background: #6a11cb;
 }
 
-body.light-mode .glow-table td {
-    color: #333;
+/* Table of Contents */
+.table-of-contents {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  padding: 15px;
+  max-width: 200px;
+  max-height: 70vh;
+  overflow-y: auto;
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-body.light-mode .glow-table tr:hover td {
-    background-color: rgba(0, 191, 255, 0.1);
+.table-of-contents.visible {
+  opacity: 1;
+  visibility: visible;
 }
 
-/* 🎉 Konfetti-Animation für Dark-/Lightmode-Toggle */
-@keyframes confetti {
-    0% { transform: translateY(0); opacity: 1; }
-    100% { transform: translateY(100vh); opacity: 0; }
+.table-of-contents ul {
+  list-style: none;
+  padding: 0;
 }
 
-.confetti {
-    position: fixed;
-    width: 8px;
-    height: 8px;
-    background-color: #ff0;
-    border-radius: 50%;
-    animation: confetti 2s ease-out;
-    z-index: 9999;
+.table-of-contents li {
+  margin: 10px 0;
 }
 
-/* 🎈 Konfetti erzeugen */
-#confetti-area {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    overflow: hidden;
+.table-of-contents a {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.table-of-contents a:hover {
+  color: #6a11cb;
 }
