@@ -1,10 +1,17 @@
 /* General Styles */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f4f4f9;
-  color: #333;
+  background-color: #0d0d0d;
+  color: #00ffcc;
+  overflow-x: hidden;
+}
+
+/* Cyberpunk Text */
+.cyber-text {
+  color: #00ffcc;
+  text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc, 0 0 20px #00ffcc;
 }
 
 /* Taskbar */
@@ -12,14 +19,15 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #333;
+  background-color: #1a1a1a;
   padding: 10px 20px;
-  color: white;
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
 }
 
 .taskbar .logo img {
   height: 40px;
   cursor: pointer;
+  filter: drop-shadow(0 0 5px #00ffcc);
 }
 
 .taskbar nav ul {
@@ -34,14 +42,15 @@ body {
 }
 
 .taskbar nav ul li a {
-  color: white;
+  color: #00ffcc;
   text-decoration: none;
   font-weight: bold;
-  transition: color 0.3s;
+  transition: color 0.3s, text-shadow 0.3s;
 }
 
 .taskbar nav ul li a:hover {
-  color: #ff6347;
+  color: #ff00ff;
+  text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff;
 }
 
 /* Main Content */
@@ -56,17 +65,17 @@ body {
 }
 
 .game-card {
-  background-color: white;
+  background-color: #1a1a1a;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
   cursor: pointer;
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .game-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 20px rgba(0, 255, 204, 0.8);
 }
 
 /* Game Container */
@@ -76,7 +85,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.9);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -91,14 +100,77 @@ body {
 .close-btn {
   margin-bottom: 20px;
   padding: 10px 20px;
-  background-color: #ff6347;
+  background-color: #ff00ff;
   border: none;
   color: white;
   cursor: pointer;
   border-radius: 5px;
   font-size: 16px;
+  transition: background-color 0.3s;
 }
 
 .close-btn:hover {
-  background-color: #ff4500;
+  background-color: #cc00cc;
+}
+
+/* Calculator */
+.calculator {
+  background-color: #1a1a1a;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+}
+
+#calc-display {
+  width: 100%;
+  padding: 10px;
+  font-size: 20px;
+  margin-bottom: 10px;
+  background-color: #0d0d0d;
+  border: 1px solid #00ffcc;
+  color: #00ffcc;
+  text-align: right;
+}
+
+.calc-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.calc-buttons button {
+  padding: 15px;
+  font-size: 18px;
+  background-color: #0d0d0d;
+  border: 1px solid #00ffcc;
+  color: #00ffcc;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.calc-buttons button:hover {
+  background-color: #00ffcc;
+  color: #0d0d0d;
+}
+
+/* Cyberpunk Lighting Effect */
+.cyber-lighting {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(0, 255, 204, 0.1), rgba(0, 0, 0, 0));
+  pointer-events: none;
+  z-index: -1;
+  animation: pulse 5s infinite alternate;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }
