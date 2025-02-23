@@ -239,6 +239,25 @@
             100% { opacity: 1; }
         }
 
+        /* Overlay for Minigames */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 9998;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
         /* Clicker Game Styles */
         .clicker-game {
             position: fixed;
@@ -250,10 +269,13 @@
             border-radius: 20px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
             z-index: 10000;
-            display: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
         }
         .clicker-game.open {
-            display: block;
+            opacity: 1;
+            visibility: visible;
         }
         .clicker-game h2 {
             font-size: 24px;
@@ -305,10 +327,13 @@
             border-radius: 20px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
             z-index: 10000;
-            display: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
         }
         .tic-tac-toe.open {
-            display: block;
+            opacity: 1;
+            visibility: visible;
         }
         .tic-tac-toe h2 {
             font-size: 24px;
@@ -328,16 +353,22 @@
             justify-content: center;
             font-size: 40px;
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: background 0.3s ease, transform 0.2s ease;
         }
         .tic-tac-toe .cell:hover {
             background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
         }
         .tic-tac-toe .status {
             margin-top: 20px;
             font-size: 18px;
         }
-        .tic-tac-toe button {
+        .tic-tac-toe .mode-selector {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .tic-tac-toe .mode-selector button {
             background: #2575fc;
             border: none;
             color: white;
@@ -345,10 +376,12 @@
             font-size: 16px;
             border-radius: 10px;
             cursor: pointer;
-            margin-top: 20px;
             transition: background 0.3s ease;
         }
-        .tic-tac-toe button:hover {
+        .tic-tac-toe .mode-selector button:hover {
+            background: #6a11cb;
+        }
+        .tic-tac-toe .mode-selector button.active {
             background: #6a11cb;
         }
     </style>
@@ -362,6 +395,9 @@
     <div class="clock" id="clock">00:00:00</div>
     <div class="container" id="topics"></div>
     <div class="not-found" id="notFound">Topic not found</div>
+
+    <!-- Overlay for Minigames -->
+    <div class="overlay" id="overlay"></div>
 
     <!-- Modal for Topic Details -->
     <div class="modal" id="modal">
@@ -402,6 +438,12 @@
     <!-- Tic Tac Toe Game -->
     <div class="tic-tac-toe" id="ticTacToe">
         <h2>Tic Tac Toe</h2>
+        <div class="mode-selector">
+            <button onclick="setDifficulty('easy')">Easy</button>
+            <button onclick="setDifficulty('normal')">Normal</button>
+            <button onclick="setDifficulty('hard')">Hard</button>
+            <button onclick="setDifficulty('devil')">Devil</button>
+        </div>
         <div class="board" id="ticTacToeBoard">
             <div class="cell" data-index="0"></div>
             <div class="cell" data-index="1"></div>
@@ -773,11 +815,13 @@
         }
 
         function openClickerGame() {
+            document.getElementById('overlay').classList.add('visible');
             document.getElementById('clickerGame').classList.add('open');
             updateScore();
         }
 
         function closeClickerGame() {
+            document.getElementById('overlay').classList.remove('visible');
             document.getElementById('clickerGame').classList.remove('open');
         }
 
@@ -785,13 +829,16 @@
         let ticTacToeBoard = ['', '', '', '', '', '', '', '', ''];
         let currentPlayer = 'X';
         let gameActive = true;
+        let difficulty = 'normal';
 
         function openTicTacToe() {
+            document.getElementById('overlay').classList.add('visible');
             document.getElementById('ticTacToe').classList.add('open');
             resetTicTacToe();
         }
 
         function closeTicTacToe() {
+            document.getElementById('overlay').classList.remove('visible');
             document.getElementById('ticTacToe').classList.remove('open');
         }
 
@@ -801,6 +848,13 @@
             gameActive = true;
             document.getElementById('ticTacToeStatus').textContent = '';
             document.querySelectorAll('.cell').forEach(cell => cell.textContent = '');
+        }
+
+        function setDifficulty(level) {
+            difficulty = level;
+            document.querySelectorAll('.mode-selector button').forEach(button => button.classList.remove('active'));
+            document.querySelector(`.mode-selector button[onclick="setDifficulty('${level}')"]`).classList.add('active');
+            resetTicTacToe();
         }
 
         function checkWin() {
@@ -829,15 +883,106 @@
             } else {
                 currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
                 if (currentPlayer === 'O') {
-                    setTimeout(() => makeAIMove(), 500);
+                    setTimeout(() => makeAIMove(), 100);
                 }
             }
         }
 
         function makeAIMove() {
+            let move;
+            switch (difficulty) {
+                case 'easy':
+                    move = getRandomMove();
+                    break;
+                case 'normal':
+                    move = getNormalMove();
+                    break;
+                case 'hard':
+                    move = getHardMove();
+                    break;
+                case 'devil':
+                    move = getDevilMove();
+                    break;
+            }
+            makeMove(move);
+        }
+
+        function getRandomMove() {
             const emptyCells = ticTacToeBoard.map((cell, index) => cell === '' ? index : null).filter(index => index !== null);
-            const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-            makeMove(randomIndex);
+            return emptyCells[Math.floor(Math.random() * emptyCells.length)];
+        }
+
+        function getNormalMove() {
+            // Try to win or block the player
+            const winPatterns = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+                [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+                [0, 4, 8], [2, 4, 6] // Diagonals
+            ];
+            for (const pattern of winPatterns) {
+                const [a, b, c] = pattern;
+                if (ticTacToeBoard[a] === 'O' && ticTacToeBoard[b] === 'O' && ticTacToeBoard[c] === '') return c;
+                if (ticTacToeBoard[a] === 'O' && ticTacToeBoard[c] === 'O' && ticTacToeBoard[b] === '') return b;
+                if (ticTacToeBoard[b] === 'O' && ticTacToeBoard[c] === 'O' && ticTacToeBoard[a] === '') return a;
+                if (ticTacToeBoard[a] === 'X' && ticTacToeBoard[b] === 'X' && ticTacToeBoard[c] === '') return c;
+                if (ticTacToeBoard[a] === 'X' && ticTacToeBoard[c] === 'X' && ticTacToeBoard[b] === '') return b;
+                if (ticTacToeBoard[b] === 'X' && ticTacToeBoard[c] === 'X' && ticTacToeBoard[a] === '') return a;
+            }
+            return getRandomMove();
+        }
+
+        function getHardMove() {
+            // Use minimax algorithm for optimal moves
+            let bestScore = -Infinity;
+            let move;
+            for (let i = 0; i < 9; i++) {
+                if (ticTacToeBoard[i] === '') {
+                    ticTacToeBoard[i] = 'O';
+                    let score = minimax(ticTacToeBoard, 0, false);
+                    ticTacToeBoard[i] = '';
+                    if (score > bestScore) {
+                        bestScore = score;
+                        move = i;
+                    }
+                }
+            }
+            return move;
+        }
+
+        function minimax(board, depth, isMaximizing) {
+            const winner = checkWin();
+            if (winner === 'O') return 10 - depth;
+            if (winner === 'X') return depth - 10;
+            if (winner === 'Tie') return 0;
+
+            if (isMaximizing) {
+                let bestScore = -Infinity;
+                for (let i = 0; i < 9; i++) {
+                    if (board[i] === '') {
+                        board[i] = 'O';
+                        let score = minimax(board, depth + 1, false);
+                        board[i] = '';
+                        bestScore = Math.max(score, bestScore);
+                    }
+                }
+                return bestScore;
+            } else {
+                let bestScore = Infinity;
+                for (let i = 0; i < 9; i++) {
+                    if (board[i] === '') {
+                        board[i] = 'X';
+                        let score = minimax(board, depth + 1, true);
+                        board[i] = '';
+                        bestScore = Math.min(score, bestScore);
+                    }
+                }
+                return bestScore;
+            }
+        }
+
+        function getDevilMove() {
+            // Always make the best possible move (unbeatable)
+            return getHardMove();
         }
 
         document.querySelectorAll('.cell').forEach(cell => {
