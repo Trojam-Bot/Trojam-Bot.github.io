@@ -1,5 +1,5 @@
 // Particle Background
-particlesJS.load('particles-js', 'particles.json', function() {
+particlesJS.load('particles-js', 'particles.json', function () {
   console.log('Particles loaded!');
 });
 
@@ -12,7 +12,7 @@ const topicsList = [
       <h2>What is AI?</h2>
       <p>Artificial Intelligence (AI) refers to the simulation of human intelligence in machines.</p>
       <img src="https://via.placeholder.com/800x400" alt="AI">
-    `
+    `,
   },
   {
     name: "Linux",
@@ -21,7 +21,7 @@ const topicsList = [
       <h2>What is Linux?</h2>
       <p>Linux is an open-source operating system based on Unix.</p>
       <img src="https://via.placeholder.com/800x400" alt="Linux">
-    `
+    `,
   },
   // Add more topics here
 ];
@@ -32,13 +32,15 @@ function displayTopics() {
   const topicsContainer = document.getElementById('topics');
   const notFound = document.getElementById('notFound');
   topicsContainer.innerHTML = "";
-  const filteredTopics = topicsList.filter(topic => topic.name.toLowerCase().includes(searchInput.value.toLowerCase()));
-  
+  const filteredTopics = topicsList.filter((topic) =>
+    topic.name.toLowerCase().includes(searchInput.value.toLowerCase())
+  );
+
   if (filteredTopics.length === 0) {
     notFound.style.display = 'block';
   } else {
     notFound.style.display = 'none';
-    filteredTopics.forEach(topic => {
+    filteredTopics.forEach((topic) => {
       const topicElement = document.createElement('div');
       topicElement.classList.add('topic');
       topicElement.innerHTML = `
