@@ -2,7 +2,7 @@
 document.addEventListener('mousemove', (e) => {
   const x = e.clientX / window.innerWidth;
   const y = e.clientY / window.innerHeight;
-  document.body.style.background = `radial-gradient(circle at ${x * 100}% ${y * 100}%, #00ffcc, #1a1a1a)`;
+  document.body.style.background = `radial-gradient(circle at ${x * 100}% ${y * 100}%, #8a2be2, #1a1a1a)`;
 });
 
 // Smooth Scroll for Anchor Links
