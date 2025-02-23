@@ -1,34 +1,86 @@
-// Function to add a new game dynamically
-function addGame(name, emoji, description) {
-    const newGame = {
-        name: name,
-        emoji: emoji,
-        description: description
-    };
-    topicsList.push(newGame);
-    displayTopics(); // Refresh the UI
+const topicsList = [
+    {
+        name: "Minecraft",
+        emoji: "🎮",
+        description: `
+            <h2>What is Minecraft?</h2>
+            <p>Minecraft is a sandbox game where players can build and explore blocky worlds.</p>
+            <img src="https://via.placeholder.com/800x400" alt="Minecraft">
+            <h2>Gameplay</h2>
+            <p>Players can mine resources, craft tools, and build structures in a procedurally generated world.</p>
+            <h2>Why Play Minecraft?</h2>
+            <p>Minecraft encourages creativity, problem-solving, and collaboration.</p>
+        `
+    },
+    {
+        name: "Roblox",
+        emoji: "👾",
+        description: `
+            <h2>What is Roblox?</h2>
+            <p>Roblox is a platform where users can create and play games.</p>
+            <img src="https://via.placeholder.com/800x400" alt="Roblox">
+            <h2>Game Creation</h2>
+            <p>Roblox Studio allows users to design their own games using Lua scripting.</p>
+            <h2>Why Play Roblox?</h2>
+            <p>Roblox offers endless possibilities for creativity and social interaction.</p>
+        `
+    }
+];
+
+function displayTopics() {
+    const searchInput = document.getElementById('searchInput');
+    const topicsContainer = document.getElementById('topics');
+    const notFound = document.getElementById('notFound');
+    topicsContainer.innerHTML = "";
+    const filteredTopics = topicsList.filter(topic => topic.name.toLowerCase().includes(searchInput.value.toLowerCase()));
+    
+    if (filteredTopics.length === 0) {
+        notFound.style.display = 'block';
+    } else {
+        notFound.style.display = 'none';
+        filteredTopics.forEach(topic => {
+            const topicElement = document.createElement('div');
+            topicElement.classList.add('topic');
+            topicElement.innerHTML = `<div class="topic-content">
+                    <div class="emoji">${topic.emoji}</div>
+                    ${topic.name}
+                </div>`;
+            topicElement.addEventListener('click', () => openModal(topic));
+            topicElement.addEventListener('mousemove', (e) => handleMouseMove(e, topicElement));
+            topicElement.addEventListener('mouseleave', () => handleMouseLeave(topicElement));
+            topicsContainer.appendChild(topicElement);
+        });
+    }
 }
 
-// Example: Add a new game
-addGame("Minecraft", "🎮", `
-    <h2>What is Minecraft?</h2>
-    <p>Minecraft is a sandbox game where players can build and explore blocky worlds.</p>
-    <img src="https://via.placeholder.com/800x400" alt="Minecraft">
-    <h2>Gameplay</h2>
-    <p>Players can mine resources, craft tools, and build structures in a procedurally generated world.</p>
-    <h2>Why Play Minecraft?</h2>
-    <p>Minecraft encourages creativity, problem-solving, and collaboration.</p>
-`);
+function handleMouseMove(e, element) {
+    const rect = element.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = (y - centerY) / 10;
+    const rotateY = -(x - centerX) / 10;
 
-addGame("Roblox", "👾", `
-    <h2>What is Roblox?</h2>
-    <p>Roblox is a platform where users can create and play games.</p>
-    <img src="https://via.placeholder.com/800x400" alt="Roblox">
-    <h2>Game Creation</h2>
-    <p>Roblox Studio allows users to design their own games using Lua scripting.</p>
-    <h2>Why Play Roblox?</h2>
-    <p>Roblox offers endless possibilities for creativity and social interaction.</p>
-`);// GSAP Animations for Modal
+    gsap.to(element, {
+        rotationX: rotateX,
+        rotationY: rotateY,
+        scale: 1.05,
+        duration: 0.3,
+        ease: 'power2.out'
+    });
+}
+
+function handleMouseLeave(element) {
+    gsap.to(element, {
+        rotationX: 0,
+        rotationY: 0,
+        scale: 1,
+        duration: 0.3,
+        ease: 'power2.out'
+    });
+}
+
 function openModal(topic) {
     const modal = document.getElementById('modal');
     const modalContent = modal.querySelector('.modal-content');
@@ -75,31 +127,13 @@ function closeModal() {
     gsap.to(tableOfContents, { opacity: 0, visibility: 'hidden', duration: 0.5 });
 }
 
-// GSAP Hover Effects for Topics
-function handleMouseMove(e, element) {
-    const rect = element.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = (y - centerY) / 10;
-    const rotateY = -(x - centerX) / 10;
-
-    gsap.to(element, {
-        rotationX: rotateX,
-        rotationY: rotateY,
-        scale: 1.05,
-        duration: 0.3,
-        ease: 'power2.out'
-    });
+function updateClock() {
+    const clock = document.getElementById('clock');
+    const now = new Date();
+    clock.textContent = now.toLocaleTimeString();
 }
 
-function handleMouseLeave(element) {
-    gsap.to(element, {
-        rotationX: 0,
-        rotationY: 0,
-        scale: 1,
-        duration: 0.3,
-        ease: 'power2.out'
-    });
-}
+setInterval(updateClock, 1000);
+document.getElementById('searchInput').addEventListener('input', displayTopics);
+
+displayTopics();
