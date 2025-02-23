@@ -18,7 +18,7 @@
             color: white;
             overflow-x: hidden;
             position: relative;
-            scroll-behavior: smooth; /* Smooth scrolling */
+            scroll-behavior: smooth;
         }
         .header, .clock {
             position: fixed;
@@ -90,7 +90,7 @@
             justify-content: center;
             background: linear-gradient(135deg, #6a11cb, #2575fc);
             border-radius: 20px;
-            font-size: 12px; /* Adjusted font size */
+            font-size: 12px;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -163,17 +163,17 @@
             opacity: 1;
         }
         .modal-content h1 {
-            font-size: 24px; /* Adjusted font size */
+            font-size: 24px;
             margin-bottom: 20px;
             color: white;
         }
         .modal-content h2 {
-            font-size: 20px; /* Adjusted font size */
+            font-size: 20px;
             margin-top: 30px;
             color: #6a11cb;
         }
         .modal-content p {
-            font-size: 16px; /* Adjusted font size */
+            font-size: 16px;
             line-height: 1.6;
             color: #ccc;
             margin-bottom: 20px;
@@ -293,6 +293,64 @@
         .clicker-game .upgrade:hover {
             background: rgba(255, 255, 255, 0.2);
         }
+
+        /* Tic Tac Toe Styles */
+        .tic-tac-toe {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            display: none;
+        }
+        .tic-tac-toe.open {
+            display: block;
+        }
+        .tic-tac-toe h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        .tic-tac-toe .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+        }
+        .tic-tac-toe .cell {
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .tic-tac-toe .cell:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .tic-tac-toe .status {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .tic-tac-toe button {
+            background: #2575fc;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s ease;
+        }
+        .tic-tac-toe button:hover {
+            background: #6a11cb;
+        }
     </style>
 </head>
 <body>
@@ -331,8 +389,33 @@
             <div class="upgrade" onclick="buyUpgrade('clickMultiplier')">
                 Click Multiplier (Cost: 50)
             </div>
+            <div class="upgrade" onclick="buyUpgrade('megaClicker')">
+                Mega Clicker (Cost: 100)
+            </div>
+            <div class="upgrade" onclick="buyUpgrade('timeWarp')">
+                Time Warp (Cost: 200)
+            </div>
         </div>
         <button onclick="closeClickerGame()">Close</button>
+    </div>
+
+    <!-- Tic Tac Toe Game -->
+    <div class="tic-tac-toe" id="ticTacToe">
+        <h2>Tic Tac Toe</h2>
+        <div class="board" id="ticTacToeBoard">
+            <div class="cell" data-index="0"></div>
+            <div class="cell" data-index="1"></div>
+            <div class="cell" data-index="2"></div>
+            <div class="cell" data-index="3"></div>
+            <div class="cell" data-index="4"></div>
+            <div class="cell" data-index="5"></div>
+            <div class="cell" data-index="6"></div>
+            <div class="cell" data-index="7"></div>
+            <div class="cell" data-index="8"></div>
+        </div>
+        <div class="status" id="ticTacToeStatus"></div>
+        <button onclick="resetTicTacToe()">Reset Game</button>
+        <button onclick="closeTicTacToe()">Close</button>
     </div>
 
     <script>
@@ -521,6 +604,15 @@
                     <p>A fun and addictive clicker game with upgrades and smooth animations. Click the button to earn points and unlock upgrades!</p>
                 `,
                 onClick: () => openClickerGame()
+            },
+            {
+                name: "Tic Tac Toe",
+                emoji: "❌⭕",
+                description: `
+                    <h2>Tic Tac Toe</h2>
+                    <p>A classic game of Tic Tac Toe. Play against the computer and see if you can win!</p>
+                `,
+                onClick: () => openTicTacToe()
             }
         ];
 
@@ -614,33 +706,143 @@
         }
 
         // Clicker Game Logic
-        let score = 0;
+        let score = parseInt(localStorage.getItem('clickerScore')) || 0;
         let autoClickerInterval;
-        let clickMultiplier = 1;
+        let clickMultiplier = parseInt(localStorage.getItem('clickMultiplier')) || 1;
+        let autoClickerLevel = parseInt(localStorage.getItem('autoClickerLevel')) || 0;
+        let megaClickerLevel = parseInt(localStorage.getItem('megaClickerLevel')) || 0;
+        let timeWarpLevel = parseInt(localStorage.getItem('timeWarpLevel')) || 0;
 
         function incrementScore() {
             score += clickMultiplier;
-            document.getElementById('clickerScore').textContent = score;
+            updateScore();
         }
 
         function buyUpgrade(type) {
-            if (type === 'autoClicker' && score >= 10) {
-                score -= 10;
-                autoClickerInterval = setInterval(() => incrementScore(), 1000);
-            } else if (type === 'clickMultiplier' && score >= 50) {
-                score -= 50;
-                clickMultiplier *= 2;
+            let cost = 0;
+            switch (type) {
+                case 'autoClicker':
+                    cost = 10 + autoClickerLevel * 10;
+                    if (score >= cost) {
+                        score -= cost;
+                        autoClickerLevel++;
+                        if (!autoClickerInterval) {
+                            autoClickerInterval = setInterval(() => incrementScore(), 1000);
+                        }
+                    }
+                    break;
+                case 'clickMultiplier':
+                    cost = 50 + clickMultiplier * 10;
+                    if (score >= cost) {
+                        score -= cost;
+                        clickMultiplier *= 2;
+                    }
+                    break;
+                case 'megaClicker':
+                    cost = 100 + megaClickerLevel * 50;
+                    if (score >= cost) {
+                        score -= cost;
+                        megaClickerLevel++;
+                        clickMultiplier *= 5;
+                    }
+                    break;
+                case 'timeWarp':
+                    cost = 200 + timeWarpLevel * 100;
+                    if (score >= cost) {
+                        score -= cost;
+                        timeWarpLevel++;
+                        clearInterval(autoClickerInterval);
+                        autoClickerInterval = setInterval(() => incrementScore(), 500);
+                    }
+                    break;
             }
+            updateScore();
+            saveGameState();
+        }
+
+        function updateScore() {
             document.getElementById('clickerScore').textContent = score;
+        }
+
+        function saveGameState() {
+            localStorage.setItem('clickerScore', score);
+            localStorage.setItem('clickMultiplier', clickMultiplier);
+            localStorage.setItem('autoClickerLevel', autoClickerLevel);
+            localStorage.setItem('megaClickerLevel', megaClickerLevel);
+            localStorage.setItem('timeWarpLevel', timeWarpLevel);
         }
 
         function openClickerGame() {
             document.getElementById('clickerGame').classList.add('open');
+            updateScore();
         }
 
         function closeClickerGame() {
             document.getElementById('clickerGame').classList.remove('open');
         }
+
+        // Tic Tac Toe Logic
+        let ticTacToeBoard = ['', '', '', '', '', '', '', '', ''];
+        let currentPlayer = 'X';
+        let gameActive = true;
+
+        function openTicTacToe() {
+            document.getElementById('ticTacToe').classList.add('open');
+            resetTicTacToe();
+        }
+
+        function closeTicTacToe() {
+            document.getElementById('ticTacToe').classList.remove('open');
+        }
+
+        function resetTicTacToe() {
+            ticTacToeBoard = ['', '', '', '', '', '', '', '', ''];
+            currentPlayer = 'X';
+            gameActive = true;
+            document.getElementById('ticTacToeStatus').textContent = '';
+            document.querySelectorAll('.cell').forEach(cell => cell.textContent = '');
+        }
+
+        function checkWin() {
+            const winPatterns = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+                [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+                [0, 4, 8], [2, 4, 6] // Diagonals
+            ];
+            for (const pattern of winPatterns) {
+                const [a, b, c] = pattern;
+                if (ticTacToeBoard[a] && ticTacToeBoard[a] === ticTacToeBoard[b] && ticTacToeBoard[a] === ticTacToeBoard[c]) {
+                    return ticTacToeBoard[a];
+                }
+            }
+            return ticTacToeBoard.includes('') ? null : 'Tie';
+        }
+
+        function makeMove(index) {
+            if (!gameActive || ticTacToeBoard[index] !== '') return;
+            ticTacToeBoard[index] = currentPlayer;
+            document.querySelector(`.cell[data-index="${index}"]`).textContent = currentPlayer;
+            const winner = checkWin();
+            if (winner) {
+                gameActive = false;
+                document.getElementById('ticTacToeStatus').textContent = winner === 'Tie' ? 'It\'s a Tie!' : `Player ${winner} Wins!`;
+            } else {
+                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                if (currentPlayer === 'O') {
+                    setTimeout(() => makeAIMove(), 500);
+                }
+            }
+        }
+
+        function makeAIMove() {
+            const emptyCells = ticTacToeBoard.map((cell, index) => cell === '' ? index : null).filter(index => index !== null);
+            const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+            makeMove(randomIndex);
+        }
+
+        document.querySelectorAll('.cell').forEach(cell => {
+            cell.addEventListener('click', () => makeMove(parseInt(cell.getAttribute('data-index'))));
+        });
 
         setInterval(updateClock, 1000);
         document.getElementById('searchInput').addEventListener('input', displayTopics);
