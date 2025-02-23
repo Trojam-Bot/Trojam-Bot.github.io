@@ -1,176 +1,107 @@
 /* General Styles */
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'INIR', sans-serif;
+  background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
+  color: #00ffcc;
   margin: 0;
   padding: 0;
-  background-color: #0d0d0d;
-  color: #00ffcc;
   overflow-x: hidden;
 }
 
-/* Cyberpunk Text */
-.cyber-text {
-  color: #00ffcc;
-  text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc, 0 0 20px #00ffcc;
-}
-
-/* Taskbar */
-.taskbar {
+header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #1a1a1a;
-  padding: 10px 20px;
-  box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
-}
-
-.taskbar .logo img {
-  height: 40px;
-  cursor: pointer;
-  filter: drop-shadow(0 0 5px #00ffcc);
-}
-
-.taskbar nav ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-}
-
-.taskbar nav ul li {
-  margin: 0 15px;
-}
-
-.taskbar nav ul li a {
-  color: #00ffcc;
-  text-decoration: none;
-  font-weight: bold;
-  transition: color 0.3s, text-shadow 0.3s;
-}
-
-.taskbar nav ul li a:hover {
-  color: #ff00ff;
-  text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff;
-}
-
-/* Main Content */
-.container {
   padding: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
 }
 
-.game-grid {
+.logo img {
+  height: 50px;
+}
+
+.search-bar input {
+  padding: 10px;
+  border: 2px solid #00ffcc;
+  background: transparent;
+  color: #00ffcc;
+  outline: none;
+}
+
+.search-bar button {
+  padding: 10px 20px;
+  background: #00ffcc;
+  border: none;
+  color: #000;
+  cursor: pointer;
+}
+
+.filters select {
+  padding: 10px;
+  background: transparent;
+  border: 2px solid #00ffcc;
+  color: #00ffcc;
+  outline: none;
+}
+
+/* Game Gallery */
+.game-gallery {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
+  padding: 20px;
 }
 
 .game-card {
-  background-color: #1a1a1a;
-  padding: 20px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid #00ffcc;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
-  cursor: pointer;
+  overflow: hidden;
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .game-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 0 20px rgba(0, 255, 204, 0.8);
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #00ffcc;
 }
 
-/* Game Container */
-#game-container {
-  position: fixed;
-  top: 0;
-  left: 0;
+.game-card img {
   width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.9);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  color: white;
+  height: 150px;
+  object-fit: cover;
 }
 
-#game-container.hidden {
-  display: none;
+.game-card h3 {
+  margin: 10px;
+  font-size: 1.5rem;
 }
 
-.close-btn {
-  margin-bottom: 20px;
-  padding: 10px 20px;
-  background-color: #ff00ff;
-  border: none;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 16px;
-  transition: background-color 0.3s;
+.game-card p {
+  margin: 10px;
+  font-size: 1rem;
+  color: #ccc;
 }
 
-.close-btn:hover {
-  background-color: #cc00cc;
-}
-
-/* Calculator */
-.calculator {
-  background-color: #1a1a1a;
+/* Footer */
+footer {
+  text-align: center;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
 }
 
-#calc-display {
-  width: 100%;
-  padding: 10px;
-  font-size: 20px;
-  margin-bottom: 10px;
-  background-color: #0d0d0d;
-  border: 1px solid #00ffcc;
-  color: #00ffcc;
-  text-align: right;
+.hidden-text {
+  color: rgba(255, 255, 255, 0.1);
+  font-size: 0.8rem;
 }
 
-.calc-buttons {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-.calc-buttons button {
-  padding: 15px;
-  font-size: 18px;
-  background-color: #0d0d0d;
-  border: 1px solid #00ffcc;
-  color: #00ffcc;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.calc-buttons button:hover {
-  background-color: #00ffcc;
-  color: #0d0d0d;
-}
-
-/* Cyberpunk Lighting Effect */
-.cyber-lighting {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle, rgba(0, 255, 204, 0.1), rgba(0, 0, 0, 0));
-  pointer-events: none;
-  z-index: -1;
-  animation: pulse 5s infinite alternate;
-}
-
-@keyframes pulse {
-  0% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 1;
-  }
+.game-card {
+  animation: fadeIn 1s ease-in-out;
 }
