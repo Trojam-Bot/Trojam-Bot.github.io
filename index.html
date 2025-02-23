@@ -4,18 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learning Project</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+        /* 🌟 General Settings */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
         }
         body {
             background-color: #121212;
             color: white;
             overflow-x: hidden;
             position: relative;
+            scroll-behavior: smooth; /* Smooth scrolling */
         }
         .header, .clock {
             position: fixed;
@@ -87,7 +90,7 @@
             justify-content: center;
             background: linear-gradient(135deg, #6a11cb, #2575fc);
             border-radius: 20px;
-            font-size: 14px;
+            font-size: 12px; /* Adjusted font size */
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -160,25 +163,20 @@
             opacity: 1;
         }
         .modal-content h1 {
-            font-size: 36px;
+            font-size: 24px; /* Adjusted font size */
             margin-bottom: 20px;
             color: white;
         }
         .modal-content h2 {
-            font-size: 24px;
+            font-size: 20px; /* Adjusted font size */
             margin-top: 30px;
             color: #6a11cb;
         }
         .modal-content p {
-            font-size: 18px;
+            font-size: 16px; /* Adjusted font size */
             line-height: 1.6;
             color: #ccc;
             margin-bottom: 20px;
-        }
-        .modal-content img {
-            max-width: 100%;
-            border-radius: 10px;
-            margin: 20px 0;
         }
         .modal-content button {
             background: #2575fc;
@@ -240,10 +238,65 @@
             0% { opacity: 0; }
             100% { opacity: 1; }
         }
+
+        /* Clicker Game Styles */
+        .clicker-game {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            display: none;
+        }
+        .clicker-game.open {
+            display: block;
+        }
+        .clicker-game h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        .clicker-game button {
+            background: #2575fc;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s ease;
+        }
+        .clicker-game button:hover {
+            background: #6a11cb;
+        }
+        .clicker-game .score {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        .clicker-game .upgrades {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .clicker-game .upgrade {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .clicker-game .upgrade:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
     </style>
 </head>
 <body>
-    <div class="header" onclick="location.reload()">Learning Project</div>
+    <div class="header" onclick="location.reload()">🚫 Learning Project</div>
     <div class="search-container">
         <input type="text" id="searchInput" placeholder="Search topics...">
         <span class="icon">🔍</span>
@@ -266,6 +319,22 @@
         <ul id="tocList"></ul>
     </div>
 
+    <!-- Clicker Game -->
+    <div class="clicker-game" id="clickerGame">
+        <h2>Clicker Game</h2>
+        <div class="score">Score: <span id="clickerScore">0</span></div>
+        <button onclick="incrementScore()">Click Me!</button>
+        <div class="upgrades">
+            <div class="upgrade" onclick="buyUpgrade('autoClicker')">
+                Auto Clicker (Cost: 10)
+            </div>
+            <div class="upgrade" onclick="buyUpgrade('clickMultiplier')">
+                Click Multiplier (Cost: 50)
+            </div>
+        </div>
+        <button onclick="closeClickerGame()">Close</button>
+    </div>
+
     <script>
         const topicsList = [
             {
@@ -274,7 +343,6 @@
                 description: `
                     <h2>What is Programming?</h2>
                     <p>Programming is the process of writing instructions for computers to execute. It involves problem-solving, logic, and creativity.</p>
-                    <img src="https://via.placeholder.com/800x400" alt="Programming">
                     <h2>History of Programming</h2>
                     <p>Programming has evolved from machine code in the 1940s to high-level languages like Python and JavaScript today.</p>
                     <h2>Popular Programming Languages</h2>
@@ -287,7 +355,6 @@
                     </ul>
                     <h2>Why Learn Programming?</h2>
                     <p>Programming is a valuable skill in today's digital world. It opens doors to careers in software development, data science, and more.</p>
-                    <img src="https://via.placeholder.com/800x400" alt="Why Learn Programming">
                 `
             },
             {
@@ -296,7 +363,6 @@
                 description: `
                     <h2>What is Web Development?</h2>
                     <p>Web development involves building and maintaining websites. It includes front-end (client-side) and back-end (server-side) development.</p>
-                    <img src="https://via.placeholder.com/800x400" alt="Web Development">
                     <h2>Front-End Development</h2>
                     <p>Front-end development focuses on the user interface and experience. It uses HTML, CSS, and JavaScript.</p>
                     <h2>Back-End Development</h2>
@@ -309,7 +375,6 @@
                 description: `
                     <h2>What is Linux?</h2>
                     <p>Linux is an open-source operating system based on Unix. It is widely used in servers, desktops, and embedded systems.</p>
-                    <img src="https://via.placeholder.com/800x400" alt="Linux">
                     <h2>History of Linux</h2>
                     <p>Linux was created by Linus Torvalds in 1991. It has since become one of the most popular operating systems in the world.</p>
                     <h2>Popular Linux Distributions</h2>
@@ -322,7 +387,6 @@
                     </ul>
                     <h2>Why Use Linux?</h2>
                     <p>Linux is known for its stability, security, and flexibility. It is also free and open-source.</p>
-                    <img src="https://via.placeholder.com/800x400" alt="Why Use Linux">
                 `
             },
             {
@@ -331,7 +395,6 @@
                 description: `
                     <h2>What is Windows?</h2>
                     <p>Windows is a family of operating systems developed by Microsoft. It is the most widely used OS for personal computers.</p>
-                    <img src="https://via.placeholder.com/800x400" alt="Windows">
                     <h2>History of Windows</h2>
                     <p>Windows was first released in 1985. It has since evolved through many versions, including Windows 95, XP, 7, and 10.</p>
                     <h2>Popular Windows Versions</h2>
@@ -344,7 +407,6 @@
                     </ul>
                     <h2>Why Use Windows?</h2>
                     <p>Windows is known for its user-friendly interface, compatibility with a wide range of software, and strong support for gaming.</p>
-                    <img src="https://via.placeholder.com/800x400" alt="Why Use Windows">
                 `
             },
             {
@@ -353,7 +415,6 @@
                 description: `
                     <h2>What is macOS?</h2>
                     <p>macOS is the operating system for Apple's Mac computers. It is known for its sleek design and user-friendly interface.</p>
-                    <img src="https://via.placeholder.com/800x400" alt="macOS">
                     <h2>History of macOS</h2>
                     <p>macOS was first released in 2001 as Mac OS X. It has since evolved through many versions, including macOS Catalina and Big Sur.</p>
                     <h2>Popular macOS Features</h2>
@@ -366,10 +427,101 @@
                     </ul>
                     <h2>Why Use macOS?</h2>
                     <p>macOS is known for its stability, security, and seamless integration with other Apple devices.</p>
-                    <img src="https://via.placeholder.com/800x400" alt="Why Use macOS">
                 `
             },
-            // Add more topics with detailed descriptions here
+            {
+                name: "Data Science",
+                emoji: "📊",
+                description: `
+                    <h2>What is Data Science?</h2>
+                    <p>Data Science is an interdisciplinary field that uses scientific methods, processes, algorithms, and systems to extract knowledge and insights from structured and unstructured data.</p>
+                    <h2>Key Components of Data Science</h2>
+                    <ul>
+                        <li>Data Analysis</li>
+                        <li>Machine Learning</li>
+                        <li>Data Visualization</li>
+                        <li>Big Data</li>
+                    </ul>
+                    <h2>Why Learn Data Science?</h2>
+                    <p>Data Science is one of the most in-demand fields today, with applications in finance, healthcare, marketing, and more.</p>
+                `
+            },
+            {
+                name: "Artificial Intelligence",
+                emoji: "🤖",
+                description: `
+                    <h2>What is Artificial Intelligence?</h2>
+                    <p>Artificial Intelligence (AI) is the simulation of human intelligence in machines that are programmed to think and learn like humans.</p>
+                    <h2>Applications of AI</h2>
+                    <ul>
+                        <li>Natural Language Processing</li>
+                        <li>Computer Vision</li>
+                        <li>Robotics</li>
+                        <li>Autonomous Vehicles</li>
+                    </ul>
+                    <h2>Why Learn AI?</h2>
+                    <p>AI is transforming industries and creating new opportunities in technology, healthcare, and beyond.</p>
+                `
+            },
+            {
+                name: "Cybersecurity",
+                emoji: "🔒",
+                description: `
+                    <h2>What is Cybersecurity?</h2>
+                    <p>Cybersecurity is the practice of protecting systems, networks, and programs from digital attacks.</p>
+                    <h2>Key Areas of Cybersecurity</h2>
+                    <ul>
+                        <li>Network Security</li>
+                        <li>Application Security</li>
+                        <li>Information Security</li>
+                        <li>Cloud Security</li>
+                    </ul>
+                    <h2>Why Learn Cybersecurity?</h2>
+                    <p>With the increasing number of cyber threats, cybersecurity is a critical field for protecting sensitive data and systems.</p>
+                `
+            },
+            {
+                name: "Cloud Computing",
+                emoji: "☁️",
+                description: `
+                    <h2>What is Cloud Computing?</h2>
+                    <p>Cloud Computing is the delivery of computing services over the internet, including storage, processing, and networking.</p>
+                    <h2>Types of Cloud Services</h2>
+                    <ul>
+                        <li>Infrastructure as a Service (IaaS)</li>
+                        <li>Platform as a Service (PaaS)</li>
+                        <li>Software as a Service (SaaS)</li>
+                    </ul>
+                    <h2>Why Learn Cloud Computing?</h2>
+                    <p>Cloud Computing is essential for modern IT infrastructure, enabling scalability, flexibility, and cost savings.</p>
+                `
+            },
+            {
+                name: "Blockchain",
+                emoji: "⛓️",
+                description: `
+                    <h2>What is Blockchain?</h2>
+                    <p>Blockchain is a decentralized digital ledger that records transactions across multiple computers in a secure and transparent manner.</p>
+                    <h2>Applications of Blockchain</h2>
+                    <ul>
+                        <li>Cryptocurrencies</li>
+                        <li>Smart Contracts</li>
+                        <li>Supply Chain Management</li>
+                        <li>Digital Identity</li>
+                    </ul>
+                    <h2>Why Learn Blockchain?</h2>
+                    <p>Blockchain technology is revolutionizing industries by providing secure and transparent solutions for various applications.</p>
+                `
+            },
+            {
+                name: "Clicker Game",
+                emoji: "🎮",
+                description: `
+                    <h2>Clicker Game</h2>
+                    <p>A fun and addictive clicker game with upgrades and smooth animations. Click the button to earn points and unlock upgrades!</p>
+                `,
+                onClick: () => openClickerGame()
+            }
         ];
 
         function displayTopics() {
@@ -390,7 +542,10 @@
                             <div class="emoji">${topic.emoji}</div>
                             ${topic.name}
                         </div>`;
-                    topicElement.addEventListener('click', () => openModal(topic));
+                    topicElement.addEventListener('click', () => {
+                        if (topic.onClick) topic.onClick();
+                        else openModal(topic);
+                    });
                     topicElement.addEventListener('mousemove', (e) => handleMouseMove(e, topicElement));
                     topicElement.addEventListener('mouseleave', () => handleMouseLeave(topicElement));
                     topicsContainer.appendChild(topicElement);
@@ -456,6 +611,35 @@
             const clock = document.getElementById('clock');
             const now = new Date();
             clock.textContent = now.toLocaleTimeString();
+        }
+
+        // Clicker Game Logic
+        let score = 0;
+        let autoClickerInterval;
+        let clickMultiplier = 1;
+
+        function incrementScore() {
+            score += clickMultiplier;
+            document.getElementById('clickerScore').textContent = score;
+        }
+
+        function buyUpgrade(type) {
+            if (type === 'autoClicker' && score >= 10) {
+                score -= 10;
+                autoClickerInterval = setInterval(() => incrementScore(), 1000);
+            } else if (type === 'clickMultiplier' && score >= 50) {
+                score -= 50;
+                clickMultiplier *= 2;
+            }
+            document.getElementById('clickerScore').textContent = score;
+        }
+
+        function openClickerGame() {
+            document.getElementById('clickerGame').classList.add('open');
+        }
+
+        function closeClickerGame() {
+            document.getElementById('clickerGame').classList.remove('open');
         }
 
         setInterval(updateClock, 1000);
