@@ -1,38 +1,6 @@
-.hero {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
-  color: #00ffcc;
-  text-align: center;
-  animation: fadeIn 2s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-.game-gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  padding: 20px;
-}
-
-.game-card {
-  background: rgba(0, 0, 0, 0.6);
-  border: 2px solid #00ffcc;
-  border-radius: 10px;
-  overflow: hidden;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.game-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px #00ffcc;
-}
+/* General Styles */
 body {
+  font-family: 'INIR', sans-serif;
   background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
   color: #00ffcc;
   margin: 0;
@@ -40,17 +8,170 @@ body {
   overflow-x: hidden;
 }
 
-.parallax {
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
 }
-document.addEventListener('mousemove', (e) => {
-  const x = e.clientX / window.innerWidth;
-  const y = e.clientY / window.innerHeight;
-  document.body.style.background = `radial-gradient(circle at ${x * 100}% ${y * 100}%, #00ffcc, #1a1a1a)`;
-});
+
+.logo img {
+  height: 50px;
+}
+
+nav a {
+  color: #00ffcc;
+  text-decoration: none;
+  margin: 0 15px;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+nav a:hover {
+  color: #ff00ff;
+  text-shadow: 0 0 10px #ff00ff;
+}
+
+.search-bar input {
+  padding: 10px;
+  border: 2px solid #00ffcc;
+  background: transparent;
+  color: #00ffcc;
+  outline: none;
+}
+
+.search-bar button {
+  padding: 10px 20px;
+  background: #00ffcc;
+  border: none;
+  color: #000;
+  cursor: pointer;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.search-bar button:hover {
+  background: #ff00ff;
+  box-shadow: 0 0 10px #ff00ff;
+}
+
+/* Hero Section */
+.hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
+  animation: fadeIn 2s ease-in-out;
+}
+
+.hero h1 {
+  font-size: 4rem;
+  margin: 0;
+  text-shadow: 0 0 10px #00ffcc;
+}
+
+.hero p {
+  font-size: 1.5rem;
+  margin: 20px 0;
+}
+
+.buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.neon-button {
+  padding: 15px 30px;
+  background: transparent;
+  border: 2px solid #00ffcc;
+  color: #00ffcc;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+
+.neon-button:hover {
+  background: #00ffcc;
+  color: #000;
+  box-shadow: 0 0 20px #00ffcc;
+  transform: scale(1.1);
+}
+
+/* Featured Games Section */
+.featured-games {
+  padding: 50px 20px;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.featured-games h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+}
+
+.game-slider {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 20px;
+}
+
+.game-card {
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid #00ffcc;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.game-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #00ffcc;
+}
+
+.game-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.game-card h3 {
+  font-size: 1.5rem;
+  margin: 10px 0;
+}
+
+.game-card p {
+  font-size: 1rem;
+  color: #ccc;
+}
+
+/* Game Gallery */
+.game-gallery {
+  padding: 50px 20px;
+}
+
+.game-gallery h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Footer */
 footer {
   text-align: center;
   padding: 20px;
@@ -67,12 +188,9 @@ footer {
 .hidden-text:hover {
   color: rgba(255, 255, 255, 0.5);
 }
-.neon-glow {
-  color: #00ffcc;
-  text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc, 0 0 20px #00ffcc;
-  transition: text-shadow 0.3s;
-}
 
-.neon-glow:hover {
-  text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff;
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
