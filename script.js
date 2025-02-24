@@ -1,202 +1,212 @@
 // Game Variables
 let score = 0;
-let clickPower = 1;
-let autoClickerPower = 0;
 let multiplier = 1;
-let eventInterval;
-let idleTimer;
-let bossHealth = 100;
-let bossTimer;
-const events = [
-  "buttonMove",
-  "cursorClone",
-  "glitchEffect",
-  "bossFight",
-  "buttonShrink",
-  "jumpscare",
+let buttonSize = 100;
+let buttonColor = '#ff4444';
+let message = 'Start clicking!';
+let eventCounter = 0;
+let isBossFight = false;
+let bossHealth = 30;
+let bossTimer = 30;
+let buttonHat = null;
+let isShopOpen = false;
+let ownedItems = [];
+
+const shopItems = [
+  { id: 'hat1', type: 'hat', name: 'Party Hat', price: 100, style: '🎉' },
+  { id: 'hat2', type: 'hat', name: 'Crown', price: 200, style: '👑' },
+  { id: 'color1', type: 'color', name: 'Golden', price: 150, style: '#FFD700' },
+  { id: 'color2', type: 'color', name: 'Neon', price: 300, style: '#39FF14' },
+  { id: 'multiplier1', type: 'multiplier', name: 'Double Click', price: 500, value: 2 },
+  { id: 'multiplier2', type: 'multiplier', name: 'Triple Click', price: 1000, value: 3 },
 ];
 
 // DOM Elements
-const scoreDisplay = document.getElementById("score");
-const clickButton = document.getElementById("clickButton");
-const eventLog = document.getElementById("eventLog");
-const upgradeClickPowerButton = document.getElementById("upgradeClickPower");
-const upgradeAutoClickerButton = document.getElementById("upgradeAutoClicker");
-const upgradeMultiplierButton = document.getElementById("upgradeMultiplier");
-const bossFightUI = document.getElementById("bossFight");
-const bossHealthDisplay = document.getElementById("bossHealth");
-const punchBossButton = document.getElementById("punchBoss");
+const scoreDisplay = document.getElementById('score');
+const messageDisplay = document.getElementById('message');
+const clickButton = document.getElementById('clickButton');
+const shopButton = document.getElementById('shopButton');
+const shop = document.getElementById('shop');
+const shopItemsContainer = document.getElementById('shopItems');
+const multiplierDisplay = document.getElementById('multiplier');
+const bossFightUI = document.getElementById('bossFight');
+const bossHealthDisplay = document.getElementById('bossHealth');
+const bossTimerDisplay = document.getElementById('bossTimer');
 
-// Core Clicker Functionality
-clickButton.addEventListener("click", () => {
-  score += clickPower * multiplier;
-  updateScore();
-  checkForEvents();
-  resetIdleTimer();
-});
-
-// Upgrade Functions
-upgradeClickPowerButton.addEventListener("click", () => {
-  if (score >= 10) {
-    score -= 10;
-    clickPower += 1;
-    updateScore();
-    logEvent("Click power increased!");
+// Random Events
+const randomEvents = [
+  {
+    name: 'Double Trouble',
+    effect: () => {
+      multiplier *= 2;
+      showMessage('DOUBLE POINTS ACTIVATED!');
+      setTimeout(() => {
+        multiplier /= 2;
+        showMessage('Back to normal...');
+      }, 5000);
+    }
+  },
+  {
+    name: 'Button Growth',
+    effect: () => {
+      buttonSize *= 1.5;
+      updateButtonStyle();
+      showMessage('THE BUTTON GROWS HUNGRY!');
+      setTimeout(() => {
+        buttonSize = 100;
+        updateButtonStyle();
+        showMessage('The button calms down');
+      }, 3000);
+    }
+  },
+  {
+    name: 'Color Chaos',
+    effect: () => {
+      buttonColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
+      updateButtonStyle();
+      showMessage('RAINBOW POWER!');
+    }
+  },
+  {
+    name: 'Score Roulette',
+    effect: () => {
+      const random = Math.random();
+      if (random > 0.5) {
+        score *= 2;
+        showMessage('JACKPOT! Score doubled!');
+      } else {
+        score = Math.floor(score / 2);
+        showMessage('Oops! Score halved!');
+      }
+      updateScore();
+    }
   }
-});
+];
 
-upgradeAutoClickerButton.addEventListener("click", () => {
-  if (score >= 50) {
-    score -= 50;
-    autoClickerPower += 1;
+// Initialize Shop
+function initializeShop() {
+  shopItemsContainer.innerHTML = shopItems.map(item => `
+    <div class="shopItem">
+      <div>${item.name} - ${item.price} points</div>
+      <button onclick="purchaseItem('${item.id}')" 
+              ${score < item.price || ownedItems.includes(item.id) ? 'disabled' : ''}>
+        ${ownedItems.includes(item.id) ? 'Owned' : 'Buy'}
+      </button>
+    </div>
+  `).join('');
+}
+
+// Purchase Item
+function purchaseItem(itemId) {
+  const item = shopItems.find(i => i.id === itemId);
+  if (score >= item.price && !ownedItems.includes(item.id)) {
+    score -= item.price;
+    ownedItems.push(item.id);
     updateScore();
-    logEvent("Auto-clicker purchased!");
-  }
-});
 
-upgradeMultiplierButton.addEventListener("click", () => {
-  if (score >= 100) {
-    score -= 100;
-    multiplier += 1;
-    updateScore();
-    logEvent("Multiplier purchased!");
-  }
-});
-
-// Auto-Clicker Functionality
-setInterval(() => {
-  score += autoClickerPower * multiplier;
-  updateScore();
-}, 1000);
-
-// Unpredictable Events
-function triggerRandomEvent() {
-  const randomEvent = events[Math.floor(Math.random() * events.length)];
-  switch (randomEvent) {
-    case "buttonMove":
-      moveButton();
-      break;
-    case "cursorClone":
-      cursorClone();
-      break;
-    case "glitchEffect":
-      glitchEffect();
-      break;
-    case "bossFight":
-      startBossFight();
-      break;
-    case "buttonShrink":
-      buttonShrink();
-      break;
-    case "jumpscare":
-      triggerJumpscare();
-      break;
-    default:
-      break;
-  }
-}
-
-// Event Functions
-function moveButton() {
-  const x = Math.random() * (window.innerWidth - 100);
-  const y = Math.random() * (window.innerHeight - 100);
-  clickButton.style.transition = "all 0.5s ease";
-  clickButton.style.position = "absolute";
-  clickButton.style.left = `${x}px`;
-  clickButton.style.top = `${y}px`;
-  logEvent("The button moved! Find it!");
-}
-
-function cursorClone() {
-  const clone = clickButton.cloneNode(true);
-  clone.id = "cloneButton";
-  document.body.appendChild(clone);
-  clone.addEventListener("click", () => {
-    score += clickPower * multiplier;
-    updateScore();
-  });
-  logEvent("Your cursor cloned itself!");
-}
-
-function glitchEffect() {
-  document.body.classList.add("glitch");
-  setTimeout(() => document.body.classList.remove("glitch"), 1000);
-  logEvent("The screen glitched!");
-}
-
-function buttonShrink() {
-  clickButton.style.transition = "all 0.5s ease";
-  clickButton.style.transform = "scale(0.5)";
-  setTimeout(() => {
-    clickButton.style.transform = "scale(1)";
-  }, 1000);
-  logEvent("The button shrank!");
-}
-
-function triggerJumpscare() {
-  const jumpscare = document.createElement("div");
-  jumpscare.classList.add("jumpscare");
-  document.body.appendChild(jumpscare);
-  setTimeout(() => jumpscare.remove(), 500);
-  logEvent("BOO! Did I scare you?");
-}
-
-function startBossFight() {
-  bossHealth = 100;
-  bossFightUI.classList.remove("hidden");
-  bossTimer = setTimeout(() => {
-    bossFightUI.classList.add("hidden");
-    score = Math.floor(score / 2);
-    updateScore();
-    logEvent("The boss stole half your points!");
-  }, 300000); // 5 minutes
-}
-
-punchBossButton.addEventListener("click", () => {
-  bossHealth -= 10;
-  bossHealthDisplay.textContent = `Health: ${bossHealth}`;
-  if (bossHealth <= 0) {
-    clearTimeout(bossTimer);
-    bossFightUI.classList.add("hidden");
-    score += 1000;
-    updateScore();
-    logEvent("You defeated the boss and earned 1000 points!");
-  }
-});
-
-// Idle Jokes
-function resetIdleTimer() {
-  clearTimeout(idleTimer);
-  idleTimer = setTimeout(() => {
-    logEvent("Are you still there? Keep clicking!");
-  }, 120000); // 2 minutes
-}
-
-// Helper Functions
-function checkForEvents() {
-  if (Math.random() < 0.1) {
-    triggerRandomEvent();
+    switch (item.type) {
+      case 'hat':
+        buttonHat = item.style;
+        break;
+      case 'color':
+        buttonColor = item.style;
+        updateButtonStyle();
+        break;
+      case 'multiplier':
+        multiplier += item.value - 1;
+        updateMultiplier();
+        break;
+    }
+    initializeShop();
   }
 }
 
-function logEvent(message) {
-  eventLog.textContent = message;
-  eventLog.style.opacity = 1;
-  setTimeout(() => {
-    eventLog.style.opacity = 0;
-  }, 3000);
+// Update Button Style
+function updateButtonStyle() {
+  clickButton.style.width = `${buttonSize}px`;
+  clickButton.style.height = `${buttonSize}px`;
+  clickButton.style.backgroundColor = buttonColor;
+  clickButton.style.fontSize = `${buttonSize / 8}px`;
 }
 
+// Update Score
 function updateScore() {
   scoreDisplay.textContent = `Score: ${score}`;
-  upgradeClickPowerButton.disabled = score < 10;
-  upgradeAutoClickerButton.disabled = score < 50;
-  upgradeMultiplierButton.disabled = score < 100;
 }
 
-// Start Event Interval
-eventInterval = setInterval(() => {
-  if (Math.random() < 0.05) {
-    triggerRandomEvent();
+// Update Multiplier
+function updateMultiplier() {
+  multiplierDisplay.textContent = `Current Multiplier: x${multiplier}`;
+}
+
+// Show Message
+function showMessage(text) {
+  messageDisplay.textContent = text;
+}
+
+// Handle Click
+function handleClick() {
+  score += multiplier;
+  updateScore();
+  eventCounter++;
+
+  // Trigger random events or boss fight
+  if (eventCounter > 0) {
+    if (eventCounter % 10 === 0) {
+      const randomEvent = randomEvents[Math.floor(Math.random() * randomEvents.length)];
+      randomEvent.effect();
+    }
+    // 5% chance to trigger boss fight
+    if (Math.random() < 0.05 && !isBossFight) {
+      startBossFight();
+    }
   }
-}, 5000);
+  // Handle boss fight clicks
+  if (isBossFight) {
+    bossHealth--;
+    bossHealthDisplay.textContent = `Boss Health: ${bossHealth}/30`;
+    if (bossHealth <= 0) {
+      endBossFight(true);
+    }
+  }
+}
+
+// Start Boss Fight
+function startBossFight() {
+  isBossFight = true;
+  bossHealth = 30;
+  bossTimer = 30;
+  bossFightUI.classList.remove('hidden');
+  showMessage('BOSS FIGHT STARTED! CLICK FAST!');
+
+  const interval = setInterval(() => {
+    bossTimer--;
+    bossTimerDisplay.textContent = `Time Left: ${bossTimer}s`;
+    if (bossTimer <= 0) {
+      clearInterval(interval);
+      endBossFight(false);
+    }
+  }, 1000);
+}
+
+// End Boss Fight
+function endBossFight(victory) {
+  isBossFight = false;
+  bossFightUI.classList.add('hidden');
+  if (victory) {
+    score += 100;
+    showMessage('Boss defeated! +100 points!');
+  } else {
+    score = Math.max(0, score - 200);
+    showMessage('Boss won! -200 points!');
+  }
+  updateScore();
+}
+
+// Initialize
+initializeShop();
+clickButton.addEventListener('click', handleClick);
+shopButton.addEventListener('click', () => {
+  isShopOpen = !isShopOpen;
+  shop.classList.toggle('hidden');
+});
