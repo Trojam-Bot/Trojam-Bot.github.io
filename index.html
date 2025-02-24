@@ -272,6 +272,8 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.5s ease, visibility 0.5s ease;
+            width: 600px;
+            max-width: 90%;
         }
         .clicker-game.open {
             opacity: 1;
@@ -330,6 +332,8 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.5s ease, visibility 0.5s ease;
+            width: 600px;
+            max-width: 90%;
         }
         .tic-tac-toe.open {
             opacity: 1;
@@ -342,9 +346,12 @@
         }
         .tic-tac-toe .board {
             display: grid;
-            grid-template-columns: repeat(3, 100px);
-            grid-template-rows: repeat(3, 100px);
-            gap: 5px;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 10px;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
         }
         .tic-tac-toe .cell {
             background: rgba(255, 255, 255, 0.1);
@@ -354,6 +361,7 @@
             font-size: 40px;
             cursor: pointer;
             transition: background 0.3s ease, transform 0.2s ease;
+            aspect-ratio: 1 / 1;
         }
         .tic-tac-toe .cell:hover {
             background: rgba(255, 255, 255, 0.2);
@@ -362,11 +370,13 @@
         .tic-tac-toe .status {
             margin-top: 20px;
             font-size: 18px;
+            text-align: center;
         }
         .tic-tac-toe .mode-selector {
             margin-top: 20px;
             display: flex;
             gap: 10px;
+            justify-content: center;
         }
         .tic-tac-toe .mode-selector button {
             background: #2575fc;
@@ -382,6 +392,161 @@
             background: #6a11cb;
         }
         .tic-tac-toe .mode-selector button.active {
+            background: #6a11cb;
+        }
+
+        /* Memory Game Styles */
+        .memory-game {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            width: 600px;
+            max-width: 90%;
+        }
+        .memory-game.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .memory-game h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        .memory-game .board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 10px;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .memory-game .card {
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            aspect-ratio: 1 / 1;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        .memory-game .card .front, .memory-game .card .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+        }
+        .memory-game .card .front {
+            background: #2575fc;
+            transform: rotateY(180deg);
+        }
+        .memory-game .card .back {
+            background: #6a11cb;
+        }
+        .memory-game .card.flipped {
+            transform: rotateY(180deg);
+        }
+        .memory-game .card.matched {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        .memory-game .status {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+        }
+        .memory-game button {
+            background: #2575fc;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s ease;
+        }
+        .memory-game button:hover {
+            background: #6a11cb;
+        }
+
+        /* Snake Game Styles */
+        .snake-game {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            width: 600px;
+            max-width: 90%;
+        }
+        .snake-game.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .snake-game h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        .snake-game .game-area {
+            width: 100%;
+            max-width: 400px;
+            height: 400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        .snake-game .snake, .snake-game .food {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #00ff7f;
+            border-radius: 50%;
+        }
+        .snake-game .food {
+            background: #ff0000;
+        }
+        .snake-game .status {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+        }
+        .snake-game button {
+            background: #2575fc;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s ease;
+        }
+        .snake-game button:hover {
             background: #6a11cb;
         }
     </style>
@@ -458,6 +623,24 @@
         <div class="status" id="ticTacToeStatus"></div>
         <button onclick="resetTicTacToe()">Reset Game</button>
         <button onclick="closeTicTacToe()">Close</button>
+    </div>
+
+    <!-- Memory Game -->
+    <div class="memory-game" id="memoryGame">
+        <h2>Memory Game</h2>
+        <div class="board" id="memoryBoard"></div>
+        <div class="status" id="memoryStatus"></div>
+        <button onclick="resetMemoryGame()">Reset Game</button>
+        <button onclick="closeMemoryGame()">Close</button>
+    </div>
+
+    <!-- Snake Game -->
+    <div class="snake-game" id="snakeGame">
+        <h2>Snake Game</h2>
+        <div class="game-area" id="snakeGameArea"></div>
+        <div class="status" id="snakeStatus"></div>
+        <button onclick="resetSnakeGame()">Reset Game</button>
+        <button onclick="closeSnakeGame()">Close</button>
     </div>
 
     <script>
@@ -655,6 +838,24 @@
                     <p>A classic game of Tic Tac Toe. Play against the computer and see if you can win!</p>
                 `,
                 onClick: () => openTicTacToe()
+            },
+            {
+                name: "Memory Game",
+                emoji: "🧠",
+                description: `
+                    <h2>Memory Game</h2>
+                    <p>Test your memory with this fun and challenging memory game. Match all the pairs to win!</p>
+                `,
+                onClick: () => openMemoryGame()
+            },
+            {
+                name: "Snake Game",
+                emoji: "🐍",
+                description: `
+                    <h2>Snake Game</h2>
+                    <p>Relive the classic Snake game. Eat the food and grow your snake, but don't hit the walls or yourself!</p>
+                `,
+                onClick: () => openSnakeGame()
             }
         ];
 
@@ -987,6 +1188,171 @@
 
         document.querySelectorAll('.cell').forEach(cell => {
             cell.addEventListener('click', () => makeMove(parseInt(cell.getAttribute('data-index'))));
+        });
+
+        // Memory Game Logic
+        let memoryCards = [];
+        let flippedCards = [];
+        let matchedCards = [];
+        let memoryGameActive = false;
+
+        function openMemoryGame() {
+            document.getElementById('overlay').classList.add('visible');
+            document.getElementById('memoryGame').classList.add('open');
+            resetMemoryGame();
+        }
+
+        function closeMemoryGame() {
+            document.getElementById('overlay').classList.remove('visible');
+            document.getElementById('memoryGame').classList.remove('open');
+        }
+
+        function resetMemoryGame() {
+            memoryCards = generateMemoryCards();
+            flippedCards = [];
+            matchedCards = [];
+            memoryGameActive = true;
+            document.getElementById('memoryStatus').textContent = '';
+            renderMemoryBoard();
+        }
+
+        function generateMemoryCards() {
+            const emojis = ['🍎', '🍌', '🍇', '🍓', '🍒', '🍑', '🍍', '🥥'];
+            const cards = [...emojis, ...emojis];
+            return shuffleArray(cards);
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function renderMemoryBoard() {
+            const memoryBoard = document.getElementById('memoryBoard');
+            memoryBoard.innerHTML = "";
+            memoryCards.forEach((emoji, index) => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.innerHTML = `
+                    <div class="front">${emoji}</div>
+                    <div class="back"></div>
+                `;
+                card.addEventListener('click', () => flipCard(index));
+                memoryBoard.appendChild(card);
+            });
+        }
+
+        function flipCard(index) {
+            if (!memoryGameActive || flippedCards.length >= 2 || matchedCards.includes(index)) return;
+            const card = document.querySelector(`.card:nth-child(${index + 1})`);
+            card.classList.add('flipped');
+            flippedCards.push(index);
+            if (flippedCards.length === 2) {
+                checkMatch();
+            }
+        }
+
+        function checkMatch() {
+            const [firstIndex, secondIndex] = flippedCards;
+            if (memoryCards[firstIndex] === memoryCards[secondIndex]) {
+                matchedCards.push(firstIndex, secondIndex);
+                if (matchedCards.length === memoryCards.length) {
+                    memoryGameActive = false;
+                    document.getElementById('memoryStatus').textContent = 'You Win!';
+                }
+            } else {
+                memoryGameActive = false;
+                setTimeout(() => {
+                    document.querySelectorAll('.card.flipped').forEach(card => card.classList.remove('flipped'));
+                    memoryGameActive = true;
+                }, 1000);
+            }
+            flippedCards = [];
+        }
+
+        // Snake Game Logic
+        let snakeGameActive = false;
+        let snake = [{ x: 10, y: 10 }];
+        let food = { x: 5, y: 5 };
+        let direction = { x: 0, y: 0 };
+        let gameInterval;
+
+        function openSnakeGame() {
+            document.getElementById('overlay').classList.add('visible');
+            document.getElementById('snakeGame').classList.add('open');
+            resetSnakeGame();
+        }
+
+        function closeSnakeGame() {
+            document.getElementById('overlay').classList.remove('visible');
+            document.getElementById('snakeGame').classList.remove('open');
+        }
+
+        function resetSnakeGame() {
+            snake = [{ x: 10, y: 10 }];
+            food = { x: 5, y: 5 };
+            direction = { x: 0, y: 0 };
+            snakeGameActive = true;
+            document.getElementById('snakeStatus').textContent = '';
+            clearInterval(gameInterval);
+            gameInterval = setInterval(updateSnakeGame, 100);
+            renderSnakeGame();
+        }
+
+        function updateSnakeGame() {
+            if (!snakeGameActive) return;
+            const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
+            if (head.x < 0 || head.x >= 20 || head.y < 0 || head.y >= 20 || snake.some(segment => segment.x === head.x && segment.y === head.y)) {
+                snakeGameActive = false;
+                document.getElementById('snakeStatus').textContent = 'Game Over!';
+                clearInterval(gameInterval);
+                return;
+            }
+            snake.unshift(head);
+            if (head.x === food.x && head.y === food.y) {
+                food = { x: Math.floor(Math.random() * 20), y: Math.floor(Math.random() * 20) };
+            } else {
+                snake.pop();
+            }
+            renderSnakeGame();
+        }
+
+        function renderSnakeGame() {
+            const gameArea = document.getElementById('snakeGameArea');
+            gameArea.innerHTML = "";
+            snake.forEach(segment => {
+                const snakeSegment = document.createElement('div');
+                snakeSegment.classList.add('snake');
+                snakeSegment.style.left = `${segment.x * 20}px`;
+                snakeSegment.style.top = `${segment.y * 20}px`;
+                gameArea.appendChild(snakeSegment);
+            });
+            const foodElement = document.createElement('div');
+            foodElement.classList.add('food');
+            foodElement.style.left = `${food.x * 20}px`;
+            foodElement.style.top = `${food.y * 20}px`;
+            gameArea.appendChild(foodElement);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (!snakeGameActive) return;
+            switch (e.key) {
+                case 'ArrowUp':
+                    if (direction.y === 0) direction = { x: 0, y: -1 };
+                    break;
+                case 'ArrowDown':
+                    if (direction.y === 0) direction = { x: 0, y: 1 };
+                    break;
+                case 'ArrowLeft':
+                    if (direction.x === 0) direction = { x: -1, y: 0 };
+                    break;
+                case 'ArrowRight':
+                    if (direction.x === 0) direction = { x: 1, y: 0 };
+                    break;
+            }
         });
 
         setInterval(updateClock, 1000);
