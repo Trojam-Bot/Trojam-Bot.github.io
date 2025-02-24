@@ -1,96 +1,137 @@
 body {
   font-family: Arial, sans-serif;
   background-color: #1a1a1a;
-  color: #fff;
-  text-align: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
   margin: 0;
   padding: 0;
   overflow: hidden;
-  transition: all 0.5s ease;
 }
 
 #game {
-  margin-top: 50px;
-  transition: all 0.5s ease;
+  text-align: center;
 }
 
-#clickButton {
-  padding: 20px 40px;
-  font-size: 24px;
-  cursor: pointer;
-  background-color: #ff4444;
-  border: none;
-  color: #fff;
-  border-radius: 10px;
-  transition: all 0.3s ease;
+h1 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  color: #ff4444;
+  transition: color 0.3s ease;
 }
 
-#clickButton:hover {
-  background-color: #ff6666;
+#score {
+  font-size: 1.5em;
+  margin-bottom: 20px;
 }
 
-#upgrades {
-  margin-top: 20px;
-}
-
-#upgrades button {
-  padding: 10px 20px;
-  font-size: 16px;
-  margin: 5px;
-  cursor: pointer;
-  background-color: #444;
-  border: none;
-  color: #fff;
-  border-radius: 5px;
-  transition: all 0.3s ease;
-}
-
-#upgrades button:hover {
-  background-color: #666;
-}
-
-#upgrades button:disabled {
-  background-color: #222;
-  cursor: not-allowed;
-}
-
-#eventLog {
-  margin-top: 20px;
-  font-size: 18px;
-  color: #ffcc00;
-  opacity: 0;
-  transition: opacity 0.5s ease;
+#message {
+  height: 50px;
+  margin-bottom: 20px;
+  color: #ff9900;
+  font-size: 1.2em;
 }
 
 #bossFight {
-  position: fixed;
-  top: 50%;
+  position: absolute;
+  top: 20px;
   left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(0, 0, 0, 0.9);
-  padding: 20px;
-  border: 2px solid #ff4444;
-  border-radius: 10px;
-  z-index: 1000;
-}
-
-#bossFight.hidden {
-  display: none;
+  transform: translateX(-50%);
+  text-align: center;
 }
 
 #bossHealth {
   font-size: 24px;
-  margin: 10px 0;
+  color: #ff0000;
 }
 
-#punchBoss {
-  padding: 10px 20px;
-  font-size: 18px;
+#bossTimer {
+  font-size: 20px;
+  color: #ffff00;
+}
+
+#clickButton {
+  width: 100px;
+  height: 100px;
   background-color: #ff4444;
   border: none;
-  color: #fff;
-  border-radius: 5px;
+  border-radius: 50%;
   cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 16px;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+#clickButton:hover {
+  transform: scale(1.05);
+}
+
+#clickButton:active {
+  transform: scale(0.95);
+}
+
+#shopButton {
+  margin: 20px;
+  padding: 10px 20px;
+  background-color: #444;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+#shop {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #333;
+  padding: 20px;
+  border-radius: 10px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+#shopItems {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.shopItem {
+  padding: 10px;
+  background-color: #444;
+  border-radius: 5px;
+}
+
+.shopItem button {
+  padding: 5px 10px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 3px;
+  color: white;
+  cursor: pointer;
+}
+
+.shopItem button:disabled {
+  background-color: #666;
+  cursor: not-allowed;
+}
+
+#multiplier {
+  margin-top: 20px;
+  font-size: 0.8em;
+  color: #666;
+}
+
+.hidden {
+  display: none;
 }
 
 /* Chaos Effects */
@@ -105,23 +146,6 @@ body {
   60% { transform: translate(-5px, 5px); }
   80% { transform: translate(5px, -5px); }
   100% { transform: translate(0); }
-}
-
-.shake {
-  animation: shake 0.5s;
-}
-
-@keyframes shake {
-  0% { transform: translate(0); }
-  25% { transform: translate(5px, 5px); }
-  50% { transform: translate(-5px, -5px); }
-  75% { transform: translate(-5px, 5px); }
-  100% { transform: translate(0); }
-}
-
-.blur {
-  filter: blur(5px);
-  transition: filter 0.5s ease;
 }
 
 .jumpscare {
