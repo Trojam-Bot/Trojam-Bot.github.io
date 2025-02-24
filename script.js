@@ -103,12 +103,8 @@ function cursorClone() {
 }
 
 function glitchEffect() {
-  document.body.style.backgroundColor = "#000";
-  document.body.style.color = "#0f0";
-  setTimeout(() => {
-    document.body.style.backgroundColor = "#1a1a1a";
-    document.body.style.color = "#fff";
-  }, 1000);
+  document.body.classList.add("glitch");
+  setTimeout(() => document.body.classList.remove("glitch"), 1000);
   logEvent("The screen glitched!");
 }
 
