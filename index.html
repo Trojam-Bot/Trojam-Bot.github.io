@@ -1,192 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clicker of Doom</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #1a1a1a;
-            color: #fff;
-            margin: 0;
-            padding: 20px;
-        }
-        #game-container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        #click-button {
-            padding: 20px 40px;
-            font-size: 20px;
-            cursor: pointer;
-            background-color: #ff4444;
-            border: none;
-            border-radius: 10px;
-            transition: all 0.2s;
-            position: relative;
-        }
-        #click-button:hover {
-            background-color: #ff6666;
-        }
-        #narrator {
-            margin: 20px 0;
-            font-style: italic;
-            color: #ff9999;
-        }
-        .upgrade-btn {
-            margin: 5px;
-            padding: 10px 20px;
-            background-color: #444;
-            border: none;
-            color: #fff;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .upgrade-btn:hover {
-            background-color: #666;
-        }
-        .glitch {
-            animation: glitch 0.5s infinite;
-        }
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-5px, 5px); }
-            40% { transform: translate(5px, -5px); }
-            60% { transform: translate(-5px, 0); }
-            80% { transform: translate(5px, 0); }
-            100% { transform: translate(0); }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clicker of Doom</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inria+Sans:wght@400;700&display=swap">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="game-container">
-        <h1>Clicker of Doom</h1>
-        <p>Score: <span id="score">0</span></p>
-        <button id="click-button">Click Me!</button>
-        <p id="narrator">Let’s see how long you last...</p>
-        <div>
-            <button class="upgrade-btn" id="auto-clicker-btn">Auto-Clicker (Cost: <span id="auto-cost">10</span>)</button>
-            <button class="upgrade-btn" id="multiplier-btn">Multiplier (Cost: <span id="multi-cost">50</span>)</button>
-        </div>
+  <div id="game">
+    <h1>Clicker of Doom</h1>
+    <p id="score">Score: 0</p>
+    <button id="clickButton">Click Me!</button>
+    <div id="upgrades">
+      <div class="upgrade" id="autoClicker">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/robot.png" alt="Auto-Clicker">
+        <p>Auto-Clicker (10 points)</p>
+      </div>
+      <div class="upgrade" id="multiplier">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/percentage.png" alt="Multiplier">
+        <p>Multiplier (20 points)</p>
+      </div>
+      <div class="upgrade" id="chaosMode">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/storm.png" alt="Chaos Mode">
+        <p>Chaos Mode (50 points)</p>
+      </div>
     </div>
-
-    <script>
-        let score = 0;
-        let clicksPerClick = 1;
-        let autoClicksPerSecond = 0;
-        let autoCost = 10;
-        let multiCost = 50;
-
-        const scoreDisplay = document.getElementById('score');
-        const clickButton = document.getElementById('click-button');
-        const narrator = document.getElementById('narrator');
-        const autoClickerBtn = document.getElementById('auto-clicker-btn');
-        const multiplierBtn = document.getElementById('multiplier-btn');
-        const autoCostDisplay = document.getElementById('auto-cost');
-        const multiCostDisplay = document.getElementById('multi-cost');
-
-        // Update score display
-        function updateScore() {
-            scoreDisplay.textContent = Math.floor(score);
-        }
-
-        // Click mechanic
-        clickButton.addEventListener('click', () => {
-            score += clicksPerClick;
-            updateScore();
-            triggerRandomEvent();
-        });
-
-        // Auto-clicker
-        setInterval(() => {
-            score += autoClicksPerSecond / 10; // Divided for smoother increments
-            updateScore();
-        }, 100);
-
-        // Upgrades
-        autoClickerBtn.addEventListener('click', () => {
-            if (score >= autoCost) {
-                score -= autoCost;
-                autoClicksPerSecond += 1;
-                autoCost *= 1.5; // Exponential cost increase
-                autoCostDisplay.textContent = Math.floor(autoCost);
-                updateScore();
-                narrate("Automation? You’re getting lazy!");
-            }
-        });
-
-        multiplierBtn.addEventListener('click', () => {
-            if (score >= multiCost) {
-                score -= multiCost;
-                clicksPerClick *= 2;
-                multiCost *= 2.5; // Exponential cost increase
-                multiCostDisplay.textContent = Math.floor(multiCost);
-                updateScore();
-                narrate("More power... but at what cost?");
-            }
-        });
-
-        // Random events
-        function triggerRandomEvent() {
-            if (Math.random() < 0.1) { // 10% chance per click
-                const events = [
-                    moveButton,
-                    changeButtonAppearance,
-                    fakeCrash,
-                ];
-                const randomEvent = events[Math.floor(Math.random() * events.length)];
-                randomEvent();
-            }
-        }
-
-        function moveButton() {
-            const x = Math.random() * (window.innerWidth - clickButton.offsetWidth - 40);
-            const y = Math.random() * (window.innerHeight - clickButton.offsetHeight - 100);
-            clickButton.style.left = `${x}px`;
-            clickButton.style.top = `${y}px`;
-            clickButton.style.position = 'absolute';
-            narrate("Catch me if you can!");
-        }
-
-        function changeButtonAppearance() {
-            const colors = ['#ff4444', '#44ff44', '#4444ff', '#ffff44'];
-            const sizes = ['10px', '30px', '50px'];
-            clickButton.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            clickButton.style.fontSize = sizes[Math.floor(Math.random() * sizes.length)];
-            narrate("Feeling colorful today?");
-        }
-
-        function fakeCrash() {
-            document.body.innerHTML = '<h1 style="color: blue;">ERROR: Game Crashed</h1>';
-            setTimeout(() => {
-                location.reload();
-            }, 2000);
-            narrate("Oops, did I break it?");
-        }
-
-        // Narrator taunts
-        const taunts = [
-            "You’re clicking too fast... slow down!",
-            "Is this all you’ve got?",
-            "Keep going, I dare you.",
-            "You’ll never escape my chaos!",
-            "Having fun yet?"
-        ];
-
-        function narrate(message) {
-            narrator.textContent = message || taunts[Math.floor(Math.random() * taunts.length)];
-            if (Math.random() < 0.2) { // 20% chance for glitch effect
-                narrator.classList.add('glitch');
-                setTimeout(() => narrator.classList.remove('glitch'), 1000);
-            }
-        }
-
-        // Random narrator comments
-        setInterval(() => {
-            if (Math.random() < 0.05) narrate();
-        }, 5000);
-    </script>
+    <div id="eventLog"></div>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
