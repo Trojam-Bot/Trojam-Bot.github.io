@@ -9,20 +9,19 @@
 <body>
   <div id="game">
     <h1>Clicker of Doom</h1>
-    <p id="score">Score: 0</p>
-    <button id="clickButton">Click Me!</button>
-    <div id="upgrades">
-      <h2>Upgrades</h2>
-      <button id="upgradeClickPower">Increase Click Power (Cost: 10)</button>
-      <button id="upgradeAutoClicker">Buy Auto-Clicker (Cost: 50)</button>
-      <button id="upgradeMultiplier">Buy Multiplier (Cost: 100)</button>
+    <div id="score">Score: 0</div>
+    <div id="message">Start clicking!</div>
+    <div id="bossFight" class="hidden">
+      <div id="bossHealth">Boss Health: 30/30</div>
+      <div id="bossTimer">Time Left: 30s</div>
     </div>
-    <div id="eventLog"></div>
-  </div>
-  <div id="bossFight" class="hidden">
-    <h2>BOSS FIGHT!</h2>
-    <div id="bossHealth">Health: 100</div>
-    <button id="punchBoss">Punch the Boss!</button>
+    <button id="clickButton">CLICK ME</button>
+    <button id="shopButton">Open Shop</button>
+    <div id="shop" class="hidden">
+      <h2>Shop</h2>
+      <div id="shopItems"></div>
+    </div>
+    <div id="multiplier">Current Multiplier: x1</div>
   </div>
   <script src="script.js"></script>
 </body>
