@@ -1,26 +1,64 @@
 // Game Variables
 let score = 0;
 let clickPower = 1;
+let autoClickerPower = 0;
+let multiplier = 1;
 let eventInterval;
 const events = [
   "buttonMove",
   "cursorClone",
   "glitchEffect",
   "bossFight",
-  "fakeError",
 ];
 
 // DOM Elements
 const scoreDisplay = document.getElementById("score");
 const clickButton = document.getElementById("clickButton");
 const eventLog = document.getElementById("eventLog");
+const upgradeClickPowerButton = document.getElementById("upgradeClickPower");
+const upgradeAutoClickerButton = document.getElementById("upgradeAutoClicker");
+const upgradeMultiplierButton = document.getElementById("upgradeMultiplier");
 
 // Core Clicker Functionality
 clickButton.addEventListener("click", () => {
-  score += clickPower;
-  scoreDisplay.textContent = `Score: ${score}`;
+  score += clickPower * multiplier;
+  updateScore();
   checkForEvents();
 });
+
+// Upgrade Functions
+upgradeClickPowerButton.addEventListener("click", () => {
+  if (score >= 10) {
+    score -= 10;
+    clickPower += 1;
+    updateScore();
+    logEvent("Click power increased!");
+  }
+});
+
+upgradeAutoClickerButton.addEventListener("click", () => {
+  if (score >= 50) {
+    score -= 50;
+    autoClickerPower += 1;
+    updateScore();
+    logEvent("Auto-clicker purchased!");
+  }
+});
+
+upgradeMultiplierButton.addEventListener("click", () => {
+  if (score >= 100) {
+    score -= 100;
+    multiplier += 1;
+    updateScore();
+    logEvent("Multiplier purchased!");
+  }
+});
+
+// Auto-Clicker Functionality
+setInterval(() => {
+  score += autoClickerPower * multiplier;
+  updateScore();
+}, 1000);
 
 // Unpredictable Events
 function triggerRandomEvent() {
@@ -37,9 +75,6 @@ function triggerRandomEvent() {
       break;
     case "bossFight":
       bossFight();
-      break;
-    case "fakeError":
-      fakeError();
       break;
     default:
       break;
@@ -61,8 +96,8 @@ function cursorClone() {
   clone.id = "cloneButton";
   document.body.appendChild(clone);
   clone.addEventListener("click", () => {
-    score += clickPower;
-    scoreDisplay.textContent = `Score: ${score}`;
+    score += clickPower * multiplier;
+    updateScore();
   });
   logEvent("Your cursor cloned itself!");
 }
@@ -90,13 +125,6 @@ function bossFight() {
   }, 500);
 }
 
-function fakeError() {
-  logEvent("Oh no! The game crashed!");
-  setTimeout(() => {
-    logEvent("Just kidding! Keep clicking!");
-  }, 2000);
-}
-
 // Helper Functions
 function checkForEvents() {
   if (Math.random() < 0.1) {
@@ -109,6 +137,13 @@ function logEvent(message) {
   setTimeout(() => {
     eventLog.textContent = "";
   }, 3000);
+}
+
+function updateScore() {
+  scoreDisplay.textContent = `Score: ${score}`;
+  upgradeClickPowerButton.disabled = score < 10;
+  upgradeAutoClickerButton.disabled = score < 50;
+  upgradeMultiplierButton.disabled = score < 100;
 }
 
 // Start Event Interval
