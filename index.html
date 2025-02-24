@@ -284,23 +284,39 @@
             margin-bottom: 20px;
             color: white;
         }
-        .clicker-game button {
-            background: #2575fc;
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 10px;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: background 0.3s ease;
-        }
-        .clicker-game button:hover {
-            background: #6a11cb;
-        }
         .clicker-game .score {
             font-size: 20px;
             margin-bottom: 20px;
+        }
+        .clicker-game .click-button {
+            background: #2575fc;
+            border: none;
+            color: white;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease, background 0.3s ease;
+            position: relative;
+        }
+        .clicker-game .click-button:hover {
+            background: #6a11cb;
+            transform: scale(1.1);
+        }
+        .clicker-game .click-effect {
+            position: absolute;
+            font-size: 16px;
+            color: white;
+            animation: floatUp 1s ease-out;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-50px); opacity: 0; }
         }
         .clicker-game .upgrades {
             display: flex;
@@ -316,6 +332,20 @@
         }
         .clicker-game .upgrade:hover {
             background: rgba(255, 255, 255, 0.2);
+        }
+        .clicker-game button {
+            background: #2575fc;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s ease;
+        }
+        .clicker-game button:hover {
+            background: #6a11cb;
         }
 
         /* Tic Tac Toe Styles */
@@ -394,6 +424,25 @@
         .tic-tac-toe .mode-selector button.active {
             background: #6a11cb;
         }
+        .tic-tac-toe .buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .tic-tac-toe .buttons button {
+            background: #2575fc;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .tic-tac-toe .buttons button:hover {
+            background: #6a11cb;
+        }
 
         /* Memory Game Styles */
         .memory-game {
@@ -409,7 +458,7 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.5s ease, visibility 0.5s ease;
-            width: 600px;
+            width: 400px;
             max-width: 90%;
         }
         .memory-game.open {
@@ -421,23 +470,41 @@
             margin-bottom: 20px;
             color: white;
         }
+        .memory-game .mode-selector {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .memory-game .mode-selector button {
+            background: #2575fc;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .memory-game .mode-selector button:hover {
+            background: #6a11cb;
+        }
+        .memory-game .mode-selector button.active {
+            background: #6a11cb;
+        }
         .memory-game .board {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(4, 1fr);
             gap: 10px;
-            width: 100%;
-            max-width: 400px;
-            margin: 0 auto;
+            margin: 20px auto;
         }
         .memory-game .card {
             background: rgba(255, 255, 255, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 40px;
+            font-size: 24px;
             cursor: pointer;
-            transition: background 0.3s ease, transform 0.2s ease;
+            transition: transform 0.3s ease, background 0.3s ease;
             aspect-ratio: 1 / 1;
             position: relative;
             transform-style: preserve-3d;
@@ -471,7 +538,13 @@
             font-size: 18px;
             text-align: center;
         }
-        .memory-game button {
+        .memory-game .buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .memory-game .buttons button {
             background: #2575fc;
             border: none;
             color: white;
@@ -479,15 +552,14 @@
             font-size: 16px;
             border-radius: 10px;
             cursor: pointer;
-            margin-top: 20px;
             transition: background 0.3s ease;
         }
-        .memory-game button:hover {
+        .memory-game .buttons button:hover {
             background: #6a11cb;
         }
 
-        /* Snake Game Styles */
-        .snake-game {
+        /* New Minigame: Reaction Time Test */
+        .reaction-game {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -500,42 +572,42 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.5s ease, visibility 0.5s ease;
-            width: 600px;
+            width: 400px;
             max-width: 90%;
         }
-        .snake-game.open {
+        .reaction-game.open {
             opacity: 1;
             visibility: visible;
         }
-        .snake-game h2 {
+        .reaction-game h2 {
             font-size: 24px;
             margin-bottom: 20px;
             color: white;
         }
-        .snake-game .game-area {
-            width: 100%;
-            max-width: 400px;
-            height: 400px;
-            margin: 0 auto;
+        .reaction-game .reaction-area {
             background: rgba(255, 255, 255, 0.1);
-            position: relative;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background 0.3s ease;
         }
-        .snake-game .snake, .snake-game .food {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: #00ff7f;
-            border-radius: 50%;
+        .reaction-game .reaction-area:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
-        .snake-game .food {
-            background: #ff0000;
-        }
-        .snake-game .status {
+        .reaction-game .status {
             margin-top: 20px;
             font-size: 18px;
             text-align: center;
         }
-        .snake-game button {
+        .reaction-game .buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .reaction-game .buttons button {
             background: #2575fc;
             border: none;
             color: white;
@@ -543,10 +615,9 @@
             font-size: 16px;
             border-radius: 10px;
             cursor: pointer;
-            margin-top: 20px;
             transition: background 0.3s ease;
         }
-        .snake-game button:hover {
+        .reaction-game .buttons button:hover {
             background: #6a11cb;
         }
     </style>
@@ -582,19 +653,19 @@
     <div class="clicker-game" id="clickerGame">
         <h2>Clicker Game</h2>
         <div class="score">Score: <span id="clickerScore">0</span></div>
-        <button onclick="incrementScore()">Click Me!</button>
+        <button class="click-button" onclick="incrementScore()">Click Me!</button>
         <div class="upgrades">
             <div class="upgrade" onclick="buyUpgrade('autoClicker')">
-                Auto Clicker (Cost: 10)
+                Auto Clicker (Cost: <span id="autoClickerCost">10</span>)
             </div>
             <div class="upgrade" onclick="buyUpgrade('clickMultiplier')">
-                Click Multiplier (Cost: 50)
+                Click Multiplier (Cost: <span id="clickMultiplierCost">50</span>)
             </div>
             <div class="upgrade" onclick="buyUpgrade('megaClicker')">
-                Mega Clicker (Cost: 100)
+                Mega Clicker (Cost: <span id="megaClickerCost">100</span>)
             </div>
             <div class="upgrade" onclick="buyUpgrade('timeWarp')">
-                Time Warp (Cost: 200)
+                Time Warp (Cost: <span id="timeWarpCost">200</span>)
             </div>
         </div>
         <button onclick="closeClickerGame()">Close</button>
@@ -621,204 +692,57 @@
             <div class="cell" data-index="8"></div>
         </div>
         <div class="status" id="ticTacToeStatus"></div>
-        <button onclick="resetTicTacToe()">Reset Game</button>
-        <button onclick="closeTicTacToe()">Close</button>
+        <div class="buttons">
+            <button onclick="resetTicTacToe()">Reset Game</button>
+            <button onclick="closeTicTacToe()">Close</button>
+        </div>
     </div>
 
     <!-- Memory Game -->
     <div class="memory-game" id="memoryGame">
         <h2>Memory Game</h2>
+        <div class="mode-selector">
+            <button onclick="setMemoryDifficulty('easy')">Easy</button>
+            <button onclick="setMemoryDifficulty('normal')">Normal</button>
+            <button onclick="setMemoryDifficulty('hard')">Hard</button>
+            <button onclick="setMemoryDifficulty('hardcore')">Hardcore</button>
+        </div>
         <div class="board" id="memoryBoard"></div>
         <div class="status" id="memoryStatus"></div>
-        <button onclick="resetMemoryGame()">Reset Game</button>
-        <button onclick="closeMemoryGame()">Close</button>
+        <div class="buttons">
+            <button onclick="resetMemoryGame()">Reset Game</button>
+            <button onclick="closeMemoryGame()">Close</button>
+        </div>
     </div>
 
-    <!-- Snake Game -->
-    <div class="snake-game" id="snakeGame">
-        <h2>Snake Game</h2>
-        <div class="game-area" id="snakeGameArea"></div>
-        <div class="status" id="snakeStatus"></div>
-        <button onclick="resetSnakeGame()">Reset Game</button>
-        <button onclick="closeSnakeGame()">Close</button>
+    <!-- Reaction Time Test -->
+    <div class="reaction-game" id="reactionGame">
+        <h2>Reaction Time Test</h2>
+        <div class="reaction-area" id="reactionArea">Click when the background changes!</div>
+        <div class="status" id="reactionStatus"></div>
+        <div class="buttons">
+            <button onclick="resetReactionGame()">Reset Game</button>
+            <button onclick="closeReactionGame()">Close</button>
+        </div>
     </div>
 
     <script>
         const topicsList = [
             {
-                name: "Programming",
-                emoji: "💻",
+                name: "About this site",
+                emoji: "ℹ️",
                 description: `
-                    <h2>What is Programming?</h2>
-                    <p>Programming is the process of writing instructions for computers to execute. It involves problem-solving, logic, and creativity.</p>
-                    <h2>History of Programming</h2>
-                    <p>Programming has evolved from machine code in the 1940s to high-level languages like Python and JavaScript today.</p>
-                    <h2>Popular Programming Languages</h2>
+                    <h2>About this Site</h2>
+                    <p>Welcome to the Learning Project! This site is designed to help you have fun and cure boredom. Explore the topics, play minigames, and enjoy the learning experience!</p>
+                    <h2>Features</h2>
                     <ul>
-                        <li>Python</li>
-                        <li>JavaScript</li>
-                        <li>Java</li>
-                        <li>C++</li>
-                        <li>Ruby</li>
+                        <li>Interactive Topics</li>
+                        <li>Engaging Minigames</li>
+                        <li>Responsive Design</li>
+                        <li>Dark Mode</li>
                     </ul>
-                    <h2>Why Learn Programming?</h2>
-                    <p>Programming is a valuable skill in today's digital world. It opens doors to careers in software development, data science, and more.</p>
-                `
-            },
-            {
-                name: "Web Development",
-                emoji: "🌐",
-                description: `
-                    <h2>What is Web Development?</h2>
-                    <p>Web development involves building and maintaining websites. It includes front-end (client-side) and back-end (server-side) development.</p>
-                    <h2>Front-End Development</h2>
-                    <p>Front-end development focuses on the user interface and experience. It uses HTML, CSS, and JavaScript.</p>
-                    <h2>Back-End Development</h2>
-                    <p>Back-end development handles server-side logic, databases, and APIs. It uses languages like Python, Ruby, and Node.js.</p>
-                `
-            },
-            {
-                name: "Linux",
-                emoji: "🐧",
-                description: `
-                    <h2>What is Linux?</h2>
-                    <p>Linux is an open-source operating system based on Unix. It is widely used in servers, desktops, and embedded systems.</p>
-                    <h2>History of Linux</h2>
-                    <p>Linux was created by Linus Torvalds in 1991. It has since become one of the most popular operating systems in the world.</p>
-                    <h2>Popular Linux Distributions</h2>
-                    <ul>
-                        <li>Ubuntu</li>
-                        <li>Fedora</li>
-                        <li>Debian</li>
-                        <li>CentOS</li>
-                        <li>Arch Linux</li>
-                    </ul>
-                    <h2>Why Use Linux?</h2>
-                    <p>Linux is known for its stability, security, and flexibility. It is also free and open-source.</p>
-                `
-            },
-            {
-                name: "Windows",
-                emoji: "🪟",
-                description: `
-                    <h2>What is Windows?</h2>
-                    <p>Windows is a family of operating systems developed by Microsoft. It is the most widely used OS for personal computers.</p>
-                    <h2>History of Windows</h2>
-                    <p>Windows was first released in 1985. It has since evolved through many versions, including Windows 95, XP, 7, and 10.</p>
-                    <h2>Popular Windows Versions</h2>
-                    <ul>
-                        <li>Windows 10</li>
-                        <li>Windows 8</li>
-                        <li>Windows 7</li>
-                        <li>Windows XP</li>
-                        <li>Windows 95</li>
-                    </ul>
-                    <h2>Why Use Windows?</h2>
-                    <p>Windows is known for its user-friendly interface, compatibility with a wide range of software, and strong support for gaming.</p>
-                `
-            },
-            {
-                name: "macOS",
-                emoji: "🍎",
-                description: `
-                    <h2>What is macOS?</h2>
-                    <p>macOS is the operating system for Apple's Mac computers. It is known for its sleek design and user-friendly interface.</p>
-                    <h2>History of macOS</h2>
-                    <p>macOS was first released in 2001 as Mac OS X. It has since evolved through many versions, including macOS Catalina and Big Sur.</p>
-                    <h2>Popular macOS Features</h2>
-                    <ul>
-                        <li>Spotlight Search</li>
-                        <li>Time Machine</li>
-                        <li>Mission Control</li>
-                        <li>iCloud Integration</li>
-                        <li>Continuity</li>
-                    </ul>
-                    <h2>Why Use macOS?</h2>
-                    <p>macOS is known for its stability, security, and seamless integration with other Apple devices.</p>
-                `
-            },
-            {
-                name: "Data Science",
-                emoji: "📊",
-                description: `
-                    <h2>What is Data Science?</h2>
-                    <p>Data Science is an interdisciplinary field that uses scientific methods, processes, algorithms, and systems to extract knowledge and insights from structured and unstructured data.</p>
-                    <h2>Key Components of Data Science</h2>
-                    <ul>
-                        <li>Data Analysis</li>
-                        <li>Machine Learning</li>
-                        <li>Data Visualization</li>
-                        <li>Big Data</li>
-                    </ul>
-                    <h2>Why Learn Data Science?</h2>
-                    <p>Data Science is one of the most in-demand fields today, with applications in finance, healthcare, marketing, and more.</p>
-                `
-            },
-            {
-                name: "Artificial Intelligence",
-                emoji: "🤖",
-                description: `
-                    <h2>What is Artificial Intelligence?</h2>
-                    <p>Artificial Intelligence (AI) is the simulation of human intelligence in machines that are programmed to think and learn like humans.</p>
-                    <h2>Applications of AI</h2>
-                    <ul>
-                        <li>Natural Language Processing</li>
-                        <li>Computer Vision</li>
-                        <li>Robotics</li>
-                        <li>Autonomous Vehicles</li>
-                    </ul>
-                    <h2>Why Learn AI?</h2>
-                    <p>AI is transforming industries and creating new opportunities in technology, healthcare, and beyond.</p>
-                `
-            },
-            {
-                name: "Cybersecurity",
-                emoji: "🔒",
-                description: `
-                    <h2>What is Cybersecurity?</h2>
-                    <p>Cybersecurity is the practice of protecting systems, networks, and programs from digital attacks.</p>
-                    <h2>Key Areas of Cybersecurity</h2>
-                    <ul>
-                        <li>Network Security</li>
-                        <li>Application Security</li>
-                        <li>Information Security</li>
-                        <li>Cloud Security</li>
-                    </ul>
-                    <h2>Why Learn Cybersecurity?</h2>
-                    <p>With the increasing number of cyber threats, cybersecurity is a critical field for protecting sensitive data and systems.</p>
-                `
-            },
-            {
-                name: "Cloud Computing",
-                emoji: "☁️",
-                description: `
-                    <h2>What is Cloud Computing?</h2>
-                    <p>Cloud Computing is the delivery of computing services over the internet, including storage, processing, and networking.</p>
-                    <h2>Types of Cloud Services</h2>
-                    <ul>
-                        <li>Infrastructure as a Service (IaaS)</li>
-                        <li>Platform as a Service (PaaS)</li>
-                        <li>Software as a Service (SaaS)</li>
-                    </ul>
-                    <h2>Why Learn Cloud Computing?</h2>
-                    <p>Cloud Computing is essential for modern IT infrastructure, enabling scalability, flexibility, and cost savings.</p>
-                `
-            },
-            {
-                name: "Blockchain",
-                emoji: "⛓️",
-                description: `
-                    <h2>What is Blockchain?</h2>
-                    <p>Blockchain is a decentralized digital ledger that records transactions across multiple computers in a secure and transparent manner.</p>
-                    <h2>Applications of Blockchain</h2>
-                    <ul>
-                        <li>Cryptocurrencies</li>
-                        <li>Smart Contracts</li>
-                        <li>Supply Chain Management</li>
-                        <li>Digital Identity</li>
-                    </ul>
-                    <h2>Why Learn Blockchain?</h2>
-                    <p>Blockchain technology is revolutionizing industries by providing secure and transparent solutions for various applications.</p>
+                    <h2>How to Use</h2>
+                    <p>Click on any topic to learn more about it. Play the minigames to test your skills and have fun!</p>
                 `
             },
             {
@@ -849,13 +773,13 @@
                 onClick: () => openMemoryGame()
             },
             {
-                name: "Snake Game",
-                emoji: "🐍",
+                name: "Reaction Time Test",
+                emoji: "⏱️",
                 description: `
-                    <h2>Snake Game</h2>
-                    <p>Relive the classic Snake game. Eat the food and grow your snake, but don't hit the walls or yourself!</p>
+                    <h2>Reaction Time Test</h2>
+                    <p>Test your reaction time by clicking when the background changes. How fast can you react?</p>
                 `,
-                onClick: () => openSnakeGame()
+                onClick: () => openReactionGame()
             }
         ];
 
@@ -959,6 +883,16 @@
         function incrementScore() {
             score += clickMultiplier;
             updateScore();
+            showClickEffect();
+        }
+
+        function showClickEffect() {
+            const clickButton = document.querySelector('.click-button');
+            const clickEffect = document.createElement('div');
+            clickEffect.classList.add('click-effect');
+            clickEffect.textContent = `+${clickMultiplier}`;
+            clickButton.appendChild(clickEffect);
+            setTimeout(() => clickEffect.remove(), 1000);
         }
 
         function buyUpgrade(type) {
@@ -969,6 +903,7 @@
                     if (score >= cost) {
                         score -= cost;
                         autoClickerLevel++;
+                        document.getElementById('autoClickerCost').textContent = 10 + autoClickerLevel * 10;
                         if (!autoClickerInterval) {
                             autoClickerInterval = setInterval(() => incrementScore(), 1000);
                         }
@@ -979,6 +914,7 @@
                     if (score >= cost) {
                         score -= cost;
                         clickMultiplier *= 2;
+                        document.getElementById('clickMultiplierCost').textContent = 50 + clickMultiplier * 10;
                     }
                     break;
                 case 'megaClicker':
@@ -987,6 +923,7 @@
                         score -= cost;
                         megaClickerLevel++;
                         clickMultiplier *= 5;
+                        document.getElementById('megaClickerCost').textContent = 100 + megaClickerLevel * 50;
                     }
                     break;
                 case 'timeWarp':
@@ -996,6 +933,7 @@
                         timeWarpLevel++;
                         clearInterval(autoClickerInterval);
                         autoClickerInterval = setInterval(() => incrementScore(), 500);
+                        document.getElementById('timeWarpCost').textContent = 200 + timeWarpLevel * 100;
                     }
                     break;
             }
@@ -1076,7 +1014,10 @@
         function makeMove(index) {
             if (!gameActive || ticTacToeBoard[index] !== '') return;
             ticTacToeBoard[index] = currentPlayer;
-            document.querySelector(`.cell[data-index="${index}"]`).textContent = currentPlayer;
+            const cell = document.querySelector(`.cell[data-index="${index}"]`);
+            cell.textContent = currentPlayer === 'X' ? '❌' : '⭕';
+            cell.style.opacity = 0;
+            setTimeout(() => cell.style.opacity = 1, 100);
             const winner = checkWin();
             if (winner) {
                 gameActive = false;
@@ -1195,6 +1136,7 @@
         let flippedCards = [];
         let matchedCards = [];
         let memoryGameActive = false;
+        let memoryDifficulty = 'easy';
 
         function openMemoryGame() {
             document.getElementById('overlay').classList.add('visible');
@@ -1207,6 +1149,13 @@
             document.getElementById('memoryGame').classList.remove('open');
         }
 
+        function setMemoryDifficulty(level) {
+            memoryDifficulty = level;
+            document.querySelectorAll('.memory-game .mode-selector button').forEach(button => button.classList.remove('active'));
+            document.querySelector(`.memory-game .mode-selector button[onclick="setMemoryDifficulty('${level}')"]`).classList.add('active');
+            resetMemoryGame();
+        }
+
         function resetMemoryGame() {
             memoryCards = generateMemoryCards();
             flippedCards = [];
@@ -1217,8 +1166,27 @@
         }
 
         function generateMemoryCards() {
-            const emojis = ['🍎', '🍌', '🍇', '🍓', '🍒', '🍑', '🍍', '🥥'];
-            const cards = [...emojis, ...emojis];
+            const emojis = ['🍎', '🍌', '🍇', '🍓', '🍒', '🍑', '🍍', '🥥', '🍕', '🍔', '🍟', '🌭'];
+            let cardCount = 0;
+            switch (memoryDifficulty) {
+                case 'easy':
+                    cardCount = 3 * 3;
+                    break;
+                case 'normal':
+                    cardCount = 6 * 6;
+                    break;
+                case 'hard':
+                    cardCount = 8 * 8;
+                    break;
+                case 'hardcore':
+                    cardCount = 12 * 12;
+                    break;
+            }
+            const cards = [];
+            for (let i = 0; i < cardCount / 2; i++) {
+                cards.push(emojis[i % emojis.length]);
+                cards.push(emojis[i % emojis.length]);
+            }
             return shuffleArray(cards);
         }
 
@@ -1233,6 +1201,23 @@
         function renderMemoryBoard() {
             const memoryBoard = document.getElementById('memoryBoard');
             memoryBoard.innerHTML = "";
+            let gridSize = 0;
+            switch (memoryDifficulty) {
+                case 'easy':
+                    gridSize = 3;
+                    break;
+                case 'normal':
+                    gridSize = 6;
+                    break;
+                case 'hard':
+                    gridSize = 8;
+                    break;
+                case 'hardcore':
+                    gridSize = 12;
+                    break;
+            }
+            memoryBoard.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
+            memoryBoard.style.gridTemplateRows = `repeat(${gridSize}, 1fr)`;
             memoryCards.forEach((emoji, index) => {
                 const card = document.createElement('div');
                 card.classList.add('card');
@@ -1266,94 +1251,55 @@
             } else {
                 memoryGameActive = false;
                 setTimeout(() => {
-                    document.querySelectorAll('.card.flipped').forEach(card => card.classList.remove('flipped'));
+                    document.querySelectorAll('.card.flipped').forEach(card => {
+                        if (!matchedCards.includes(parseInt(card.getAttribute('data-index')))) {
+                            card.classList.remove('flipped');
+                        }
+                    });
                     memoryGameActive = true;
                 }, 1000);
             }
             flippedCards = [];
         }
 
-        // Snake Game Logic
-        let snakeGameActive = false;
-        let snake = [{ x: 10, y: 10 }];
-        let food = { x: 5, y: 5 };
-        let direction = { x: 0, y: 0 };
-        let gameInterval;
+        // Reaction Time Test Logic
+        let reactionStartTime;
+        let reactionGameActive = false;
 
-        function openSnakeGame() {
+        function openReactionGame() {
             document.getElementById('overlay').classList.add('visible');
-            document.getElementById('snakeGame').classList.add('open');
-            resetSnakeGame();
+            document.getElementById('reactionGame').classList.add('open');
+            resetReactionGame();
         }
 
-        function closeSnakeGame() {
+        function closeReactionGame() {
             document.getElementById('overlay').classList.remove('visible');
-            document.getElementById('snakeGame').classList.remove('open');
+            document.getElementById('reactionGame').classList.remove('open');
         }
 
-        function resetSnakeGame() {
-            snake = [{ x: 10, y: 10 }];
-            food = { x: 5, y: 5 };
-            direction = { x: 0, y: 0 };
-            snakeGameActive = true;
-            document.getElementById('snakeStatus').textContent = '';
-            clearInterval(gameInterval);
-            gameInterval = setInterval(updateSnakeGame, 100);
-            renderSnakeGame();
+        function resetReactionGame() {
+            reactionGameActive = false;
+            document.getElementById('reactionStatus').textContent = '';
+            document.getElementById('reactionArea').style.backgroundColor = '#2575fc';
+            document.getElementById('reactionArea').textContent = 'Click when the background changes!';
         }
 
-        function updateSnakeGame() {
-            if (!snakeGameActive) return;
-            const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
-            if (head.x < 0 || head.x >= 20 || head.y < 0 || head.y >= 20 || snake.some(segment => segment.x === head.x && segment.y === head.y)) {
-                snakeGameActive = false;
-                document.getElementById('snakeStatus').textContent = 'Game Over!';
-                clearInterval(gameInterval);
-                return;
-            }
-            snake.unshift(head);
-            if (head.x === food.x && head.y === food.y) {
-                food = { x: Math.floor(Math.random() * 20), y: Math.floor(Math.random() * 20) };
-            } else {
-                snake.pop();
-            }
-            renderSnakeGame();
+        function startReactionTest() {
+            reactionGameActive = true;
+            document.getElementById('reactionArea').style.backgroundColor = '#6a11cb';
+            reactionStartTime = Date.now();
         }
 
-        function renderSnakeGame() {
-            const gameArea = document.getElementById('snakeGameArea');
-            gameArea.innerHTML = "";
-            snake.forEach(segment => {
-                const snakeSegment = document.createElement('div');
-                snakeSegment.classList.add('snake');
-                snakeSegment.style.left = `${segment.x * 20}px`;
-                snakeSegment.style.top = `${segment.y * 20}px`;
-                gameArea.appendChild(snakeSegment);
-            });
-            const foodElement = document.createElement('div');
-            foodElement.classList.add('food');
-            foodElement.style.left = `${food.x * 20}px`;
-            foodElement.style.top = `${food.y * 20}px`;
-            gameArea.appendChild(foodElement);
+        function handleReactionClick() {
+            if (!reactionGameActive) return;
+            const reactionTime = Date.now() - reactionStartTime;
+            document.getElementById('reactionStatus').textContent = `Your reaction time: ${reactionTime}ms`;
+            reactionGameActive = false;
+            setTimeout(() => resetReactionGame(), 2000);
         }
 
-        document.addEventListener('keydown', (e) => {
-            if (!snakeGameActive) return;
-            switch (e.key) {
-                case 'ArrowUp':
-                    if (direction.y === 0) direction = { x: 0, y: -1 };
-                    break;
-                case 'ArrowDown':
-                    if (direction.y === 0) direction = { x: 0, y: 1 };
-                    break;
-                case 'ArrowLeft':
-                    if (direction.x === 0) direction = { x: -1, y: 0 };
-                    break;
-                case 'ArrowRight':
-                    if (direction.x === 0) direction = { x: 1, y: 0 };
-                    break;
-            }
-        });
+        document.getElementById('reactionArea').addEventListener('click', handleReactionClick);
+        setTimeout(() => startReactionTest(), Math.random() * 3000 + 1000);
 
         setInterval(updateClock, 1000);
         document.getElementById('searchInput').addEventListener('input', displayTopics);
