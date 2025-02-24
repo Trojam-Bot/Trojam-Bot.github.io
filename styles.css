@@ -27,6 +27,31 @@ body {
   background-color: #ff6666;
 }
 
+#upgrades {
+  margin-top: 20px;
+}
+
+#upgrades button {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 5px;
+  cursor: pointer;
+  background-color: #444;
+  border: none;
+  color: #fff;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+#upgrades button:hover {
+  background-color: #666;
+}
+
+#upgrades button:disabled {
+  background-color: #222;
+  cursor: not-allowed;
+}
+
 #eventLog {
   margin-top: 20px;
   font-size: 18px;
