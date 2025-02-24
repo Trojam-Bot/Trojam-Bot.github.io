@@ -1,76 +1,26 @@
 // Game Variables
 let score = 0;
 let clickPower = 1;
-let autoClickerInterval;
-let multiplier = 1;
-let chaosModeActive = false;
+let eventInterval;
 const events = [
   "buttonMove",
   "cursorClone",
   "glitchEffect",
   "bossFight",
+  "fakeError",
 ];
 
 // DOM Elements
 const scoreDisplay = document.getElementById("score");
 const clickButton = document.getElementById("clickButton");
 const eventLog = document.getElementById("eventLog");
-const autoClickerUpgrade = document.getElementById("autoClicker");
-const multiplierUpgrade = document.getElementById("multiplier");
-const chaosModeUpgrade = document.getElementById("chaosMode");
 
 // Core Clicker Functionality
 clickButton.addEventListener("click", () => {
-  score += clickPower * multiplier;
-  updateScore();
+  score += clickPower;
+  scoreDisplay.textContent = `Score: ${score}`;
   checkForEvents();
 });
-
-// Upgrades
-autoClickerUpgrade.addEventListener("click", () => {
-  if (score >= 10) {
-    score -= 10;
-    updateScore();
-    startAutoClicker();
-    autoClickerUpgrade.style.display = "none";
-  }
-});
-
-multiplierUpgrade.addEventListener("click", () => {
-  if (score >= 20) {
-    score -= 20;
-    updateScore();
-    multiplier += 1;
-    multiplierUpgrade.style.display = "none";
-  }
-});
-
-chaosModeUpgrade.addEventListener("click", () => {
-  if (score >= 50) {
-    score -= 50;
-    updateScore();
-    chaosModeActive = true;
-    chaosModeUpgrade.style.display = "none";
-    startChaosMode();
-  }
-});
-
-// Auto-Clicker
-function startAutoClicker() {
-  autoClickerInterval = setInterval(() => {
-    score += clickPower * multiplier;
-    updateScore();
-  }, 1000);
-}
-
-// Chaos Mode
-function startChaosMode() {
-  setInterval(() => {
-    if (chaosModeActive) {
-      triggerRandomEvent();
-    }
-  }, 3000);
-}
 
 // Unpredictable Events
 function triggerRandomEvent() {
@@ -87,6 +37,9 @@ function triggerRandomEvent() {
       break;
     case "bossFight":
       bossFight();
+      break;
+    case "fakeError":
+      fakeError();
       break;
     default:
       break;
@@ -108,8 +61,8 @@ function cursorClone() {
   clone.id = "cloneButton";
   document.body.appendChild(clone);
   clone.addEventListener("click", () => {
-    score += clickPower * multiplier;
-    updateScore();
+    score += clickPower;
+    scoreDisplay.textContent = `Score: ${score}`;
   });
   logEvent("Your cursor cloned itself!");
 }
@@ -137,6 +90,13 @@ function bossFight() {
   }, 500);
 }
 
+function fakeError() {
+  logEvent("Oh no! The game crashed!");
+  setTimeout(() => {
+    logEvent("Just kidding! Keep clicking!");
+  }, 2000);
+}
+
 // Helper Functions
 function checkForEvents() {
   if (Math.random() < 0.1) {
@@ -146,12 +106,14 @@ function checkForEvents() {
 
 function logEvent(message) {
   eventLog.textContent = message;
-  eventLog.classList.add("show");
   setTimeout(() => {
-    eventLog.classList.remove("show");
+    eventLog.textContent = "";
   }, 3000);
 }
 
-function updateScore() {
-  scoreDisplay.textContent = `Score: ${score}`;
-}
+// Start Event Interval
+eventInterval = setInterval(() => {
+  if (Math.random() < 0.05) {
+    triggerRandomEvent();
+  }
+}, 5000);
