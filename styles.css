@@ -1,165 +1,186 @@
+/* 🌟 Allgemeine Einstellungen */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #1a1a1a;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: white;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-#game {
-  text-align: center;
+/* 🌞 Lightmode & 🌙 Darkmode */
+body.light-mode {
+    background-color: #f5f5f5;
+    color: black;
 }
 
-h1 {
-  font-size: 2.5em;
-  margin-bottom: 20px;
-  color: #ff4444;
-  transition: color 0.3s ease;
+/* 🎛️ Dark-/Lightmode-Button */
+#modeToggle {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 10px 20px;
+    background-color: #00d1ff;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 209, 255, 0.8);
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-#score {
-  font-size: 1.5em;
-  margin-bottom: 20px;
+#modeToggle:hover {
+    transform: scale(1.1);
+    background-color: #008cff;
 }
 
-#message {
-  height: 50px;
-  margin-bottom: 20px;
-  color: #ff9900;
-  font-size: 1.2em;
+/* 🚀 Überschriften */
+h1, h2, h3 {
+    text-align: center;
+    color: #00d1ff;
+    text-transform: uppercase;
+    margin: 20px 0;
+    transition: color 0.3s ease;
 }
 
-#bossFight {
-  position: absolute;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
+body.light-mode h1, body.light-mode h2, body.light-mode h3 {
+    color: #0077cc;
 }
 
-#bossHealth {
-  font-size: 24px;
-  color: #ff0000;
+/* 🔗 Themen-Links */
+.topic {
+    display: inline-block;
+    margin: 10px;
+    padding: 8px 15px;
+    background-color: transparent;
+    color: #00ff7f;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-#bossTimer {
-  font-size: 20px;
-  color: #ffff00;
+.topic:hover {
+    transform: scale(1.1);
+    background: linear-gradient(90deg, #ff00ff, #00ffff, #00ff7f);
+    -webkit-background-clip: text;
+    color: transparent;
 }
 
-#clickButton {
-  width: 100px;
-  height: 100px;
-  background-color: #ff4444;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 16px;
-  color: white;
-  font-weight: bold;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  position: relative;
+/* 🌈 Regenbogeneffekt bei Hover */
+@keyframes rainbow {
+    0% { color: #ff0000; }
+    20% { color: #ffa500; }
+    40% { color: #ffff00; }
+    60% { color: #008000; }
+    80% { color: #0000ff; }
+    100% { color: #4b0082; }
 }
 
-#clickButton:hover {
-  transform: scale(1.05);
+.topic:hover span {
+    animation: rainbow 1.5s infinite;
 }
 
-#clickButton:active {
-  transform: scale(0.95);
+/* 📊 Tabelle */
+.table-container {
+    margin: 30px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-#shopButton {
-  margin: 20px;
-  padding: 10px 20px;
-  background-color: #444;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  cursor: pointer;
+/* Glow-Tabelle */
+.glow-table {
+    width: 90%;
+    max-width: 1000px;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: rgba(10, 10, 10, 0.9);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
 }
 
-#shop {
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: #333;
-  padding: 20px;
-  border-radius: 10px;
-  max-height: 80vh;
-  overflow-y: auto;
+/* Hover-Effekt: Lichtstrahlen aus den Ecken */
+.glow-table:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 
+        0 0 30px rgba(0, 191, 255, 0.8),
+        0 0 60px rgba(0, 255, 255, 0.6),
+        0 0 90px rgba(0, 255, 255, 0.4);
 }
 
-#shopItems {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+/* Tabellenkopf */
+.glow-table th {
+    background: linear-gradient(135deg, rgba(0, 255, 255, 0.5), rgba(0, 191, 255, 0.8));
+    color: #fff;
+    padding: 15px;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    border: none;
 }
 
-.shopItem {
-  padding: 10px;
-  background-color: #444;
-  border-radius: 5px;
+/* Tabellenzellen */
+.glow-table td {
+    padding: 12px 15px;
+    text-align: left;
+    color: white;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+    transition: background-color 0.3s ease;
 }
 
-.shopItem button {
-  padding: 5px 10px;
-  background-color: #007bff;
-  border: none;
-  border-radius: 3px;
-  color: white;
-  cursor: pointer;
+/* Hover auf Zellen */
+.glow-table tr:hover td {
+    background-color: rgba(0, 255, 255, 0.1);
 }
 
-.shopItem button:disabled {
-  background-color: #666;
-  cursor: not-allowed;
+/* Letzte Zeile ohne Rand */
+.glow-table tr:last-child td {
+    border-bottom: none;
 }
 
-#multiplier {
-  margin-top: 20px;
-  font-size: 0.8em;
-  color: #666;
+/* 🌕 Lightmode für Tabelle */
+body.light-mode .glow-table {
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 0 20px rgba(0, 191, 255, 0.3);
 }
 
-.hidden {
-  display: none;
+body.light-mode .glow-table th {
+    background: linear-gradient(135deg, rgba(0, 191, 255, 0.6), rgba(0, 128, 255, 0.9));
+    color: #000;
 }
 
-/* Chaos Effects */
-.glitch {
-  animation: glitch 1s infinite;
+body.light-mode .glow-table td {
+    color: #333;
 }
 
-@keyframes glitch {
-  0% { transform: translate(0); }
-  20% { transform: translate(-5px, 5px); }
-  40% { transform: translate(5px, -5px); }
-  60% { transform: translate(-5px, 5px); }
-  80% { transform: translate(5px, -5px); }
-  100% { transform: translate(0); }
+body.light-mode .glow-table tr:hover td {
+    background-color: rgba(0, 191, 255, 0.1);
 }
 
-.jumpscare {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url('jumpscare.jpg') no-repeat center center/cover;
-  z-index: 10000;
-  animation: jumpscare 0.5s;
+/* 🎉 Konfetti-Animation für Dark-/Lightmode-Toggle */
+@keyframes confetti {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(100vh); opacity: 0; }
 }
 
-@keyframes jumpscare {
-  0% { transform: scale(1); opacity: 1; }
-  100% { transform: scale(1.5); opacity: 0; }
+.confetti {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background-color: #ff0;
+    border-radius: 50%;
+    animation: confetti 2s ease-out;
+    z-index: 9999;
+}
+
+/* 🎈 Konfetti erzeugen */
+#confetti-area {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
 }
